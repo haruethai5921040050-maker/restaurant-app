@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Ocean Diner - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #070b19;
+            --card-bg: #111827;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border: #1f2937;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 25px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        
+        .container { width: 100%; max-width: 750px; }
+        
+        .header-banner { text-align: center; margin-bottom: 25px; }
+        .header-banner h1 { margin: 0; font-size: 2rem; background: linear-gradient(135deg, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-banner p { margin: 5px 0 0 0; color: var(--text-muted); font-size: 0.95rem; }
+
+        .panel { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 20px; }
+        
+        h2 { margin-top: 0; font-weight: 500; font-size: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 12px; color: #e5e7eb; display: flex; align-items: center; gap: 8px; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group.full { grid-column: span 2; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
+        
+        .form-control { width: 100%; padding: 12px 15px; background: #0b0f19; border: 1px solid var(--border); border-radius: 12px; color: var(--text-main); font-size: 0.95rem; transition: 0.2s; }
+        .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+        
+        .tab-buttons { display: flex; gap: 10px; margin-bottom: 8px; }
+        .tab-btn { background: #0b0f19; border: 1px solid var(--border); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; }
+        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .input-option-box { display: none; }
+        .input-option-box.active { display: block; }
+
+        #previewContainer { margin-top: 10px; display: none; text-align: left; }
+        #imgPreview { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); }
+        .status-text { font-size: 0.8rem; color: var(--success); margin-top: 4px; display: none; }
+
+        .btn { padding: 12px 20px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.95rem; }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; width: 100%; box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-del { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); padding: 8px 14px; border-radius: 10px; font-size: 0.85rem; transition: 0.2s; }
+        .btn-del:hover { background: var(--danger); color: white; }
+
+        .menu-list-container { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .menu-card-item { background: #0b0f19; border: 1px solid var(--border); border-radius: 14px; padding: 15px; display: flex; align-items: center; gap: 15px; }
+        .menu-thumb { width: 75px; height: 75px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); flex-shrink: 0; background: #1f2937; }
+        .menu-info { flex-grow: 1; text-align: left; }
+        .menu-info h4 { margin: 0 0 4px 0; font-size: 1.05rem; color: #f9fafb; }
+        .menu-info p { margin: 0 0 6px 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+        .menu-info .price-tag { color: #60a5fa; font-weight: 600; font-size: 0.95rem; }
+
+        .empty-text { color: var(--text-muted); text-align: center; font-size: 0.90rem; padding: 25px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="header-banner">
+            <h1>⚡ ADMIN CONTROL PANEL</h1>
+            <p>จัดการเมนูอาหารและตรวจสอบออร์เดอร์แบบเรียลไทม์</p>
+        </div>
+
+        <!-- ฟอร์มเพิ่มเมนูใหม่ -->
+        <div class="panel">
+            <h2>➕ เพิ่มเมนูอาหารใหม่</h2>
+            <div class="form-grid" style="margin-top: 15px;">
+                <div class="form-group">
+                    <label>ชื่อเมนูอาหาร</label>
+                    <input type="text" id="newName" class="form-control" placeholder="เช่น สเต็กเนื้อย่างซอสพริกไทยดำ">
+                </div>
+                <div class="form-group">
+                    <label>ราคา (บาท)</label>
+                    <input type="number" id="newPrice" class="form-control" placeholder="เช่น 150">
+                </div>
+                <div class="form-group full">
+                    <label>คำอธิบายเมนู / รายละเอียดส่วนผสม</label>
+                    <textarea id="newDesc" class="form-control" rows="2" placeholder="อธิบายรสชาติหรือวัตถุดิบ..."></textarea>
+                </div>
+                
+                <div class="form-group full">
+                    <label>รูปภาพประกอบ (เลือกวิธีใส่รูป)</label>
+                    <div class="tab-buttons">
+                        <button type="button" class="tab-btn active" id="btnTabFile" onclick="switchImageTab('file')">📂 อัปโหลดไฟล์จากเครื่อง</button>
+                        <button type="button" class="tab-btn" id="btnTabUrl" onclick="switchImageTab('url')">🔗 วางลิงก์ URL รูปภาพ</button>
+                    </div>
+
+                    <!-- ช่องเลือกไฟล์ -->
+                    <div id="boxFile" class="input-option-box active">
+                        <input type="file" id="imageInput" class="form-control" accept="image/*">
+                        <div id="previewContainer">
+                            <img id="imgPreview" src="" alt="Preview">
+                            <div id="uploadStatus" class="status-text">✓ รูปภาพพร้อมบันทึกแล้ว</div>
+                        </div>
+                    </div>
+
+                    <!-- ช่องวางลิงก์ -->
+                    <div id="boxUrl" class="input-option-box">
+                        <input type="text" id="imageUrlInput" class="form-control" placeholder="https://images.unsplash.com/photo-...">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="addMenuBtn">บันทึกเพิ่มเมนูเข้าสู่ระบบ</button>
+        </div>
+
+        <!-- รายการเมนูทั้งหมดในร้าน -->
+        <div class="panel">
+            <h2>📋 เมนูอาหารทั้งหมดในระบบ</h2>
+            <div id="adminMenuList" class="menu-list-container">
+                <div class="empty-text">กำลังโหลดข้อมูล...</div>
+            </div>
+        </div>
+
+        <!-- รายการออร์เดอร์ลูกค้า -->
+        <div class="panel">
+            <h2>🔔 รายการออร์เดอร์จากลูกค้า (Real-time)</h2>
+            <div id="ordersContainer" class="menu-list-container">
+                <div class="empty-text">ยังไม่มีรายการสั่งซื้อ</div>
+            </div>
+        </div>
+
+    </div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAPC84A7qnY8JFkxGZ89Rm5yAPvx_feCQQ",
+        authDomain: "first01-189c9.firebaseapp.com",
+        projectId: "first01-189c9",
+        storageBucket: "first01-189c9.firebasestorage.app",
+        messagingSenderId: "708549069749",
+        appId: "1:708549069749:web:92f142f4860576a517e7fc",
+        measurementId: "G-JJX9B8RLFL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let finalImageResult = "";
+    let inputMode = "file";
+
+    window.switchImageTab = function(mode) {
+        inputMode = mode;
+        if(mode === 'file') {
+            document.getElementById("btnTabFile").classList.add("active");
+            document.getElementById("btnTabUrl").classList.remove("active");
+            document.getElementById("boxFile").classList.add("active");
+            document.getElementById("boxUrl").classList.remove("active");
+        } else {
+            document.getElementById("btnTabUrl").classList.add("active");
+            document.getElementById("btnTabFile").classList.remove("active");
+            document.getElementById("boxUrl").classList.add("active");
+            document.getElementById("boxFile").classList.remove("active");
+        }
+    }
+
+    document.getElementById("imageInput").addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            document.getElementById("uploadStatus").style.display = "block";
+            document.getElementById("uploadStatus").innerText = "กำลังย่อขนาดรูปภาพ...";
+            
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    const MAX_WIDTH = 300;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > MAX_WIDTH) {
+                        height = Math.round((height * MAX_WIDTH) / width);
+                        width = MAX_WIDTH;
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    finalImageResult = canvas.toDataURL('image/jpeg', 0.6);
+                    document.getElementById("imgPreview").src = finalImageResult;
+                    document.getElementById("previewContainer").style.display = "block";
+                    document.getElementById("uploadStatus").innerText = "✓ พร้อมบันทึกแล้ว";
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // โหลดเมนู
+    const qMenu = query(collection(db, "menus"), orderBy("createdAt", "asc"));
+    onSnapshot(qMenu, (snapshot) => {
+        const container = document.getElementById("adminMenuList");
+        container.innerHTML = "";
+
+        if (snapshot.empty) {
+            container.innerHTML = `<div class="empty-text">ยังไม่มีเมนูอาหารในระบบ</div>`;
+            return;
+        }
+
+        snapshot.forEach((docSnap) => {
+            const item = docSnap.data();
+            const id = docSnap.id;
+            
+            const div = document.createElement("div");
+            div.className = "menu-card-item";
+            div.innerHTML = `
+                <img class="menu-thumb" src="${item.img || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500'}" alt="Menu">
+                <div class="menu-info">
+                    <h4>${item.name}</h4>
+                    <p>${item.desc || 'ไม่มีคำอธิบาย'}</p>
+                    <div class="price-tag">${item.price} บาท</div>
+                </div>
+                <button class="btn btn-del" onclick="deleteMenu('${id}')">ลบ</button>
+            `;
+            container.appendChild(div);
+        });
+    }, (error) => {
+        console.error("Firestore Read Error:", error);
+    });
+
+    // เพิ่มเมนูใหม่
+    document.getElementById("addMenuBtn").onclick = async () => {
+        const name = document.getElementById("newName").value.trim();
+        const priceVal = document.getElementById("newPrice").value;
+        const desc = document.getElementById("newDesc").value.trim();
+        
+        if (!name || !priceVal) {
+            alert("กรุณากรอกชื่อและราคาอาหารให้ครบถ้วนครับ");
+            return;
+        }
+
+        const price = Number(priceVal);
+        let imageToSave = "";
+
+        if (inputMode === 'file') {
+            imageToSave = finalImageResult;
+            if (!imageToSave) {
+                imageToSave = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500";
+            }
+        } else {
+            imageToSave = document.getElementById("imageUrlInput").value.trim();
+            if (!imageToSave) {
+                imageToSave = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500";
+            }
+        }
+
+        try {
+            console.log("กำลังบันทึกข้อมูล...");
+            await addDoc(collection(db, "menus"), {
+                name: name,
+                price: price,
+                desc: desc || "-",
+                img: imageToSave,
+                createdAt: serverTimestamp()
+            });
+            alert("เพิ่มเมนูสำเร็จ!");
+            
+            // ล้างฟอร์ม
+            document.getElementById("newName").value = "";
+            document.getElementById("newPrice").value = "";
+            document.getElementById("newDesc").value = "";
+            document.getElementById("imageInput").value = "";
+            document.getElementById("imageUrlInput").value = "";
+            document.getElementById("previewContainer").style.display = "none";
+            finalImageResult = "";
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            alert("เกิดข้อผิดพลาดในการบันทึก: " + e.message);
+        }
+    };
+
+    window.deleteMenu = async function(id) {
+        if(confirm("ต้องการลบเมนูนี้ออกจากระบบใช่หรือไม่?")) {
+            try {
+                await deleteDoc(doc(db, "menus", id));
+            } catch(e) {
+                console.error(e);
+                alert("ลบไม่สำเร็จ");
+            }
+        }
+    }
+
+    // โหลดออร์เดอร์
+    const qOrder = query(collection(db, "orders"), orderBy("createdAt", "desc"));
+    onSnapshot(qOrder, (snapshot) => {
+        const container = document.getElementById("ordersContainer");
+        container.innerHTML = "";
+        if(snapshot.empty) {
+            container.innerHTML = `<div class="empty-text">ยังไม่มีรายการสั่งซื้อจากลูกค้า</div>`;
+            return;
+        }
+        snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            const div = document.createElement("div");
+            div.className = "menu-card-item";
+            div.style.padding = "10px 15px";
+            div.innerHTML = `
+                <div class="menu-info">
+                    <h4 style="margin:0; color:#f9fafb;">🛒 สั่งเมนู: ${data.menuName}</h4>
+                    <p style="margin:2px 0 0 0; color:#60a5fa;">ราคา: ${data.price} บาท</p>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    });
+</script>
+
+</body>
+</html>

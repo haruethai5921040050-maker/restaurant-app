@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Ocean Diner - เมนูอาหาร</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #070b19;
+            --card-bg: #111827;
+            --accent: #3b82f6;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border: #1f2937;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 25px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        
+        .container { width: 100%; max-width: 750px; }
+        
+        .header-banner { text-align: center; margin-bottom: 25px; }
+        .header-banner h1 { margin: 0; font-size: 2rem; background: linear-gradient(135deg, #60a5fa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-banner p { margin: 5px 0 0 0; color: var(--text-muted); font-size: 0.95rem; }
+
+        .panel { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 20px; }
+        
+        h2 { margin-top: 0; font-weight: 500; font-size: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 12px; color: #e5e7eb; display: flex; align-items: center; gap: 8px; }
+
+        .menu-list-container { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .menu-card-item { background: #0b0f19; border: 1px solid var(--border); border-radius: 14px; padding: 15px; display: flex; align-items: center; gap: 15px; }
+        .menu-thumb { width: 75px; height: 75px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); flex-shrink: 0; background: #1f2937; }
+        .menu-info { flex-grow: 1; text-align: left; }
+        .menu-info h4 { margin: 0 0 4px 0; font-size: 1.05rem; color: #f9fafb; }
+        .menu-info p { margin: 0 0 6px 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+        .menu-info .price-tag { color: #60a5fa; font-weight: 600; font-size: 0.95rem; }
+
+        .btn { padding: 10px 16px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .btn-order { background: var(--success); color: white; box-shadow: 0 4px 12px rgba(16,185,129,0.2); }
+        .btn-order:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .order-item-row { background: #0b0f19; padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); font-size: 0.95rem; }
+        .empty-text { color: var(--text-muted); text-align: center; font-size: 0.9rem; padding: 25px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="header-banner">
+            <h1>🌊 BLUE OCEAN DINER</h1>
+            <p>เลือกเมนูอาหารที่คุณชื่นชอบแล้วกดสั่งได้เลยครับ</p>
+        </div>
+
+        <!-- รายการเมนูอาหารทั้งหมด -->
+        <div class="panel">
+            <h2>📜 เมนูอาหารทั้งหมด</h2>
+            <div id="customerMenuList" class="menu-list-container">
+                <div class="empty-text">กำลังโหลดเมนูอาหาร...</div>
+            </div>
+        </div>
+
+        <!-- รายการออร์เดอร์ที่ลูกค้าสั่ง -->
+        <div class="panel">
+            <h2>🛒 รายการที่คุณสั่ง (Real-time)</h2>
+            <div id="customerOrdersContainer">
+                <div class="empty-text">ยังไม่มีรายการสั่งซื้อ</div>
+            </div>
+        </div>
+
+    </div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAPC84A7qnY8JFkxGZ89Rm5yAPvx_feCQQ",
+        authDomain: "first01-189c9.firebaseapp.com",
+        projectId: "first01-189c9",
+        storageBucket: "first01-189c9.firebasestorage.app",
+        messagingSenderId: "708549069749",
+        appId: "1:708549069749:web:92f142f4860576a517e7fc",
+        measurementId: "G-JJX9B8RLFL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // โหลดเมนูอาหารจาก Firestore มาแสดงแบบเรียงลงมา
+    const qMenu = query(collection(db, "menus"), orderBy("createdAt", "asc"));
+    onSnapshot(qMenu, (snapshot) => {
+        const container = document.getElementById("customerMenuList");
+        container.innerHTML = "";
+
+        if (snapshot.empty) {
+            container.innerHTML = `<div class="empty-text">ร้านยังไม่ได้เพิ่มเมนูอาหารในขณะนี้</div>`;
+            return;
+        }
+
+        snapshot.forEach((docSnap) => {
+            const item = docSnap.data();
+            
+            const div = document.createElement("div");
+            div.className = "menu-card-item";
+            div.innerHTML = `
+                <img class="menu-thumb" src="${item.img || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500'}" alt="Menu">
+                <div class="menu-info">
+                    <h4>${item.name}</h4>
+                    <p>${item.desc || 'ไม่มีคำอธิบาย'}</p>
+                    <div class="price-tag">${item.price} บาท</div>
+                </div>
+                <button class="btn btn-order" onclick="orderMenu('${item.name.replace(/'/g, "\\'")}', ${item.price})">🛒 สั่ง</button>
+            `;
+            container.appendChild(div);
+        });
+    });
+
+    // ฟังก์ชันให้ลูกค้ากดสั่งอาหาร
+    window.orderMenu = async function(menuName, price) {
+        try {
+            await addDoc(collection(db, "orders"), {
+                menuName: menuName,
+                price: price,
+                createdAt: serverTimestamp()
+            });
+            alert(`สั่งเมนู "${menuName}" เรียบร้อยแล้ว!`);
+        } catch (e) {
+            console.error(e);
+            alert("เกิดข้อผิดพลาดในการสั่งอาหาร");
+        }
+    }
+
+    // แสดงรายการออร์เดอร์ฝั่งลูกค้า
+    const qOrder = query(collection(db, "orders"), orderBy("createdAt", "desc"));
+    onSnapshot(qOrder, (snapshot) => {
+        const container = document.getElementById("customerOrdersContainer");
+        container.innerHTML = "";
+        
+        if(snapshot.empty) {
+            container.innerHTML = `<div class="empty-text">ยังไม่มีรายการสั่งซื้อ</div>`;
+            return;
+        }
+
+        snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            const div = document.createElement("div");
+            div.className = "order-item-row";
+            div.innerHTML = `
+                <span style="color: #f9fafb;"><b>${data.menuName}</b></span>
+                <span style="color: #60a5fa; font-weight: 600;">${data.price} บาท</span>
+            `;
+            container.appendChild(div);
+        });
+    });
+</script>
+
+</body>
+</html>
