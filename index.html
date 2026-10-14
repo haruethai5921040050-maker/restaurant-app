@@ -12,9 +12,9 @@
             --sidebar-hover: #1e293b;
             --sidebar-text: #94a3b8;
             --sidebar-text-active: #ffffff;
-            --primary: #1e40af; /* น้ำเงินเข้มโมเดิร์น */
+            --primary: #1e40af;
             --primary-hover: #1e3a8a;
-            --accent: #f97316; /* สีส้มเข้ม */
+            --accent: #f97316;
             --accent-hover: #ea580c;
             --card-bg: #ffffff;
             --text-main: #0f172a;
@@ -257,7 +257,7 @@
     </div>
 
 <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxXrPUTG1EWZwbvX50x7nDfwNg3QFH4YpEIlFslspea08OJzhNEuiu_pvzUhWlbkOt7JA/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzKCtW19HaU-bw-iDmACOXeL8seEZfVwgB2TGm-xQcYSG0GcHvLoYG-FouLg4rmt7XsPA/exec";
     
     let allRates = [];
     let currentMatchedRate = null;
@@ -350,7 +350,6 @@
             currentMatchedRate = found;
             document.getElementById("displayPrice").innerText = Number(found.price).toLocaleString() + " บาท";
             
-            // แสดงปุ่ม Google Maps ถ้ามีลิงก์
             let mapContainer = document.getElementById("mapButtonContainer");
             if(found.mapLink && found.mapLink.trim() !== "") {
                 mapContainer.innerHTML = `<a href="${found.mapLink}" target="_blank" class="btn btn-map">📍 เปิดดูตำแหน่งจุดลงบน Google Maps</a>`;
