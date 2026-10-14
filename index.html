@@ -10,12 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f4f1de; /* สีพื้นหลังเว็บใช้สีนวลละมุนตามพาเลท */
-            --sidebar-bg: #001233; /* สีน้ำเงินเข้มตามพาเลท */
+            --bg-body: #f4f1de;
+            --sidebar-bg: #001233;
             --sidebar-gradient: linear-gradient(180deg, #001233 0%, #022047 100%);
             --primary: #001233;
             --primary-hover: #1b263b;
-            --accent: #33415c; /* สีสเลทพรีเมียมตามพาเลท */
+            --accent: #33415c;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #475569;
@@ -122,7 +122,7 @@
 </head>
 <body>
 
-    <!-- Sidebar with Logo -->
+    <!-- Sidebar with Logo & Uppercase Name -->
     <div class="sidebar">
         <div class="sidebar-brand">
             <img src="logo.png" alt="UNISOURCE LANDFILL Logo" class="sidebar-logo" onerror="this.style.display='none'">
@@ -464,7 +464,6 @@
     }
 
     async function saveRecord() {
-        if(!currentMatchedRecord) return; // Fix safety
         if(!currentMatchedRate) return;
         try {
             await fetch(scriptURL, {
