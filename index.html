@@ -7,20 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f1f5f9;
+            --bg-body: #f8fafc;
             --sidebar-bg: #0f172a;
             --sidebar-hover: #1e293b;
             --sidebar-text: #94a3b8;
             --sidebar-text-active: #ffffff;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --primary: #1e40af; /* น้ำเงินเข้มโมเดิร์น */
+            --primary-hover: #1e3a8a;
+            --accent: #f97316; /* สีส้มเข้ม */
+            --accent-hover: #ea580c;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border: #e2e8f0;
             --success: #059669;
             --success-hover: #047857;
-            --map-color: #0284c7;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
         }
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -30,13 +31,13 @@
         .sidebar { width: 280px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; position: fixed; height: 100vh; box-shadow: 4px 0 25px rgba(0,0,0,0.05); z-index: 10; }
         .sidebar-brand { padding: 30px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .sidebar-brand h2 { margin: 0; font-size: 1.2rem; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
-        .sidebar-brand h2 span { color: var(--primary); background: rgba(37,99,235,0.15); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; }
+        .sidebar-brand h2 span { color: var(--accent); background: rgba(249,115,22,0.15); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; }
         .sidebar-brand p { margin: 6px 0 0 0; font-size: 0.8rem; color: var(--sidebar-text); }
 
         .sidebar-menu { list-style: none; padding: 20px 12px; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 6px; }
         .sidebar-menu li { padding: 12px 16px; cursor: pointer; font-size: 0.92rem; font-weight: 500; color: var(--sidebar-text); display: flex; align-items: center; gap: 12px; border-radius: 8px; transition: all 0.2s ease; }
         .sidebar-menu li:hover { background-color: var(--sidebar-hover); color: var(--sidebar-text-active); }
-        .sidebar-menu li.active { background-color: var(--primary); color: #ffffff; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+        .sidebar-menu li.active { background-color: var(--accent); color: #ffffff; box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
 
         .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: #475569; text-align: center; }
 
@@ -59,19 +60,24 @@
         
         .form-group label { display: block; font-size: 0.88rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
         .form-control { width: 100%; padding: 12px 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 0.95rem; transition: all 0.2s; }
-        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1); }
 
         .btn { padding: 12px 20px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
-        .btn-primary { background-color: var(--primary); color: white; width: 100%; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+        .btn-primary { background-color: var(--primary); color: white; width: 100%; box-shadow: 0 4px 12px rgba(30,64,175,0.25); }
         .btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+        
+        .btn-accent { background-color: var(--accent); color: white; width: 100%; box-shadow: 0 4px 12px rgba(249,115,22,0.25); }
+        .btn-accent:hover { background-color: var(--accent-hover); transform: translateY(-1px); }
+
         .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 15px; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
         .btn-success:hover { background-color: var(--success-hover); transform: translateY(-1px); }
-        .btn-map { background-color: var(--map-color); color: white; width: 100%; margin-top: 10px; box-shadow: 0 4px 12px rgba(2,132,199,0.25); }
+
+        .btn-map { background-color: #0284c7; color: white; width: 100%; margin-top: 10px; box-shadow: 0 4px 12px rgba(2,132,199,0.25); }
         .btn-map:hover { background-color: #0369a1; transform: translateY(-1px); }
 
-        .result-card { background: linear-gradient(135deg, #eff6ff, #f8fafc); border: 1px solid #bfdbfe; border-radius: 14px; padding: 25px; margin-top: 25px; text-align: center; display: none; }
+        .result-card { background: linear-gradient(135deg, #fff7ed, #f8fafc); border: 1px solid #fed7aa; border-radius: 14px; padding: 25px; margin-top: 25px; text-align: center; display: none; }
         .result-title { font-size: 0.88rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .result-price { font-size: 2.5rem; color: var(--primary); font-weight: 700; margin: 10px 0; }
+        .result-price { font-size: 2.5rem; color: var(--accent); font-weight: 700; margin: 10px 0; }
 
         /* Tables */
         .table-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
@@ -84,7 +90,7 @@
         tr:last-child td { border-bottom: none; }
         tr:hover { background-color: #f8fafc; }
 
-        .map-link-btn { color: #0284c7; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; }
+        .map-link-btn { color: #0284c7; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; transition: 0.2s; }
         .map-link-btn:hover { background: #bae6fd; }
 
         .sync-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--success); font-weight: 500; }
@@ -209,7 +215,7 @@
                         <input type="number" id="newPriceVal" class="form-control" placeholder="เช่น 1500">
                     </div>
                 </div>
-                <button class="btn btn-success" onclick="addNewRate()" style="max-width: 250px;">บันทึกเรทราคาใหม่</button>
+                <button class="btn btn-accent" onclick="addNewRate()" style="max-width: 250px;">บันทึกเรทราคาใหม่</button>
             </div>
         </div>
 
@@ -349,7 +355,7 @@
             if(found.mapLink && found.mapLink.trim() !== "") {
                 mapContainer.innerHTML = `<a href="${found.mapLink}" target="_blank" class="btn btn-map">📍 เปิดดูตำแหน่งจุดลงบน Google Maps</a>`;
             } else {
-                mapContainer.innerHTML = `<div style="font-size:0.85rem; color:var(--text-muted); margin-top:5px;">(ไม่มีลิงก์แผนที่สำหรับจุดลงนี้)</div>`;
+                mapContainer.innerHTML = `<div style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;">(ไม่มีลิงก์แผนที่สำหรับจุดลงนี้)</div>`;
             }
 
             resultBox.style.display = "block";
