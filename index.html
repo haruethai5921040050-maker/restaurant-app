@@ -11,9 +11,9 @@
     <style>
         :root {
             --bg-body: #f8fafc;
-            --sidebar-bg: #1e293b; /* สีน้ำเงินสเลท อ่อนลง สุขุม นุ่มนวล */
-            --sidebar-hover: #334155;
-            --sidebar-text: #94a3b8;
+            --sidebar-bg: #2563eb; /* ปรับสีน้ำเงินให้อ่อนลง สว่าง และสบายตาขึ้น (Electric / Royal Blue อ่อน) */
+            --sidebar-hover: #1d4ed8;
+            --sidebar-text: #e0f2fe;
             --sidebar-text-active: #ffffff;
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
@@ -28,21 +28,21 @@
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: var(--bg-body); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; }
 
-        /* Sidebar - โทนน้ำเงินนุ่มนวล พรีเมียม สุขุม */
-        .sidebar { width: 280px; background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); color: var(--sidebar-text); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; box-shadow: 4px 0 25px rgba(0,0,0,0.06); }
-        .sidebar-brand { padding: 32px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        /* Sidebar - โทนสีน้ำเงินอ่อน สบายตา เป็นมืออาชีพ */
+        .sidebar { width: 280px; background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%); color: var(--sidebar-text); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; box-shadow: 4px 0 25px rgba(0,0,0,0.06); }
+        .sidebar-brand { padding: 32px 24px; border-bottom: 1px solid rgba(255,255,255,0.15); }
         .sidebar-brand h2 { margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; line-height: 1.3; }
-        .sidebar-brand h2 span { color: #38bdf8; display: block; font-size: 0.8rem; font-weight: 600; margin-top: 4px; letter-spacing: 0.5px; }
-        .sidebar-brand p { margin: 8px 0 0 0; font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
+        .sidebar-brand h2 span { color: #fef08a; display: block; font-size: 0.8rem; font-weight: 600; margin-top: 4px; letter-spacing: 0.5px; }
+        .sidebar-brand p { margin: 8px 0 0 0; font-size: 0.72rem; color: #bfdbfe; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
 
         .sidebar-menu { list-style: none; padding: 24px 16px; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
         .sidebar-menu li { padding: 13px 18px; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: var(--sidebar-text); display: flex; align-items: center; gap: 12px; border-radius: 10px; transition: all 0.2s ease; user-select: none; }
-        .sidebar-menu li:hover { background-color: var(--sidebar-hover); color: var(--sidebar-text-active); }
-        .sidebar-menu li.active { background-color: var(--primary); color: #ffffff; box-shadow: 0 4px 14px rgba(37,99,235,0.35); }
+        .sidebar-menu li:hover { background-color: rgba(255, 255, 255, 0.1); color: var(--sidebar-text-active); }
+        .sidebar-menu li.active { background-color: #ffffff; color: var(--primary); box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
 
-        .sidebar-footer { padding: 22px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: #64748b; text-align: center; }
+        .sidebar-footer { padding: 22px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.75rem; color: #bfdbfe; text-align: center; }
 
-        /* Main Content Panel */
+        /* Main Content */
         .main-content { margin-left: 280px; flex-grow: 1; padding: 40px 48px; max-width: calc(100% - 280px); }
         
         .tab-content { display: none; }
@@ -410,7 +410,6 @@
         }
     }
 
-    /* แก้ไขการส่งค่าเพิ่มเรทราคาให้ตรงกับ Google Apps Script แม่นยำ 100% */
     async function addNewRate() {
         let client = document.getElementById("newClient").value.trim();
         let project = document.getElementById("newProject").value.trim();
