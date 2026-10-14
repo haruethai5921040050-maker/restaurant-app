@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* สีพื้นหลัง #fafafa ตามที่คุณต้องการ */
             --bg-body: #fafafa;
             --sidebar-bg: #001233;
             --sidebar-gradient: linear-gradient(180deg, #001233 0%, #011942 100%);
@@ -31,8 +30,12 @@
         .sidebar { width: 280px; background: var(--sidebar-gradient); color: #94a3b8; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
         .sidebar-brand { padding: 30px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center; }
         .sidebar-logo { width: 100%; max-width: 120px; height: auto; margin-bottom: 14px; background: #ffffff; padding: 8px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: inline-block; }
-        .sidebar-brand h2 { margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; line-height: 1.3; }
-        .sidebar-brand h2 span { color: #fafafa; display: block; font-size: 0.78rem; font-weight: 600; margin-top: 4px; letter-spacing: 0.5px; opacity: 0.85; }
+        
+        /* จัดรูปแบบชื่อบริษัทด้านซ้ายให้เว้นบรรทัด UNISOURCE และ LANDFILL สวยงาม */
+        .sidebar-brand h2 { margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff; letter-spacing: 0.5px; line-height: 1.4; }
+        .sidebar-brand h2 .brand-main { display: block; }
+        .sidebar-brand h2 .brand-sub { display: block; }
+        .sidebar-brand h2 span.sub-desc { color: #fafafa; display: block; font-size: 0.75rem; font-weight: 600; margin-top: 8px; letter-spacing: 0.5px; opacity: 0.85; }
 
         .sidebar-menu { list-style: none; padding: 24px 16px; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
         .sidebar-menu li { padding: 13px 18px; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: #cbd5e1; display: flex; align-items: center; gap: 12px; border-radius: 10px; transition: all 0.2s ease; user-select: none; }
@@ -123,11 +126,15 @@
 </head>
 <body>
 
-    <!-- Sidebar with Logo -->
+    <!-- Sidebar with Logo & Brand Name -->
     <div class="sidebar">
         <div class="sidebar-brand">
             <img src="logo.png" alt="UNISOURCE LANDFILL Logo" class="sidebar-logo" onerror="this.style.display='none'">
-            <h2>UNISOURCE LANDFILL <span>ข้อมูลราคาน้ำมันและเงินสด</span></h2>
+            <h2>
+                <span class="brand-main">UNISOURCE</span>
+                <span class="brand-sub">LANDFILL</span>
+                <span class="sub-desc">ข้อมูลราคาน้ำมันและเงินสด</span>
+            </h2>
         </div>
         <ul class="sidebar-menu">
             <li id="menu-search" class="active" onclick="switchTab('search')">🔍 ค้นหาราคางาน</li>
