@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNISOURCE LANDFILL - ข้อมูลราคางานเงินสด</title>
-    <meta property="og:title" content="UNISOURCE LANDFILL - ข้อมูลราคางานเงินสด">
-    <meta property="og:description" content="ระบบจัดการเรทราคางานและตรวจสอบราคาน้ำมัน UNISOURCE LANDFILL">
-    <meta property="og:type" content="website">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -30,8 +27,6 @@
         .sidebar { width: 280px; background: var(--sidebar-gradient); color: #94a3b8; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
         .sidebar-brand { padding: 30px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center; }
         .sidebar-logo { width: 100%; max-width: 120px; height: auto; margin-bottom: 14px; background: #ffffff; padding: 8px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: inline-block; }
-        
-        /* จัดรูปแบบชื่อบริษัทด้านซ้ายให้เว้นบรรทัด UNISOURCE และ LANDFILL สวยงาม */
         .sidebar-brand h2 { margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff; letter-spacing: 0.5px; line-height: 1.4; }
         .sidebar-brand h2 .brand-main { display: block; }
         .sidebar-brand h2 .brand-sub { display: block; }
@@ -46,7 +41,6 @@
 
         /* Main Content */
         .main-content { margin-left: 280px; flex-grow: 1; padding: 40px 48px; max-width: calc(100% - 280px); }
-        
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
@@ -59,46 +53,29 @@
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
         .form-group { margin-bottom: 18px; text-align: left; }
         .form-group.full { grid-column: span 2; }
-        
         .form-group label { display: block; font-size: 0.88rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
         .form-control { width: 100%; padding: 12px 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 0.95rem; font-weight: 500; transition: all 0.2s; }
         .form-control:focus { outline: none; border-color: #33415c; box-shadow: 0 0 0 4px rgba(51,65,92,0.12); }
 
         .btn { padding: 12px 22px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
-        .btn-primary { background-color: var(--primary); color: white; width: 100%; box-shadow: 0 4px 14px rgba(0,18,51,0.25); }
-        .btn-primary:hover { background-color: var(--primary-hover); }
-        
         .btn-accent { background-color: var(--accent); color: white; width: 100%; box-shadow: 0 4px 14px rgba(51,65,92,0.25); }
         .btn-accent:hover { background-color: #1e293b; }
-
-        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 16px; }
-        .btn-success:hover { background-color: #0f766e; }
-
-        .btn-map { background-color: #33415c; color: white; width: 100%; margin-top: 10px; }
-        .btn-map:hover { background-color: #1e293b; }
-
-        .result-card { background: #fafafa; border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-top: 28px; text-align: center; display: none; }
-        .result-title { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .result-price { font-size: 2.6rem; color: var(--primary); font-weight: 800; margin: 10px 0; }
 
         /* Oil Ticker */
         .oil-ticker { background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: var(--shadow); }
         .oil-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 12px; flex-wrap: wrap; gap: 10px; }
         .oil-title { font-weight: 800; font-size: 1.05rem; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
         .oil-date { font-size: 0.82rem; color: #33415c; font-weight: 700; background: #fafafa; padding: 4px 12px; border-radius: 8px; }
-        
         .oil-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
         .oil-card { background: #fafafa; border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
         .oil-name { font-size: 0.82rem; color: var(--text-muted); font-weight: 700; }
         .oil-price-row { display: flex; align-items: baseline; justify-content: space-between; }
         .oil-val { font-size: 1.3rem; font-weight: 800; color: var(--text-main); }
-        
         .badge-same { color: #475569; font-size: 0.75rem; font-weight: 700; background: #e2e8f0; padding: 2px 8px; border-radius: 6px; }
 
         /* Tables */
         .table-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
         .search-box { width: 100%; max-width: 360px; }
-        
         .table-container { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; background: #ffffff; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
         th, td { padding: 16px 18px; border-bottom: 1px solid var(--border); white-space: nowrap; }
@@ -137,9 +114,8 @@
             </h2>
         </div>
         <ul class="sidebar-menu">
-            <li id="menu-search" class="active" onclick="switchTab('search')">🔍 ค้นหาราคางาน</li>
+            <li id="menu-list" class="active" onclick="switchTab('list')">📋 รายการเรทราคาทั้งหมด</li>
             <li id="menu-add" onclick="switchTab('add')">➕ เพิ่มเรทราคาใหม่</li>
-            <li id="menu-list" onclick="switchTab('list')">📋 รายการเรทราคาทั้งหมด</li>
         </ul>
         <div class="sidebar-footer">
             <div class="sync-status"><div class="sync-dot"></div> Auto-Sync Active</div>
@@ -149,118 +125,8 @@
     <!-- Main Content -->
     <div class="main-content">
         
-        <!-- Tab 1: ค้นหาราคา -->
-        <div id="tab-search" class="tab-content active">
-            <div class="page-header">
-                <h1>ระบบคำนวณและตรวจสอบราคางาน</h1>
-                <p>เลือกเงื่อนไขเพื่อดึงเรทราคามาตรฐานตามราคาน้ำมันปัจจุบันพร้อมพิกัดแผนที่</p>
-            </div>
-            
-            <div class="panel">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>ผู้ว่าจ้าง</label>
-                        <select id="selectClient" class="form-control" onchange="updateProjects()">
-                            <option value="">-- เลือกผู้ว่าจ้าง --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>วัสดุ</label>
-                        <select id="selectProject" class="form-control" onchange="updateLocations()">
-                            <option value="">-- เลือกวัสดุ --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>จุดลง</label>
-                        <select id="selectLocation" class="form-control">
-                            <option value="">-- เลือกจุดลงงาน --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>ช่วงราคาน้ำมัน</label>
-                        <select id="selectFuel" class="form-control">
-                            <option value="30-35 บาท">น้ำมัน 30-35 บาท</option>
-                            <option value="35-40 บาท">น้ำมัน 35-40 บาท</option>
-                            <option value="40-45 บาท">น้ำมัน 40-45 บาท</option>
-                            <option value="45-50 บาท">น้ำมัน 45-50 บาท</option>
-                        </select>
-                    </div>
-                </div>
-                <button class="btn btn-primary" onclick="calculatePrice()">ตรวจสอบราคางาน</button>
-
-                <div id="resultBox" class="result-card">
-                    <div class="result-title">ราคางานสุทธิที่คำนวณได้</div>
-                    <div id="displayPrice" class="result-price">0 บาท</div>
-                    <div id="unitDisplay" style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 12px; font-weight: 700;"></div>
-                    <div id="mapButtonContainer"></div>
-                    <button class="btn btn-success" onclick="saveRecord()">บันทึกรายการนี้ลงชีต (Jobs)</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab 2: เพิ่มเรทราคาใหม่ -->
-        <div id="tab-add" class="tab-content">
-            <div class="page-header">
-                <h1>เพิ่มเรทราคางานใหม่</h1>
-                <p>บันทึกเรทราคาใหม่เข้าสู่ระบบฐานข้อมูลกลาง</p>
-            </div>
-
-            <div class="panel">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>ผู้ว่าจ้าง</label>
-                        <input type="text" id="newClient" class="form-control" list="clientListOptions" placeholder="ระบุหรือเลือกผู้ว่าจ้าง...">
-                        <datalist id="clientListOptions"></datalist>
-                    </div>
-                    <div class="form-group">
-                        <label>วัสดุ</label>
-                        <input type="text" id="newProject" class="form-control" placeholder="เช่น หิน, ทราย, คอนกรีต">
-                    </div>
-                    <div class="form-group full">
-                        <label>จุดลง</label>
-                        <input type="text" id="newLocation" class="form-control" placeholder="เช่น โซนเหนือ, โกดังหลัก">
-                    </div>
-                    <div class="form-group">
-                        <label>ช่วงราคาน้ำมัน</label>
-                        <select id="newFuel" class="form-control">
-                            <option value="30-35 บาท">น้ำมัน 30-35 บาท</option>
-                            <option value="35-40 บาท">น้ำมัน 35-40 บาท</option>
-                            <option value="40-45 บาท">น้ำมัน 40-45 บาท</option>
-                            <option value="45-50 บาท">น้ำมัน 45-50 บาท</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>ราคางาน (บาท)</label>
-                        <input type="number" id="newPriceVal" class="form-control" placeholder="เช่น 1500">
-                    </div>
-                    <div class="form-group">
-                        <label>หน่วย</label>
-                        <select id="newUnit" class="form-control">
-                            <option value="พ่วง">พ่วง</option>
-                            <option value="ตัน">ตัน</option>
-                            <option value="เดี่ยว">เดี่ยว</option>
-                            <option value="ลบ.ม.">ลบ.ม.</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>ผู้บันทึก</label>
-                        <select id="newRecorder" class="form-control">
-                            <option value="ปลา">ปลา</option>
-                            <option value="เจ">เจ</option>
-                            <option value="แป้ง">แป้ง</option>
-                        </select>
-                    </div>
-                    <div class="form-group full">
-                        <label>mapLink (ลิงก์ Google Maps)</label>
-                        <input type="url" id="newMapLink" class="form-control" placeholder="เช่น https://maps.app.goo.gl/...">
-                    </div>
-                </div>
-                <button class="btn btn-accent" onclick="addNewRate()" style="max-width: 220px;">บันทึกเรทราคาใหม่</button>
-            </div>
-        </div>
-
-        <!-- Tab 3: รายการเรทราคาทั้งหมด -->
-        <div id="tab-list" class="tab-content">
+        <!-- Tab 1: รายการเรทราคาทั้งหมด (หน้าแรก) -->
+        <div id="tab-list" class="tab-content active">
             <div class="page-header">
                 <h1>ข้อมูลราคางานเงินสด</h1>
                 <p>ตรวจสอบราคาน้ำมัน ปตท. และค้นหาเรทราคางานในระบบ</p>
@@ -311,13 +177,72 @@
             </div>
         </div>
 
+        <!-- Tab 2: เพิ่มเรทราคาใหม่ -->
+        <div id="tab-add" class="tab-content">
+            <div class="page-header">
+                <h1>เพิ่มเรทราคางานใหม่</h1>
+                <p>บันทึกเรทราคาใหม่เข้าสู่ระบบฐานข้อมูลกลาง</p>
+            </div>
+
+            <div class="panel">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>ผู้ว่าจ้าง</label>
+                        <input type="text" id="newClient" class="form-control" placeholder="ระบุผู้ว่าจ้าง...">
+                    </div>
+                    <div class="form-group">
+                        <label>วัสดุ</label>
+                        <input type="text" id="newProject" class="form-control" placeholder="เช่น หิน, ทราย, คอนกรีต">
+                    </div>
+                    <div class="form-group full">
+                        <label>จุดลง</label>
+                        <input type="text" id="newLocation" class="form-control" placeholder="เช่น โซนเหนือ, โกดังหลัก">
+                    </div>
+                    <div class="form-group">
+                        <label>ช่วงราคาน้ำมัน</label>
+                        <select id="newFuel" class="form-control">
+                            <option value="30-35 บาท">น้ำมัน 30-35 บาท</option>
+                            <option value="35-40 บาท">น้ำมัน 35-40 บาท</option>
+                            <option value="40-45 บาท">น้ำมัน 40-45 บาท</option>
+                            <option value="45-50 บาท">น้ำมัน 45-50 บาท</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ราคางาน (บาท)</label>
+                        <input type="number" id="newPriceVal" class="form-control" placeholder="เช่น 1500">
+                    </div>
+                    <div class="form-group">
+                        <label>หน่วย</label>
+                        <select id="newUnit" class="form-control">
+                            <option value="พ่วง">พ่วง</option>
+                            <option value="ตัน">ตัน</option>
+                            <option value="เดี่ยว">เดี่ยว</option>
+                            <option value="ลบ.ม.">ลบ.ม.</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ผู้บันทึก</label>
+                        <select id="newRecorder" class="form-control">
+                            <option value="ปลา">ปลา</option>
+                            <option value="เจ">เจ</option>
+                            <option value="แป้ง">แป้ง</option>
+                        </select>
+                    </div>
+                    <div class="form-group full">
+                        <label>mapLink (ลิงก์ Google Maps)</label>
+                        <input type="url" id="newMapLink" class="form-control" placeholder="เช่น https://maps.app.goo.gl/...">
+                    </div>
+                </div>
+                <button class="btn btn-accent" onclick="addNewRate()" style="max-width: 220px;">บันทึกเรทราคาใหม่</button>
+            </div>
+        </div>
+
     </div>
 
 <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbzKCtW19HaU-bw-iDmACOXeL8seEZfVwgB2TGm-xQcYSG0GcHvLoYG-FouLg4rmt7XsPA/exec";
     
     let allRates = [];
-    let currentMatchedRate = null;
 
     function switchTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -334,97 +259,18 @@
         }
     }
 
-    async function loadData(isBackground = false) {
+    async function loadData() {
         try {
             let res = await fetch(scriptURL);
             let data = await res.json();
             allRates = data.rates || [];
-            populateDropdowns();
-            if(!isBackground && document.getElementById('tab-list').classList.contains('active')) {
-                renderTable(allRates);
-            }
+            renderTable(allRates);
         } catch(e) {
             console.error("Auto-sync error:", e);
         }
     }
 
-    setInterval(() => { loadData(true); }, 10000);
-
-    function populateDropdowns() {
-        let clients = [...new Set(allRates.map(r => r.client))].filter(Boolean);
-        
-        let selectClient = document.getElementById("selectClient");
-        let currentClientVal = selectClient.value;
-        selectClient.innerHTML = '<option value="">-- เลือกผู้ว่าจ้าง --</option>';
-        clients.forEach(c => {
-            selectClient.innerHTML += `<option value="${c}">${c}</option>`;
-        });
-        if(clients.includes(currentClientVal)) selectClient.value = currentClientVal;
-
-        let datalist = document.getElementById("clientListOptions");
-        datalist.innerHTML = "";
-        clients.forEach(c => {
-            datalist.innerHTML += `<option value="${c}">`;
-        });
-    }
-
-    function updateProjects() {
-        let client = document.getElementById("selectClient").value;
-        let projects = [...new Set(allRates.filter(r => r.client === client).map(r => r.project))].filter(Boolean);
-        let select = document.getElementById("selectProject");
-        select.innerHTML = '<option value="">-- เลือกวัสดุ --</option>';
-        projects.forEach(p => {
-            select.innerHTML += `<option value="${p}">${p}</option>`;
-        });
-        document.getElementById("selectLocation").innerHTML = '<option value="">-- เลือกจุดลง --</option>';
-        document.getElementById("resultBox").style.display = "none";
-    }
-
-    function updateLocations() {
-        let client = document.getElementById("selectClient").value;
-        let project = document.getElementById("selectProject").value;
-        let locations = [...new Set(allRates.filter(r => r.client === client && r.project === project).map(r => r.location))].filter(Boolean);
-        let select = document.getElementById("selectLocation");
-        select.innerHTML = '<option value="">-- เลือกจุดลง --</option>';
-        locations.forEach(l => {
-            select.innerHTML += `<option value="${l}">${l}</option>`;
-        });
-        document.getElementById("resultBox").style.display = "none";
-    }
-
-    function calculatePrice() {
-        let client = document.getElementById("selectClient").value;
-        let project = document.getElementById("selectProject").value;
-        let location = document.getElementById("selectLocation").value;
-        let fuel = document.getElementById("selectFuel").value;
-
-        if(!client || !project || !location) {
-            alert("กรุณาเลือกผู้ว่าจ้าง วัสดุ และจุดลงให้ครบถ้วนครับ");
-            return;
-        }
-
-        let found = allRates.find(r => r.client === client && r.project === project && r.location === location && r.fuelRange === fuel);
-        
-        let resultBox = document.getElementById("resultBox");
-        if(found) {
-            currentMatchedRate = found;
-            document.getElementById("displayPrice").innerText = Number(found.price).toLocaleString() + " บาท";
-            document.getElementById("unitDisplay").innerText = `หน่วย: ${found.unit || '-'}`;
-            
-            let mapContainer = document.getElementById("mapButtonContainer");
-            if(found.mapLink && found.mapLink.trim() !== "" && found.mapLink !== "undefined" && found.mapLink !== "null") {
-                mapContainer.innerHTML = `<a href="${found.mapLink}" target="_blank" class="btn btn-map">📍 เปิดดูตำแหน่งจุดลงบน Google Maps</a>`;
-            } else {
-                mapContainer.innerHTML = `<div style="font-size:0.82rem; color:var(--text-muted); margin-top:8px;">(ไม่มีลิงก์แผนที่สำหรับจุดลงนี้)</div>`;
-            }
-
-            resultBox.style.display = "block";
-        } else {
-            currentMatchedRate = null;
-            alert("ไม่พบเรทราคางานตามเงื่อนไขนี้ กรุณาเพิ่มเรทราคาใหม่ในระบบ");
-            resultBox.style.display = "none";
-        }
-    }
+    setInterval(loadData, 10000);
 
     async function addNewRate() {
         let client = document.getElementById("newClient").value.trim();
@@ -465,33 +311,9 @@
             document.getElementById("newMapLink").value = "";
             document.getElementById("newPriceVal").value = "";
             loadData();
-            switchTab('search');
+            switchTab('list');
         } catch(e) {
             alert("เกิดข้อผิดพลาดในการบันทึก");
-        }
-    }
-
-    async function saveRecord() {
-        if(!currentMatchedRate) return;
-        try {
-            await fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    action: "save_record", 
-                    client: currentMatchedRate.client, 
-                    project: currentMatchedRate.project, 
-                    location: currentMatchedRate.location, 
-                    fuelRange: currentMatchedRate.fuelRange, 
-                    price: currentMatchedRate.price,
-                    unit: currentMatchedRate.unit,
-                    recorder: currentMatchedRate.recorder 
-                })
-            });
-            alert("บันทึกประวัติการทำงานลงชีต 'jobs' สำเร็จเรียบร้อยครับ!");
-        } catch(e) {
-            alert("บันทึกไม่สำเร็จ");
         }
     }
 
