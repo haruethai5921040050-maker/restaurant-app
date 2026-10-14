@@ -3,157 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blue Ocean Diner - เมนูอาหาร</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>ระบบจัดการและตรวจสอบราคางาน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #070b19;
-            --card-bg: #111827;
-            --accent: #3b82f6;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border: #1f2937;
-            --success: #10b981;
+            --bg-color: #f1f5f9;
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --card-bg: #ffffff;
+            --primary: #1e3a8a;
+            --accent: #2563eb;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --success: #059669;
+            --success-hover: #047857;
         }
-        * { box-sizing: border-box; font-family: 'Kanit', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 25px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        * { box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; }
+
+        /* Sidebar Layout */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #f8fafc; display: flex; flex-direction: column; position: fixed; height: 100vh; box-shadow: 4px 0 10px rgba(0,0,0,0.05); }
+        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid #334155; }
+        .sidebar-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; color: #60a5fa; }
+        .sidebar-header p { margin: 4px 0 0 0; font-size: 0.8rem; color: #94a3b8; }
+
+        .sidebar-menu { list-style: none; padding: 15px 0; margin: 0; flex-grow: 1; }
+        .sidebar-menu li { padding: 12px 20px; cursor: pointer; font-size: 0.95rem; font-weight: 500; color: #cbd5e1; display: flex; align-items: center; gap: 10px; transition: 0.2s; border-left: 4px solid transparent; }
+        .sidebar-menu li:hover { background-color: var(--sidebar-hover); color: #ffffff; }
+        .sidebar-menu li.active { background-color: var(--sidebar-hover); color: #ffffff; border-left-color: var(--accent); }
+
+        /* Main Content */
+        .main-content { margin-left: 260px; flex-grow: 1; padding: 30px; max-width: calc(100% - 260px); }
         
-        .container { width: 100%; max-width: 750px; }
-        
-        .header-banner { text-align: center; margin-bottom: 25px; }
-        .header-banner h1 { margin: 0; font-size: 2rem; background: linear-gradient(135deg, #60a5fa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .header-banner p { margin: 5px 0 0 0; color: var(--text-muted); font-size: 0.95rem; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-        .panel { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 20px; }
-        
-        h2 { margin-top: 0; font-weight: 500; font-size: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 12px; color: #e5e7eb; display: flex; align-items: center; gap: 8px; }
+        .panel { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+        .panel-title { margin-top: 0; font-size: 1.2rem; font-weight: 600; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; color: var(--primary); }
 
-        .menu-list-container { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
-        .menu-card-item { background: #0b0f19; border: 1px solid var(--border); border-radius: 14px; padding: 15px; display: flex; align-items: center; gap: 15px; }
-        .menu-thumb { width: 75px; height: 75px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); flex-shrink: 0; background: #1f2937; }
-        .menu-info { flex-grow: 1; text-align: left; }
-        .menu-info h4 { margin: 0 0 4px 0; font-size: 1.05rem; color: #f9fafb; }
-        .menu-info p { margin: 0 0 6px 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
-        .menu-info .price-tag { color: #60a5fa; font-weight: 600; font-size: 0.95rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group.full { grid-column: span 2; }
+        .form-group label { display: block; font-size: 0.9rem; font-weight: 500; color: var(--text-main); margin-bottom: 6px; }
+        .form-control { width: 100%; padding: 10px 14px; background: #ffffff; border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 0.95rem; transition: all 0.2s; }
+        .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
 
-        .btn { padding: 10px 16px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
-        .btn-order { background: var(--success); color: white; box-shadow: 0 4px 12px rgba(16,185,129,0.2); }
-        .btn-order:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn { padding: 11px 16px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: background 0.2s; }
+        .btn-primary { background-color: var(--primary); color: white; width: 100%; }
+        .btn-primary:hover { background-color: #1e40af; }
+        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 15px; }
+        .btn-success:hover { background-color: var(--success-hover); }
 
-        .order-item-row { background: #0b0f19; padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); font-size: 0.95rem; }
-        .empty-text { color: var(--text-muted); text-align: center; font-size: 0.9rem; padding: 25px; }
+        .result-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-top: 20px; text-align: center; display: none; }
+        .result-price { font-size: 2rem; color: var(--primary); font-weight: 700; margin: 8px 0; }
+
+        /* Table Styling */
+        .table-container { overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #e2e8f0; }
+        th { background-color: #f8fafc; font-weight: 600; color: var(--primary); }
+        tr:hover { background-color: #f8fafc; }
+
+        .loading-text { font-size: 0.95rem; color: var(--text-muted); text-align: center; padding: 30px; }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { margin-left: 0; max-width: 100%; padding: 15px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: span 1; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <div class="header-banner">
-            <h1>🌊 BLUE OCEAN DINER</h1>
-            <p>เลือกเมนูอาหารที่คุณชื่นชอบแล้วกดสั่งได้เลยครับ</p>
+    <!-- เมนูด้านซ้าย (Sidebar) -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>ระบบจัดการราคางาน</h2>
+            <p>เชื่อมต่อ Google Sheets อัตโนมัติ</p>
         </div>
+        <ul class="sidebar-menu">
+            <li id="menu-search" class="active" onclick="switchTab('search')">🔍 1. ค้นหาราคางาน</li>
+            <li id="menu-add" onclick="switchTab('add')">➕ 2. เพิ่มราคางาน</li>
+            <li id="menu-list" onclick="switchTab('list')">📋 3. แสดงเรทราคาทั้งหมด</li>
+        </ul>
+    </div>
 
-        <!-- รายการเมนูอาหารทั้งหมด -->
-        <div class="panel">
-            <h2>📜 เมนูอาหารทั้งหมด</h2>
-            <div id="customerMenuList" class="menu-list-container">
-                <div class="empty-text">กำลังโหลดเมนูอาหาร...</div>
+    <!-- ส่วนเนื้อหาหลัก (Main Content) -->
+    <div class="main-content">
+        
+        <div id="loadingIndicator" class="loading-text">กำลังเชื่อมต่อฐานข้อมูล กรุณารอสักครู่...</div>
+
+        <!-- แท็บที่ 1: ค้นหาราคางาน -->
+        <div id="tab-search" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title">🔍 ค้นหาและคำนวณราคางาน</h2>
+                <div class="form-group">
+                    <label>ชื่อผู้ว่าจ้าง</label>
+                    <select id="selectClient" class="form-control" onchange="updateProjects()">
+                        <option value="">-- เลือกผู้ว่าจ้าง --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ชื่อโครงการ</label>
+                    <select id="selectProject" class="form-control" onchange="updateLocations()">
+                        <option value="">-- เลือกโครงการ --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>จุดลง</label>
+                    <select id="selectLocation" class="form-control">
+                        <option value="">-- เลือกจุดลง --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ช่วงราคาน้ำมัน</label>
+                    <select id="selectFuel" class="form-control">
+                        <option value="30-35 บาท">น้ำมัน 30-35 บาท</option>
+                        <option value="35-40 บาท">น้ำมัน 35-40 บาท</option>
+                        <option value="40-45 บาท">น้ำมัน 40-45 บาท</option>
+                        <option value="45-50 บาท">น้ำมัน 45-50 บาท</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="calculatePrice()">ตรวจสอบราคางาน</button>
+
+                <div id="resultBox" class="result-box">
+                    <div style="font-size:0.9rem; color:var(--text-muted);">ราคางานสุทธิ</div>
+                    <div id="displayPrice" class="result-price">0 บาท</div>
+                    <button class="btn btn-success" onclick="saveRecord()">บันทึกรายการนี้ลงชีต (Jobs)</button>
+                </div>
             </div>
         </div>
 
-        <!-- รายการออร์เดอร์ที่ลูกค้าสั่ง -->
-        <div class="panel">
-            <h2>🛒 รายการที่คุณสั่ง (Real-time)</h2>
-            <div id="customerOrdersContainer">
-                <div class="empty-text">ยังไม่มีรายการสั่งซื้อ</div>
+        <!-- แท็บที่ 2: เพิ่มราคางาน -->
+        <div id="tab-add" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title">➕ เพิ่มเรทราคางานใหม่</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>ชื่อผู้ว่าจ้าง</label>
+                        <input type="text" id="newClient" class="form-control" placeholder="เช่น หมอเทพ">
+                    </div>
+                    <div class="form-group">
+                        <label>ชื่อโครงการ</label>
+                        <input type="text" id="newProject" class="form-control" placeholder="เช่น โครงการ A">
+                    </div>
+                    <div class="form-group full">
+                        <label>จุดลง</label>
+                        <input type="text" id="newLocation" class="form-control" placeholder="เช่น โซนเหนือ">
+                    </div>
+                    <div class="form-group">
+                        <label>ช่วงราคาน้ำมัน</label>
+                        <select id="newFuel" class="form-control">
+                            <option value="30-35 บาท">น้ำมัน 30-35 บาท</option>
+                            <option value="35-40 บาท">น้ำมัน 35-40 บาท</option>
+                            <option value="40-45 บาท">น้ำมัน 40-45 บาท</option>
+                            <option value="45-50 บาท">น้ำมัน 45-50 บาท</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ราคางาน (บาท)</label>
+                        <input type="number" id="newPriceVal" class="form-control" placeholder="เช่น 1500">
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="addNewRate()">บันทึกเรทราคาใหม่เข้าสู่ระบบ</button>
+            </div>
+        </div>
+
+        <!-- แท็บที่ 3: แสดงเรทราคาทั้งหมดและค้นหา/ฟิวเตอร์ -->
+        <div id="tab-list" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title">📋 รายการเรทราคางานทั้งหมดในระบบ</h2>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <input type="text" id="searchInput" class="form-control" placeholder="🔍 ค้นหาด้วยชื่อผู้ว่าจ้าง, โครงการ หรือจุดลง..." onkeyup="filterTable()">
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>รหัส ID</th>
+                                <th>ผู้ว่าจ้าง</th>
+                                <th>โครงการ</th>
+                                <th>จุดลง</th>
+                                <th>ช่วงราคาน้ำมัน</th>
+                                <th>ราคางาน (บาท)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rateTableBody">
+                            <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">กำลังโหลดข้อมูล...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
     </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+<script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxXrPUTG1EWZwbvX50x7nDfwNg3QFH4YpEIlFslspea08OJzhNEuiu_pvzUhWlbkOt7JA/exec";
+    
+    let allRates = [];
+    let currentMatchedRate = null;
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyAPC84A7qnY8JFkxGZ89Rm5yAPvx_feCQQ",
-        authDomain: "first01-189c9.firebaseapp.com",
-        projectId: "first01-189c9",
-        storageBucket: "first01-189c9.firebasestorage.app",
-        messagingSenderId: "708549069749",
-        appId: "1:708549069749:web:92f142f4860576a517e7fc",
-        measurementId: "G-JJX9B8RLFL"
-    };
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById('tab-' + tabName).classList.add('active');
+        document.getElementById('menu-' + tabName).classList.add('active');
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // โหลดเมนูอาหารจาก Firestore มาแสดงแบบเรียงลงมา
-    const qMenu = query(collection(db, "menus"), orderBy("createdAt", "asc"));
-    onSnapshot(qMenu, (snapshot) => {
-        const container = document.getElementById("customerMenuList");
-        container.innerHTML = "";
-
-        if (snapshot.empty) {
-            container.innerHTML = `<div class="empty-text">ร้านยังไม่ได้เพิ่มเมนูอาหารในขณะนี้</div>`;
-            return;
-        }
-
-        snapshot.forEach((docSnap) => {
-            const item = docSnap.data();
-            
-            const div = document.createElement("div");
-            div.className = "menu-card-item";
-            div.innerHTML = `
-                <img class="menu-thumb" src="${item.img || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500'}" alt="Menu">
-                <div class="menu-info">
-                    <h4>${item.name}</h4>
-                    <p>${item.desc || 'ไม่มีคำอธิบาย'}</p>
-                    <div class="price-tag">${item.price} บาท</div>
-                </div>
-                <button class="btn btn-order" onclick="orderMenu('${item.name.replace(/'/g, "\\'")}', ${item.price})">🛒 สั่ง</button>
-            `;
-            container.appendChild(div);
-        });
-    });
-
-    // ฟังก์ชันให้ลูกค้ากดสั่งอาหาร
-    window.orderMenu = async function(menuName, price) {
-        try {
-            await addDoc(collection(db, "orders"), {
-                menuName: menuName,
-                price: price,
-                createdAt: serverTimestamp()
-            });
-            alert(`สั่งเมนู "${menuName}" เรียบร้อยแล้ว!`);
-        } catch (e) {
-            console.error(e);
-            alert("เกิดข้อผิดพลาดในการสั่งอาหาร");
+        if(tabName === 'list') {
+            renderTable(allRates);
         }
     }
 
-    // แสดงรายการออร์เดอร์ฝั่งลูกค้า
-    const qOrder = query(collection(db, "orders"), orderBy("createdAt", "desc"));
-    onSnapshot(qOrder, (snapshot) => {
-        const container = document.getElementById("customerOrdersContainer");
-        container.innerHTML = "";
-        
-        if(snapshot.empty) {
-            container.innerHTML = `<div class="empty-text">ยังไม่มีรายการสั่งซื้อ</div>`;
+    async function loadData() {
+        try {
+            let res = await fetch(scriptURL);
+            let data = await res.json();
+            allRates = data.rates || [];
+            populateClients();
+            document.getElementById("loadingIndicator").style.display = "none";
+            switchTab('search'); // เริ่มต้นที่หน้าค้นหา
+        } catch(e) {
+            console.error("Load error:", e);
+            document.getElementById("loadingIndicator").innerText = "ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณารีเฟรชหน้าเว็บ";
+        }
+    }
+
+    function populateClients() {
+        let clients = [...new Set(allRates.map(r => r.client))];
+        let select = document.getElementById("selectClient");
+        select.innerHTML = '<option value="">-- เลือกผู้ว่าจ้าง --</option>';
+        clients.forEach(c => {
+            if(c) select.innerHTML += `<option value="${c}">${c}</option>`;
+        });
+    }
+
+    function updateProjects() {
+        let client = document.getElementById("selectClient").value;
+        let projects = [...new Set(allRates.filter(r => r.client === client).map(r => r.project))];
+        let select = document.getElementById("selectProject");
+        select.innerHTML = '<option value="">-- เลือกโครงการ --</option>';
+        projects.forEach(p => {
+            if(p) select.innerHTML += `<option value="${p}">${p}</option>`;
+        });
+        document.getElementById("selectLocation").innerHTML = '<option value="">-- เลือกจุดลง --</option>';
+        document.getElementById("resultBox").style.display = "none";
+    }
+
+    function updateLocations() {
+        let client = document.getElementById("selectClient").value;
+        let project = document.getElementById("selectProject").value;
+        let locations = [...new Set(allRates.filter(r => r.client === client && r.project === project).map(r => r.location))];
+        let select = document.getElementById("selectLocation");
+        select.innerHTML = '<option value="">-- เลือกจุดลง --</option>';
+        locations.forEach(l => {
+            if(l) select.innerHTML += `<option value="${l}">${l}</option>`;
+        });
+        document.getElementById("resultBox").style.display = "none";
+    }
+
+    function calculatePrice() {
+        let client = document.getElementById("selectClient").value;
+        let project = document.getElementById("selectProject").value;
+        let location = document.getElementById("selectLocation").value;
+        let fuel = document.getElementById("selectFuel").value;
+
+        if(!client || !project || !location) {
+            alert("กรุณาเลือกผู้ว่าจ้าง โครงการ และจุดลงให้ครบถ้วนครับ");
             return;
         }
 
-        snapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            const div = document.createElement("div");
-            div.className = "order-item-row";
-            div.innerHTML = `
-                <span style="color: #f9fafb;"><b>${data.menuName}</b></span>
-                <span style="color: #60a5fa; font-weight: 600;">${data.price} บาท</span>
+        let found = allRates.find(r => r.client === client && r.project === project && r.location === location && r.fuelRange === fuel);
+        
+        let resultBox = document.getElementById("resultBox");
+        if(found) {
+            currentMatchedRate = found;
+            document.getElementById("displayPrice").innerText = Number(found.price).toLocaleString() + " บาท";
+            resultBox.style.display = "block";
+        } else {
+            currentMatchedRate = null;
+            alert("ไม่พบราคางานตามเงื่อนไขช่วงราคาน้ำมันนี้ กรุณาเพิ่มเรทราคาใหม่");
+            resultBox.style.display = "none";
+        }
+    }
+
+    async function addNewRate() {
+        let client = document.getElementById("newClient").value.trim();
+        let project = document.getElementById("newProject").value.trim();
+        let location = document.getElementById("newLocation").value.trim();
+        let fuelRange = document.getElementById("newFuel").value;
+        let price = Number(document.getElementById("newPriceVal").value);
+
+        if(!client || !project || !location || !price) {
+            alert("กรุณากรอกข้อมูลให้ครบถ้วนครับ");
+            return;
+        }
+
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: "add_rate", client, project, location, fuelRange, price })
+            });
+            alert("เพิ่มเรทราคางานสำเร็จ! ระบบกำลังซิงก์ข้อมูล...");
+            document.getElementById("newClient").value = "";
+            document.getElementById("newProject").value = "";
+            document.getElementById("newLocation").value = "";
+            document.getElementById("newPriceVal").value = "";
+            setTimeout(loadData, 1500);
+        } catch(e) {
+            alert("เกิดข้อผิดพลาดในการบันทึก");
+        }
+    }
+
+    async function saveRecord() {
+        if(!currentMatchedRate) return;
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    action: "save_record", 
+                    client: currentMatchedRate.client, 
+                    project: currentMatchedRate.project, 
+                    location: currentMatchedRate.location, 
+                    fuelRange: currentMatchedRate.fuelRange, 
+                    price: currentMatchedRate.price 
+                })
+            });
+            alert("บันทึกรายการงานลงในชีต 'jobs' สำเร็จเรียบร้อยครับ!");
+        } catch(e) {
+            alert("บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
+        }
+    }
+
+    function renderTable(data) {
+        let tbody = document.getElementById("rateTableBody");
+        tbody.innerHTML = "";
+        if(data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">ไม่พบข้อมูลเรทราคางานในระบบ</td></tr>`;
+            return;
+        }
+        data.forEach(item => {
+            tbody.innerHTML += `
+                <tr>
+                    <td><code>${item.id}</code></td>
+                    <td><b>${item.client}</b></td>
+                    <td>${item.project}</td>
+                    <td>${item.location}</td>
+                    <td>${item.fuelRange}</td>
+                    <td style="color: var(--primary); font-weight: 600;">${Number(item.price).toLocaleString()} บาท</td>
+                </tr>
             `;
-            container.appendChild(div);
         });
-    });
+    }
+
+    function filterTable() {
+        let keyword = document.getElementById("searchInput").value.toLowerCase();
+        let filtered = allRates.filter(r => 
+            String(r.client).toLowerCase().includes(keyword) ||
+            String(r.project).toLowerCase().includes(keyword) ||
+            String(r.location).toLowerCase().includes(keyword) ||
+            String(r.id).toLowerCase().includes(keyword)
+        );
+        renderTable(filtered);
+    }
+
+    loadData();
 </script>
 
 </body>
