@@ -10,36 +10,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f8fafc;
-            /* สีน้ำเงินเข้มคลาสสิก เรียบหรู สบายตา (Classic Navy Blue) */
-            --sidebar-bg: #0f172a;
-            --sidebar-gradient: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --accent: #f97316;
+            --bg-body: #f4f1de; /* สีพื้นหลังเว็บใช้สีนวลละมุนตามพาเลท */
+            --sidebar-bg: #001233; /* สีน้ำเงินเข้มตามพาเลท */
+            --sidebar-gradient: linear-gradient(180deg, #001233 0%, #022047 100%);
+            --primary: #001233;
+            --primary-hover: #1b263b;
+            --accent: #33415c; /* สีสเลทพรีเมียมตามพาเลท */
             --card-bg: #ffffff;
             --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text-muted: #475569;
+            --border: #d8d4bb;
             --success: #0d9488;
-            --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            --shadow: 0 4px 20px -2px rgba(0, 18, 51, 0.08);
         }
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: var(--bg-body); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; }
 
-        /* Sidebar - Classic Navy Blue */
-        .sidebar { width: 280px; background: var(--sidebar-gradient); color: #94a3b8; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; box-shadow: 4px 0 20px rgba(0,0,0,0.08); }
-        .sidebar-brand { padding: 30px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center; }
+        /* Sidebar - โทนสี #001233 หรูหราพรีเมียม */
+        .sidebar { width: 280px; background: var(--sidebar-gradient); color: #94a3b8; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
+        .sidebar-brand { padding: 30px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
         .sidebar-logo { width: 100%; max-width: 120px; height: auto; margin-bottom: 14px; background: #ffffff; padding: 8px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: inline-block; }
         .sidebar-brand h2 { margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; line-height: 1.3; }
-        .sidebar-brand h2 span { color: #38bdf8; display: block; font-size: 0.78rem; font-weight: 600; margin-top: 4px; letter-spacing: 0.5px; }
+        .sidebar-brand h2 span { color: #f4f1de; display: block; font-size: 0.78rem; font-weight: 600; margin-top: 4px; letter-spacing: 0.5px; opacity: 0.9; }
 
         .sidebar-menu { list-style: none; padding: 24px 16px; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
         .sidebar-menu li { padding: 13px 18px; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: #cbd5e1; display: flex; align-items: center; gap: 12px; border-radius: 10px; transition: all 0.2s ease; user-select: none; }
         .sidebar-menu li:hover { background-color: rgba(255, 255, 255, 0.08); color: #ffffff; }
-        .sidebar-menu li.active { background-color: #2563eb; color: #ffffff; box-shadow: 0 4px 14px rgba(37,99,235,0.35); font-weight: 700; }
+        .sidebar-menu li.active { background-color: #33415c; color: #ffffff; box-shadow: 0 4px 14px rgba(51,65,92,0.3); font-weight: 700; border-left: 4px solid #f4f1de; }
 
-        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: #64748b; text-align: center; }
+        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; color: #94a3b8; text-align: center; }
 
         /* Main Content */
         .main-content { margin-left: 280px; flex-grow: 1; padding: 40px 48px; max-width: calc(100% - 280px); }
@@ -59,22 +58,22 @@
         
         .form-group label { display: block; font-size: 0.88rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
         .form-control { width: 100%; padding: 12px 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 0.95rem; font-weight: 500; transition: all 0.2s; }
-        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
+        .form-control:focus { outline: none; border-color: #33415c; box-shadow: 0 0 0 4px rgba(51,65,92,0.12); }
 
         .btn { padding: 12px 22px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
-        .btn-primary { background-color: var(--primary); color: white; width: 100%; box-shadow: 0 4px 14px rgba(37,99,235,0.25); }
+        .btn-primary { background-color: var(--primary); color: white; width: 100%; box-shadow: 0 4px 14px rgba(0,18,51,0.25); }
         .btn-primary:hover { background-color: var(--primary-hover); }
         
-        .btn-accent { background-color: var(--accent); color: white; width: 100%; box-shadow: 0 4px 14px rgba(249,115,22,0.25); }
-        .btn-accent:hover { background-color: #ea580c; }
+        .btn-accent { background-color: var(--accent); color: white; width: 100%; box-shadow: 0 4px 14px rgba(51,65,92,0.25); }
+        .btn-accent:hover { background-color: #1e293b; }
 
         .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 16px; }
         .btn-success:hover { background-color: #0f766e; }
 
-        .btn-map { background-color: #0284c7; color: white; width: 100%; margin-top: 10px; }
-        .btn-map:hover { background-color: #0369a1; }
+        .btn-map { background-color: #33415c; color: white; width: 100%; margin-top: 10px; }
+        .btn-map:hover { background-color: #1e293b; }
 
-        .result-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-top: 28px; text-align: center; display: none; }
+        .result-card { background: #fbf9ec; border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-top: 28px; text-align: center; display: none; }
         .result-title { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         .result-price { font-size: 2.6rem; color: var(--primary); font-weight: 800; margin: 10px 0; }
 
@@ -82,10 +81,10 @@
         .oil-ticker { background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: var(--shadow); }
         .oil-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 12px; flex-wrap: wrap; gap: 10px; }
         .oil-title { font-weight: 800; font-size: 1.05rem; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-        .oil-date { font-size: 0.82rem; color: #0284c7; font-weight: 700; background: #e0f2fe; padding: 4px 12px; border-radius: 8px; }
+        .oil-date { font-size: 0.82rem; color: #33415c; font-weight: 700; background: #f4f1de; padding: 4px 12px; border-radius: 8px; }
         
         .oil-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
-        .oil-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+        .oil-card { background: #fbf9ec; border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
         .oil-name { font-size: 0.82rem; color: var(--text-muted); font-weight: 700; }
         .oil-price-row { display: flex; align-items: baseline; justify-content: space-between; }
         .oil-val { font-size: 1.3rem; font-weight: 800; color: var(--text-main); }
@@ -99,14 +98,14 @@
         .table-container { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; background: #ffffff; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
         th, td { padding: 16px 18px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-        th { background-color: #f8fafc; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.6px; }
+        th { background-color: #fbf9ec; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.6px; }
         tr:last-child td { border-bottom: none; }
-        tr:hover { background-color: #f8fafc; }
+        tr:hover { background-color: #fbf9ec; }
 
-        .unit-badge { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; display: inline-block; }
-        .recorder-badge { background: #f1f5f9; color: #334155; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); display: inline-block; }
-        .map-link-btn { color: #0284c7; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; padding: 6px 12px; border-radius: 8px; font-size: 0.82rem; transition: 0.2s; }
-        .map-link-btn:hover { background: #bae6fd; }
+        .unit-badge { background: #f4f1de; color: #33415c; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; display: inline-block; border: 1px solid #d8d4bb; }
+        .recorder-badge { background: #f8fafc; color: #1e293b; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); display: inline-block; }
+        .map-link-btn { color: #ffffff; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; background: #33415c; padding: 6px 12px; border-radius: 8px; font-size: 0.82rem; transition: 0.2s; }
+        .map-link-btn:hover { background: #1e293b; }
 
         .sync-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--success); font-weight: 700; }
         .sync-dot { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
@@ -465,6 +464,7 @@
     }
 
     async function saveRecord() {
+        if(!currentMatchedRecord) return; // Fix safety
         if(!currentMatchedRate) return;
         try {
             await fetch(scriptURL, {
