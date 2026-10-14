@@ -7,100 +7,98 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f8fafc;
-            --sidebar-bg: #0f172a;
-            --sidebar-hover: #1e293b;
+            --bg-body: #f4f6f9; /* สีพื้นหลังนุ่มนวล สบายตา */
+            --sidebar-bg: #1e293b; /* น้ำเงินเข้มทึบ ดูพรีเมียม */
+            --sidebar-hover: #334155;
             --sidebar-text: #94a3b8;
             --sidebar-text-active: #ffffff;
-            --primary: #1e40af;
-            --primary-hover: #1e3a8a;
-            --accent: #f97316;
-            --accent-hover: #ea580c;
+            --primary: #2563eb; /* น้ำเงินสว่างสดใส */
+            --primary-hover: #1d4ed8;
+            --accent: #f97316; /* ส้มละมุน */
             --card-bg: #ffffff;
-            --text-main: #0f172a;
+            --text-main: #1e293b; /* ตัวหนังสือสีเข้มอ่านง่าย ไม่ดำสนิท */
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --success: #059669;
-            --success-hover: #047857;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --success: #0d9488; /* เขียวอมฟ้า สบายตา */
+            --success-hover: #0f766e;
+            --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
         }
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: var(--bg-body); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; }
 
-        /* Sidebar Styling */
-        .sidebar { width: 280px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; position: fixed; height: 100vh; box-shadow: 4px 0 25px rgba(0,0,0,0.05); z-index: 10; }
-        .sidebar-brand { padding: 30px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .sidebar-brand h2 { margin: 0; font-size: 1.2rem; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
-        .sidebar-brand h2 span { color: var(--accent); background: rgba(249,115,22,0.15); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; }
-        .sidebar-brand p { margin: 6px 0 0 0; font-size: 0.8rem; color: var(--sidebar-text); }
+        /* Sidebar */
+        .sidebar { width: 270px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; }
+        .sidebar-brand { padding: 28px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .sidebar-brand h2 { margin: 0; font-size: 1.15rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 8px; }
+        .sidebar-brand h2 span { color: #38bdf8; background: rgba(56,189,248,0.1); padding: 3px 6px; border-radius: 4px; font-size: 0.7rem; }
+        .sidebar-brand p { margin: 4px 0 0 0; font-size: 0.78rem; color: #64748b; }
 
-        .sidebar-menu { list-style: none; padding: 20px 12px; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 6px; }
-        .sidebar-menu li { padding: 12px 16px; cursor: pointer; font-size: 0.92rem; font-weight: 500; color: var(--sidebar-text); display: flex; align-items: center; gap: 12px; border-radius: 8px; transition: all 0.2s ease; }
+        .sidebar-menu { list-style: none; padding: 16px 12px; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 4px; }
+        .sidebar-menu li { padding: 11px 14px; cursor: pointer; font-size: 0.9rem; font-weight: 500; color: var(--sidebar-text); display: flex; align-items: center; gap: 10px; border-radius: 6px; transition: all 0.2s; }
         .sidebar-menu li:hover { background-color: var(--sidebar-hover); color: var(--sidebar-text-active); }
-        .sidebar-menu li.active { background-color: var(--accent); color: #ffffff; box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
+        .sidebar-menu li.active { background-color: var(--primary); color: #ffffff; }
 
-        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: #475569; text-align: center; }
+        .sidebar-footer { padding: 16px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.75rem; color: #64748b; text-align: center; }
 
-        /* Main Content Layout */
-        .main-content { margin-left: 280px; flex-grow: 1; padding: 40px; max-width: calc(100% - 280px); }
+        /* Main Content */
+        .main-content { margin-left: 270px; flex-grow: 1; padding: 35px; max-width: calc(100% - 270px); }
         
-        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content { display: none; }
         .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-        .page-header { margin-bottom: 30px; }
-        .page-header h1 { margin: 0; font-size: 1.6rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
-        .page-header p { margin: 6px 0 0 0; color: var(--text-muted); font-size: 0.95rem; }
+        .page-header { margin-bottom: 25px; }
+        .page-header h1 { margin: 0; font-size: 1.5rem; font-weight: 700; color: var(--text-main); }
+        .page-header p { margin: 4px 0 0 0; color: var(--text-muted); font-size: 0.9rem; }
 
-        .panel { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); padding: 30px; margin-bottom: 25px; box-shadow: var(--shadow); }
+        .panel { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 25px; margin-bottom: 20px; box-shadow: var(--shadow); }
         
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 16px; text-align: left; }
         .form-group.full { grid-column: span 2; }
         
-        .form-group label { display: block; font-size: 0.88rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
-        .form-control { width: 100%; padding: 12px 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 0.95rem; transition: all 0.2s; }
-        .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1); }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
+        .form-control { width: 100%; padding: 10px 14px; background: #ffffff; border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 0.9rem; transition: all 0.2s; }
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.08); }
 
-        .btn { padding: 12px 20px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
-        .btn-primary { background-color: var(--primary); color: white; width: 100%; box-shadow: 0 4px 12px rgba(30,64,175,0.25); }
-        .btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+        .btn { padding: 10px 18px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+        .btn-primary { background-color: var(--primary); color: white; width: 100%; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
         
-        .btn-accent { background-color: var(--accent); color: white; width: 100%; box-shadow: 0 4px 12px rgba(249,115,22,0.25); }
-        .btn-accent:hover { background-color: var(--accent-hover); transform: translateY(-1px); }
+        .btn-accent { background-color: var(--accent); color: white; width: 100%; }
+        .btn-accent:hover { background-color: #ea580c; }
 
-        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 15px; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
-        .btn-success:hover { background-color: var(--success-hover); transform: translateY(-1px); }
+        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 12px; }
+        .btn-success:hover { background-color: var(--success-hover); }
 
-        .btn-map { background-color: #0284c7; color: white; width: 100%; margin-top: 10px; box-shadow: 0 4px 12px rgba(2,132,199,0.25); }
-        .btn-map:hover { background-color: #0369a1; transform: translateY(-1px); }
+        .btn-map { background-color: #0284c7; color: white; width: 100%; margin-top: 8px; }
+        .btn-map:hover { background-color: #0369a1; }
 
-        .result-card { background: linear-gradient(135deg, #fff7ed, #f8fafc); border: 1px solid #fed7aa; border-radius: 14px; padding: 25px; margin-top: 25px; text-align: center; display: none; }
-        .result-title { font-size: 0.88rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .result-price { font-size: 2.5rem; color: var(--accent); font-weight: 700; margin: 10px 0; }
+        .result-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-top: 20px; text-align: center; display: none; }
+        .result-title { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .result-price { font-size: 2.2rem; color: var(--primary); font-weight: 700; margin: 8px 0; }
 
         /* Tables */
-        .table-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
-        .search-box { width: 100%; max-width: 350px; }
+        .table-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 12px; }
+        .search-box { width: 100%; max-width: 320px; }
         
-        .table-container { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; }
-        th, td { padding: 15px 20px; border-bottom: 1px solid var(--border); }
-        th { background-color: #f8fafc; font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.5px; }
+        .table-container { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+        th, td { padding: 13px 16px; border-bottom: 1px solid var(--border); }
+        th { background-color: #f8fafc; font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; }
         tr:last-child td { border-bottom: none; }
-        tr:hover { background-color: #f8fafc; }
+        tr:hover { background-color: #fafafe; }
 
-        .map-link-btn { color: #0284c7; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; transition: 0.2s; }
+        .map-link-btn { color: #0284c7; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; padding: 5px 10px; border-radius: 6px; font-size: 0.82rem; }
         .map-link-btn:hover { background: #bae6fd; }
 
-        .sync-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--success); font-weight: 500; }
-        .sync-dot { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
+        .sync-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--success); font-weight: 500; }
+        .sync-dot { width: 7px; height: 7px; background-color: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
 
         @media (max-width: 768px) {
             body { flex-direction: column; }
             .sidebar { width: 100%; height: auto; position: relative; }
-            .main-content { margin-left: 0; max-width: 100%; padding: 20px; }
+            .main-content { margin-left: 0; max-width: 100%; padding: 15px; }
             .form-grid { grid-template-columns: 1fr; }
             .form-group.full { grid-column: span 1; }
         }
@@ -108,7 +106,6 @@
 </head>
 <body>
 
-    <!-- Sidebar เมนูด้านซ้าย -->
     <div class="sidebar">
         <div class="sidebar-brand">
             <h2>PRO PRICING <span>PRO</span></h2>
@@ -124,10 +121,9 @@
         </div>
     </div>
 
-    <!-- Main Content Panel -->
     <div class="main-content">
         
-        <!-- แท็บที่ 1: ค้นหาราคางาน -->
+        <!-- Tab 1 -->
         <div id="tab-search" class="tab-content active">
             <div class="page-header">
                 <h1>ระบบคำนวณและตรวจสอบราคางาน</h1>
@@ -175,7 +171,7 @@
             </div>
         </div>
 
-        <!-- แท็บที่ 2: เพิ่มเรทราคาใหม่ -->
+        <!-- Tab 2 -->
         <div id="tab-add" class="tab-content">
             <div class="page-header">
                 <h1>เพิ่มเรทราคางานใหม่</h1>
@@ -185,7 +181,7 @@
             <div class="panel">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>ชื่อผู้ว่าจ้าง (เลือกจากรายชื่อเดิม หรือพิมพ์ชื่อใหม่)</label>
+                        <label>ชื่อผู้ว่าจ้าง</label>
                         <input type="text" id="newClient" class="form-control" list="clientListOptions" placeholder="ระบุหรือเลือกผู้ว่าจ้าง...">
                         <datalist id="clientListOptions"></datalist>
                     </div>
@@ -198,7 +194,7 @@
                         <input type="text" id="newLocation" class="form-control" placeholder="เช่น โซนเหนือ, โกดังหลัก">
                     </div>
                     <div class="form-group full">
-                        <label>ลิงก์ Google Maps (แชร์ลิงก์แผนที่จุดลงงาน)</label>
+                        <label>ลิงก์ Google Maps (ถ้ามี)</label>
                         <input type="url" id="newMapLink" class="form-control" placeholder="เช่น https://maps.app.goo.gl/...">
                     </div>
                     <div class="form-group">
@@ -215,23 +211,23 @@
                         <input type="number" id="newPriceVal" class="form-control" placeholder="เช่น 1500">
                     </div>
                 </div>
-                <button class="btn btn-accent" onclick="addNewRate()" style="max-width: 250px;">บันทึกเรทราคาใหม่</button>
+                <button class="btn btn-accent" onclick="addNewRate()" style="max-width: 220px;">บันทึกเรทราคาใหม่</button>
             </div>
         </div>
 
-        <!-- แท็บที่ 3: รายการเรทราคาทั้งหมด -->
+        <!-- Tab 3 -->
         <div id="tab-list" class="tab-content">
             <div class="page-header">
                 <h1>รายการเรทราคางานทั้งหมด</h1>
                 <p>ค้นหา กรอง และตรวจสอบข้อมูลเรทราคากับพิกัดแผนที่ในระบบ</p>
             </div>
 
-            <div class="panel" style="padding: 20px;">
+            <div class="panel" style="padding: 16px;">
                 <div class="table-toolbar">
                     <div class="search-box">
                         <input type="text" id="searchInput" class="form-control" placeholder="🔍 ค้นหาผู้ว่าจ้าง, โครงการ, จุดลง..." onkeyup="filterTable()">
                     </div>
-                    <div id="recordCount" style="font-size: 0.9rem; color: var(--text-muted);">กำลังโหลด...</div>
+                    <div id="recordCount" style="font-size: 0.85rem; color: var(--text-muted);">กำลังโหลด...</div>
                 </div>
                 <div class="table-container">
                     <table>
@@ -351,10 +347,10 @@
             document.getElementById("displayPrice").innerText = Number(found.price).toLocaleString() + " บาท";
             
             let mapContainer = document.getElementById("mapButtonContainer");
-            if(found.mapLink && found.mapLink.trim() !== "") {
+            if(found.mapLink && found.mapLink.trim() !== "" && found.mapLink !== "undefined" && found.mapLink !== "null") {
                 mapContainer.innerHTML = `<a href="${found.mapLink}" target="_blank" class="btn btn-map">📍 เปิดดูตำแหน่งจุดลงบน Google Maps</a>`;
             } else {
-                mapContainer.innerHTML = `<div style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;">(ไม่มีลิงก์แผนที่สำหรับจุดลงนี้)</div>`;
+                mapContainer.innerHTML = `<div style="font-size:0.82rem; color:var(--text-muted); margin-top:8px;">(ไม่มีลิงก์แผนที่สำหรับจุดลงนี้)</div>`;
             }
 
             resultBox.style.display = "block";
@@ -439,7 +435,8 @@
             return;
         }
         data.forEach(item => {
-            let mapBtn = item.mapLink ? `<a href="${item.mapLink}" target="_blank" class="map-link-btn">📍 ดูแผนที่</a>` : `<span style="color:var(--text-muted)">-</span>`;
+            let hasMap = item.mapLink && item.mapLink.trim() !== "" && item.mapLink !== "undefined" && item.mapLink !== "null";
+            let mapBtn = hasMap ? `<a href="${item.mapLink}" target="_blank" class="map-link-btn">📍 ดูแผนที่</a>` : `<span style="color:var(--text-muted);">-</span>`;
             tbody.innerHTML += `
                 <tr>
                     <td><b>${item.client}</b></td>
@@ -448,7 +445,7 @@
                     <td>${item.fuelRange}</td>
                     <td style="color: var(--primary); font-weight: 700;">${Number(item.price).toLocaleString()} บาท</td>
                     <td>${mapBtn}</td>
-                    <td style="color: var(--text-muted); font-size: 0.88rem;">${formatDate(item.date || new Date())}</td>
+                    <td style="color: var(--text-muted); font-size: 0.85rem;">${formatDate(item.date || new Date())}</td>
                 </tr>
             `;
         });
