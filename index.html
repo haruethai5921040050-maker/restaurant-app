@@ -76,17 +76,21 @@
         .result-title { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         .result-price { font-size: 2.5rem; color: var(--primary); font-weight: 700; margin: 10px 0; }
 
-        /* แถบราคาน้ำมัน ปตท. */
+        /* แถบราคาน้ำมัน ปตท. พร้อมวันที่และส่วนต่าง */
         .oil-ticker { background: linear-gradient(135deg, #ffffff, #f1f5f9); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: var(--shadow); }
-        .oil-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .oil-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 10px; flex-wrap: wrap; gap: 8px; }
         .oil-title { font-weight: 700; font-size: 1rem; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-        .oil-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+        .oil-date { font-size: 0.82rem; color: #0284c7; font-weight: 600; background: #e0f2fe; padding: 4px 10px; border-radius: 6px; }
         
-        .oil-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 15px; }
-        .oil-card { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .oil-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+        .oil-card { background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .oil-name { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; }
         .oil-price-row { display: flex; align-items: baseline; justify-content: space-between; }
-        .oil-val { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+        .oil-val { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+        
+        .badge-same { color: #64748b; font-size: 0.75rem; font-weight: 600; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; }
+        .badge-up { color: #dc2626; font-size: 0.75rem; font-weight: 700; background: #fee2e2; padding: 2px 6px; border-radius: 4px; }
+        .badge-down { color: #059669; font-size: 0.75rem; font-weight: 700; background: #d1fae5; padding: 2px 6px; border-radius: 4px; }
 
         /* Tables */
         .table-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
@@ -243,19 +247,55 @@
                 <p>ตรวจสอบราคาน้ำมัน ปตท. และค้นหาเรทราคางานในระบบ</p>
             </div>
 
-            <!-- กล่องแสดงราคาน้ำมัน ปตท. ข้อมูลจริงล่าสุด -->
+            <!-- กล่องแสดงราคาน้ำมัน ปตท. พร้อมวันที่และส่วนต่าง -->
             <div class="oil-ticker">
                 <div class="oil-header">
-                    <div class="oil-title">⛽ ราคาน้ำมัน ปตท. (กรุงเทพฯ) วันนี้</div>
-                    <div class="oil-date">อัปเดตข้อมูลจริงตามประกาศปัจจุบัน</div>
+                    <div class="oil-title">⛽ ราคาน้ำมัน ปตท. (กรุงเทพฯ)</div>
+                    <div class="oil-date" id="oilUpdateDate">📅 อัปเดตล่าสุด: 14 ตุลาคม 2026</div>
                 </div>
                 <div class="oil-grid" id="oilPriceContainer">
-                    <div class="oil-card"><span class="oil-name">ดีเซล (B7)</span><div class="oil-price-row"><span class="oil-val">42.94 ฿</span></div></div>
-                    <div class="oil-card"><span class="oil-name">แก๊สโซฮอล์ 95</span><div class="oil-price-row"><span class="oil-val">41.44 ฿</span></div></div>
-                    <div class="oil-card"><span class="oil-name">แก๊สโซฮอล์ 91</span><div class="oil-price-row"><span class="oil-val">41.07 ฿</span></div></div>
-                    <div class="oil-card"><span class="oil-name">แก๊สโซฮอล์ E20</span><div class="oil-price-row"><span class="oil-val">35.69 ฿</span></div></div>
-                    <div class="oil-card"><span class="oil-name">เบนซิน</span><div class="oil-price-row"><span class="oil-val">50.43 ฿</span></div></div>
-                    <div class="oil-card"><span class="oil-name">ซูเปอร์พาวเวอร์ 95</span><div class="oil-price-row"><span class="oil-val">47.79 ฿</span></div></div>
+                    <div class="oil-card">
+                        <span class="oil-name">ดีเซล (B7)</span>
+                        <div class="oil-price-row">
+                            <span class="oil-val">42.94 ฿</span>
+                            <span class="badge-same">คงที่</span>
+                        </div>
+                    </div>
+                    <div class="oil-card">
+                        <span class="oil-name">แก๊สโซฮอล์ 95</span>
+                        <div class="oil-price-row">
+                            <span class="oil-val">41.44 ฿</span>
+                            <span class="badge-same">คงที่</span>
+                        </div>
+                    </div>
+                    <div class="oil-card">
+                        <span class="oil-name">แก๊สโซฮอล์ 91</span>
+                        <div class="oil-price-row">
+                            <span class="oil-val">41.07 ฿</span>
+                            <span class="badge-same">คงที่</span>
+                        </div>
+                    </div>
+                    <div class="oil-card">
+                        <span class="oil-name">แก๊สโซฮอล์ E20</span>
+                        <div class="oil-price-row">
+                            <span class="oil-val">35.69 ฿</span>
+                            <span class="badge-same">คงที่</span>
+                        </div>
+                    </div>
+                    <div class="oil-card">
+                        <span class="oil-name">เบนซิน</span>
+                        <div class="oil-price-row">
+                            <span class="oil-val">50.43 ฿</span>
+                            <span class="badge-same">คงที่</span>
+                        </div>
+                    </div>
+                    <div class="oil-card">
+                        <span class="oil-name">ซูเปอร์พาวเวอร์ 95</span>
+                        <div class="oil-price-row">
+                            <span class="oil-val">47.79 ฿</span>
+                            <span class="badge-same">คงที่</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -300,8 +340,8 @@
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
         
-        let targetTab = document.getElementById('tab- ' + tabName) || document.getElementById('tab-' + tabName);
-        let targetMenu = document.getElementById('menu- ' + tabName) || document.getElementById('menu-' + tabName);
+        let targetTab = document.getElementById('tab-' + tabName);
+        let targetMenu = document.getElementById('menu-' + tabName);
 
         if(targetTab) targetTab.classList.add('active');
         if(targetMenu) targetMenu.classList.add('active');
