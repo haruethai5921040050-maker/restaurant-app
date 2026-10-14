@@ -6,310 +6,222 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>UNISOURCE LANDFILL</title>
 <style>
-:root{--navy:#102b46;--gold:#e8b95d;--bg:#f3f6fa;--text:#203247;--muted:#708096;--line:#e2e9f1}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
-.sidebar{position:fixed;inset:0 auto 0 0;width:260px;padding:22px 15px;background:var(--navy);color:white;overflow-y:auto}
-.brand{font-size:19px;font-weight:bold;margin-bottom:24px;line-height:1.5}
-.brand small{display:block;color:var(--gold);font-size:10px;letter-spacing:2px}
-.oil-title{font-size:14px;font-weight:bold;margin-bottom:6px}
-.oil-sub,.oil-status{font-size:11px;color:#c0cedb;line-height:1.7}
-.oil-sub{margin-bottom:13px}
-.oil-card{padding:12px;margin-bottom:9px;border:1px solid #ffffff22;background:#ffffff0d;border-radius:10px}
-.oil-name{font-size:12px;color:#d9e4ed}
-.oil-price{font-size:23px;font-weight:bold;margin:6px 0}
+body{margin:0;background:#f3f6fa;color:#203247;font-family:Tahoma,Arial,sans-serif}
+aside{position:fixed;left:0;top:0;bottom:0;width:255px;overflow:auto;background:#102b46;color:white;padding:20px 14px}
+.brand{font-weight:bold;font-size:19px;margin-bottom:24px}
+.brand small{display:block;color:#e8b95d;font-size:10px;letter-spacing:2px}
+.oil-title{font-weight:bold;margin-bottom:8px}
+.oil-card{border:1px solid #ffffff22;background:#ffffff0d;border-radius:9px;padding:11px;margin:8px 0}
+.oil-name{font-size:12px;color:#dbe5ee}
+.oil-price{font-size:22px;font-weight:bold;margin:5px 0}
 .oil-change{font-size:12px;font-weight:bold}
-.up{color:#ff9a9a}.down{color:#83e0b2}.same{color:#e8c979}
-.oil-date{font-size:10px;color:#b8c8d7;margin-top:6px;line-height:1.6}
-.source-link{font-size:11px;color:#f1c96f}
-main{margin-left:260px;padding:25px;max-width:1700px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
-h1{margin:0;color:var(--navy);font-size:25px}
-h2{margin:0;color:var(--navy);font-size:17px}
-.subtitle,.hint{font-size:12px;color:var(--muted);margin-top:7px}
-.status{padding:9px 12px;border-radius:22px;background:#eaf8f1;color:#16845b;font-size:12px}
+.up{color:#ff9c9c}.down{color:#83e0b2}.same{color:#e8c979}
+.small{font-size:10px;color:#b8c8d7;line-height:1.6}
+main{margin-left:255px;padding:24px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+h1{font-size:24px;margin:0;color:#102b46}
+h2{font-size:17px;margin:0;color:#102b46}
+.subtitle,.hint{font-size:12px;color:#708096;margin-top:7px}
 button{border:0;border-radius:8px;padding:11px 15px;cursor:pointer;font:inherit;font-size:13px}
-.primary{background:var(--navy);color:white;font-weight:bold}
-.secondary{background:#edf2f7;color:var(--navy)}
-button:disabled{opacity:.6;cursor:wait}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}
-.stat,.panel{background:white;border:1px solid var(--line);border-radius:13px;box-shadow:0 4px 16px #142d4608}
-.stat{padding:18px}
-.stat-label{font-size:13px;color:var(--muted)}
-.stat-number{font-size:28px;font-weight:bold;color:var(--navy);margin-top:8px}
-.panel{padding:20px;margin-bottom:20px}
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:17px}
-.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.primary{background:#102b46;color:white;font-weight:bold}
+.secondary{background:#edf2f7;color:#102b46}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.stat,.panel{background:white;border:1px solid #e2e9f1;border-radius:13px;padding:18px;box-shadow:0 4px 16px #142d4608}
+.stat-label{font-size:13px;color:#708096}.stat-num{font-size:28px;font-weight:bold;color:#102b46;margin-top:8px}
+.panel{margin-bottom:20px}
+.tools{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}
+input,select{width:100%;padding:11px;border:1px solid #d6e0eb;border-radius:8px;font:inherit;font-size:14px}
+.tools input{flex:1;min-width:170px}
+.table-wrap{overflow:auto;border:1px solid #e2e9f1;border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:1000px;font-size:13px}
+th,td{text-align:left;padding:12px;border-bottom:1px solid #e2e9f1}
+th{background:#f5f8fb;color:#53677c;white-space:nowrap}
+.map{background:#edf5fc;color:#245b82;text-decoration:none;padding:7px 9px;border-radius:6px;white-space:nowrap}
+.msg{display:none;padding:12px;margin:10px 0;border-radius:8px;font-size:13px;overflow-wrap:anywhere}
+.msg.show{display:block}.error{background:#fff0f0;color:#a32c2c}.success{background:#eaf8f1;color:#116944}
+#modal{position:fixed;inset:0;background:#0b1d31a6;display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
+#modal.open{display:flex}
+.dialog{width:min(680px,100%);max-height:90vh;overflow:auto;background:white;border-radius:15px;padding:22px;box-shadow:0 20px 70px #0004}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
 label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
-input,select{width:100%;min-width:0;border:1px solid #d6e0eb;border-radius:8px;background:white;padding:12px;font:inherit;font-size:14px}
-input:focus,select:focus{outline:2px solid #d6e8f7;border-color:#245b82}
-.actions,.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
-.toolbar{margin:0;width:100%}
-.toolbar input{flex:1;min-width:170px}
-.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px}
-table{width:100%;min-width:1050px;border-collapse:collapse;font-size:13px}
-th,td{padding:12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
-th{background:#f5f8fb;color:#53677c;font-size:12px;white-space:nowrap}
-tbody tr:last-child td{border-bottom:0}
-.price{color:var(--navy);font-weight:bold;white-space:nowrap}
-.map-link{background:#edf5fc;color:#245b82;padding:7px 10px;border-radius:7px;text-decoration:none;white-space:nowrap}
-.empty{text-align:center;color:var(--muted);padding:30px}
-.message{display:none;margin-bottom:14px;padding:12px;border-radius:8px;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
-.message.show{display:block}.success{background:#eaf8f1;color:#116944}.error{background:#fff0f0;color:#a32c2c}
-.footer{text-align:center;color:var(--muted);font-size:11px;padding:10px}
-@media(max-width:1000px){.sidebar{width:220px}main{margin-left:220px;padding:17px}.stats{grid-template-columns:1fr}}
-@media(max-width:680px){.sidebar{position:static;width:100%;max-height:none;padding:16px}.brand{margin-bottom:14px}.oil-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.oil-card{margin:0}main{margin:0;padding:12px}h1{font-size:21px}.form-grid{grid-template-columns:1fr}.panel{padding:14px}.stats{grid-template-columns:1fr}}
+.actions{display:flex;gap:9px;margin-top:18px}
+@media(max-width:850px){aside{width:220px}main{margin-left:220px;padding:15px}.stats{grid-template-columns:1fr}}
+@media(max-width:650px){aside{position:static;width:100%;max-height:none}.oil-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}main{margin:0;padding:12px}.stats{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<aside class="sidebar">
+<aside>
   <div class="brand">UNISOURCE<small>LANDFILL MANAGEMENT</small></div>
-  <div class="oil-title">ราคาน้ำมัน ปตท. กรุงเทพฯ</div>
-  <div class="oil-sub">ราคาประกาศจากเว็บไซต์กระทรวงพลังงาน<br>หน่วย: บาท/ลิตร</div>
-  <div id="oilPrices" class="oil-grid">
-    <div class="oil-card"><div class="oil-name">กำลังโหลดข้อมูลจริง...</div></div>
-  </div>
-  <div id="oilStatus" class="oil-status">กำลังตรวจสอบแหล่งข้อมูล</div>
-  <p><a class="source-link" href="https://energy.go.th/th/" target="_blank" rel="noopener noreferrer">เปิดเว็บไซต์แหล่งราคา ↗</a></p>
+  <div class="oil-title">ราคาน้ำมันขายปลีก ปตท. กรุงเทพฯ</div>
+  <div class="small">ราคาอ้างอิงจากเว็บไซต์ราคาน้ำมัน · บาท/ลิตร</div>
+  <div id="oils" class="oil-grid"><div class="oil-card">กำลังโหลดราคาจากอินเทอร์เน็ต...</div></div>
+  <div id="oilStatus" class="small">กำลังตรวจสอบข้อมูล</div>
+  <p><a class="small" style="color:#e8b95d" href="https://xn--42cah7d0cxcvbbb9x.com/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B8%A7%E0%B8%B1%E0%B8%99%E0%B8%99%E0%B8%B5%E0%B9%89/" target="_blank" rel="noopener">เปิดแหล่งราคาจริง ↗</a></p>
 </aside>
 
 <main>
-  <header class="topbar">
-    <div><h1>ระบบจัดการราคางาน</h1><div class="subtitle">UNISOURCE LANDFILL MANAGEMENT</div></div>
-    <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
-      <div id="connectionStatus" class="status">● กำลังเชื่อมต่อ</div>
-      <button id="toggleForm" class="primary" type="button">＋ เพิ่มข้อมูลใหม่</button>
-    </div>
-  </header>
+<header>
+  <div><h1>ระบบจัดการราคางาน</h1><div class="subtitle">UNISOURCE LANDFILL MANAGEMENT</div></div>
+  <div>
+    <span id="status" class="small" style="color:#16845b">กำลังเชื่อมต่อ</span>
+    <button class="primary" onclick="openModal()">＋ เพิ่มข้อมูลใหม่</button>
+  </div>
+</header>
 
-  <section class="stats">
-    <div class="stat"><div class="stat-label">รายการราคาทั้งหมด</div><div id="totalCount" class="stat-number">0</div></div>
-    <div class="stat"><div class="stat-label">จำนวนลูกค้า</div><div id="clientCount" class="stat-number">0</div></div>
-    <div class="stat"><div class="stat-label">จำนวนโครงการ</div><div id="projectCount" class="stat-number">0</div></div>
-  </section>
+<section class="stats">
+  <div class="stat"><div class="stat-label">รายการราคาทั้งหมด</div><div class="stat-num" id="total">0</div></div>
+  <div class="stat"><div class="stat-label">จำนวนลูกค้า</div><div class="stat-num" id="clients">0</div></div>
+  <div class="stat"><div class="stat-label">จำนวนโครงการ</div><div class="stat-num" id="projects">0</div></div>
+</section>
 
-  <section class="panel" id="formPanel" hidden>
-    <div class="panel-head">
-      <div><h2>＋ เพิ่มข้อมูลราคาใหม่</h2><div class="hint">บันทึกวันและเวลาจากระบบโดยอัตโนมัติ</div></div>
-      <button id="closeForm" class="secondary" type="button">ปิดฟอร์ม ✕</button>
-    </div>
-    <div id="formMessage" class="message"></div>
-    <form id="rateForm">
-      <div class="form-grid">
-        <div><label for="client">ลูกค้า *</label><input id="client" required></div>
-        <div><label for="project">โครงการ *</label><input id="project" required></div>
-        <div><label for="location">สถานที่ *</label><input id="location" required></div>
-        <div><label for="fuelRange">ช่วงน้ำมัน</label><input id="fuelRange" placeholder="เช่น 0–10 กม."></div>
-        <div><label for="price">ราคา *</label><input id="price" type="number" min="0" step="any" required></div>
-        <div><label for="unit">หน่วย *</label>
-          <select id="unit" required>
-            <option value="">-- เลือกหน่วย --</option>
-            <option value="บาท/ตัน">บาท/ตัน</option>
-            <option value="บาท/คิว">บาท/คิว</option>
-            <option value="บาท/เที่ยว">บาท/เที่ยว</option>
-            <option value="บาท/คัน">บาท/คัน</option>
-            <option value="บาท/ตัน/กม.">บาท/ตัน/กม.</option>
-            <option value="บาท/คิว/กม.">บาท/คิว/กม.</option>
-            <option value="อื่น ๆ">อื่น ๆ</option>
-          </select>
-        </div>
-        <div><label for="recorder">ผู้บันทึก</label><input id="recorder"></div>
-        <div><label for="mapLink">ลิงก์แผนที่</label><input id="mapLink" type="url" placeholder="https://maps.google.com/..."></div>
-      </div>
-      <div class="actions">
-        <button id="saveButton" class="primary" type="submit">บันทึกข้อมูล</button>
-        <button class="secondary" type="reset">ล้างข้อมูล</button>
-      </div>
-    </form>
-  </section>
-
-  <section class="panel">
-    <div class="panel-head">
-      <div><h2>รายการราคางาน</h2><div class="hint">ซ่อนรหัส ID และแสดงวันที่/เวลาบันทึก</div></div>
-      <div class="toolbar">
-        <input id="searchInput" type="search" placeholder="ค้นหาลูกค้า โครงการ หรือสถานที่...">
-        <button id="refreshButton" class="secondary" type="button">↻ โหลดข้อมูล</button>
-      </div>
-    </div>
-    <div id="tableMessage" class="message"></div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr>
-          <th>ลำดับ</th><th>ลูกค้า</th><th>โครงการ</th><th>สถานที่</th>
-          <th>ช่วงน้ำมัน</th><th>ราคา</th><th>หน่วย</th>
-          <th>ผู้บันทึก</th><th>แผนที่</th><th>วันที่และเวลาบันทึก</th>
-        </tr></thead>
-        <tbody id="ratesBody"><tr><td colspan="10" class="empty">กำลังโหลดข้อมูล...</td></tr></tbody>
-      </table>
-    </div>
-  </section>
-  <div class="footer">UNISOURCE LANDFILL MANAGEMENT SYSTEM</div>
+<section class="panel">
+  <h2>รายการราคางาน</h2>
+  <div class="hint">ซ่อนรหัส ID และแสดงเวลาที่บันทึกจริง</div>
+  <div class="tools"><input id="search" placeholder="ค้นหาลูกค้า โครงการ หรือสถานที่..." oninput="render()"><button class="secondary" onclick="loadRates()">↻ โหลดข้อมูล</button></div>
+  <div id="tableMsg" class="msg"></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>ลำดับ</th><th>ลูกค้า</th><th>โครงการ</th><th>สถานที่</th><th>ช่วงน้ำมัน</th><th>ราคา</th><th>หน่วย</th><th>ผู้บันทึก</th><th>แผนที่</th><th>วันที่และเวลาบันทึก</th></tr></thead>
+    <tbody id="rows"><tr><td colspan="10">กำลังโหลดข้อมูล...</td></tr></tbody>
+  </table></div>
+</section>
 </main>
 
+<div id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="dialog">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <h2>เพิ่มข้อมูลราคาใหม่</h2><button class="secondary" onclick="closeModal()">ปิด ✕</button>
+    </div>
+    <div id="formMsg" class="msg"></div>
+    <form id="rateForm">
+      <div class="formgrid">
+        <div><label>ลูกค้า *</label><input name="client" required></div>
+        <div><label>โครงการ *</label><input name="project" required></div>
+        <div><label>สถานที่ *</label><input name="location" required></div>
+        <div><label>ช่วงน้ำมัน</label><input name="fuelRange"></div>
+        <div><label>ราคา *</label><input name="price" type="number" min="0" step="any" required></div>
+        <div><label>หน่วย *</label><select name="unit" required><option value="">เลือกหน่วย</option><option>บาท/ตัน</option><option>บาท/คิว</option><option>บาท/เที่ยว</option><option>บาท/คัน</option><option>บาท/ตัน/กม.</option><option>บาท/คิว/กม.</option><option>อื่น ๆ</option></select></div>
+        <div><label>ผู้บันทึก</label><input name="recorder"></div>
+        <div><label>ลิงก์แผนที่</label><input name="mapLink" type="url" placeholder="https://..."></div>
+      </div>
+      <div class="actions"><button id="save" class="primary" type="submit">บันทึกข้อมูล</button><button type="reset" class="secondary">ล้างข้อมูล</button></div>
+    </form>
+  </div>
+</div>
+
+<iframe name="submitFrame" id="submitFrame" style="display:none"></iframe>
+
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQgENx3fqOKFpYt6_-S-2RGbVAYCLHqWMJB_mT8uyYVMFOsbboK261dw79xol9U_yow/exec';
-let allRates = [];
-const $ = id => document.getElementById(id);
+const API='https://script.google.com/macros/s/AKfycbwQgENx3fqOKFpYt6_-S-2RGbVAYCLHqWMJB_mT8uyYVMFOsbboK261dw79xol9U_yow/exec';
+let allRates=[];
+let pendingSave=false;
 
-function esc(v) {
-  return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  })[c]);
-}
-function msg(id, text, type) {
-  $(id).textContent = text;
-  $(id).className = 'message show ' + type;
-}
-function hideMsg(id) {
-  $(id).className = 'message';
-  $(id).textContent = '';
-}
-function toggleForm(show) {
-  $('formPanel').hidden = !show;
-  $('toggleForm').textContent = show ? '✕ ปิดฟอร์ม' : '＋ เพิ่มข้อมูลใหม่';
-  if (show) $('formPanel').scrollIntoView({behavior:'smooth',block:'start'});
-}
-$('toggleForm').addEventListener('click', () => toggleForm($('formPanel').hidden));
-$('closeForm').addEventListener('click', () => toggleForm(false));
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function openModal(){$('modal').classList.add('open');}
+function closeModal(){$('modal').classList.remove('open');}
+function $(id){return document.getElementById(id);}
+function message(id,text,type){$(id).textContent=text;$(id).className='msg show '+type;}
 
-function renderTable() {
-  const q = $('searchInput').value.trim().toLowerCase();
-  const rows = allRates.filter(r =>
-    [r.client,r.project,r.location,r.fuelRange,r.price,r.unit,r.recorder,r.mapLink,r.date]
-      .some(v => String(v == null ? '' : v).toLowerCase().includes(q))
-  );
+function jsonp(params){
+  return new Promise((resolve,reject)=>{
+    const callback='cb'+Date.now()+Math.floor(Math.random()*10000);
+    const script=document.createElement('script');
+    const timer=setTimeout(()=>{cleanup();reject(new Error('หมดเวลารอ Apps Script'));},20000);
+    function cleanup(){clearTimeout(timer);delete window[callback];script.remove();}
+    window[callback]=data=>{cleanup();resolve(data);};
+    script.onerror=()=>{cleanup();reject(new Error('อ่านข้อมูลจาก Apps Script ไม่สำเร็จ ตรวจ URL และ Deployment'));};
+    script.src=API+'?'+new URLSearchParams({...params,callback}).toString();
+    document.body.appendChild(script);
+  });
+}
 
-  $('totalCount').textContent = allRates.length;
-  $('clientCount').textContent = new Set(allRates.map(r => String(r.client || '').trim()).filter(Boolean)).size;
-  $('projectCount').textContent = new Set(allRates.map(r => String(r.project || '').trim()).filter(Boolean)).size;
-
-  if (!rows.length) {
-    $('ratesBody').innerHTML = '<tr><td colspan="10" class="empty">ไม่พบข้อมูล</td></tr>';
-    return;
+async function loadRates(){
+  try{
+    const data=await jsonp({v:Date.now()});
+    if(!data.success)throw new Error(data.message||'อ่านข้อมูลไม่ได้');
+    allRates=data.rates||[];
+    render();
+    $('status').textContent='● เชื่อมต่อแล้ว';
+    $('tableMsg').className='msg';
+  }catch(e){
+    $('status').textContent='● เชื่อมต่อไม่สำเร็จ';
+    message('tableMsg','โหลดข้อมูลไม่ได้: '+e.message,'error');
+    $('rows').innerHTML='<tr><td colspan="10">ตรวจสอบ URL และการ Deploy Apps Script</td></tr>';
   }
+}
 
-  $('ratesBody').innerHTML = rows.map((r,i) => {
-    let mapHtml = '—';
-    const map = String(r.mapLink || '').trim();
-    try {
-      const url = new URL(map);
-      if (url.protocol === 'http:' || url.protocol === 'https:') {
-        mapHtml = '<a class="map-link" target="_blank" rel="noopener noreferrer" href="' +
-          esc(map) + '">เปิดแผนที่ ↗</a>';
-      }
-    } catch (_) {}
-
-    return '<tr><td>'+(i+1)+'</td>' +
-      '<td>'+esc(r.client)+'</td><td>'+esc(r.project)+'</td>' +
-      '<td>'+esc(r.location)+'</td><td>'+esc(r.fuelRange)+'</td>' +
-      '<td class="price">'+esc(r.price)+'</td><td>'+esc(r.unit)+'</td>' +
-      '<td>'+esc(r.recorder)+'</td><td>'+mapHtml+'</td>' +
-      '<td>'+esc(r.date)+'</td></tr>';
+function render(){
+  const q=$('search').value.toLowerCase().trim();
+  const list=allRates.filter(r=>[r.client,r.project,r.location,r.fuelRange,r.price,r.unit,r.recorder,r.date].some(v=>String(v||'').toLowerCase().includes(q)));
+  $('total').textContent=allRates.length;
+  $('clients').textContent=new Set(allRates.map(r=>r.client).filter(Boolean)).size;
+  $('projects').textContent=new Set(allRates.map(r=>r.project).filter(Boolean)).size;
+  if(!list.length){$('rows').innerHTML='<tr><td colspan="10">ไม่พบข้อมูล</td></tr>';return;}
+  $('rows').innerHTML=list.map((r,i)=>{
+    let map='—';
+    try{const u=new URL(r.mapLink);if(['https:','http:'].includes(u.protocol))map='<a class="map" target="_blank" rel="noopener" href="'+esc(r.mapLink)+'">เปิดแผนที่ ↗</a>';}catch(e){}
+    return '<tr><td>'+(i+1)+'</td><td>'+esc(r.client)+'</td><td>'+esc(r.project)+'</td><td>'+esc(r.location)+'</td><td>'+esc(r.fuelRange)+'</td><td>'+esc(r.price)+'</td><td>'+esc(r.unit)+'</td><td>'+esc(r.recorder)+'</td><td>'+map+'</td><td>'+esc(r.date)+'</td></tr>';
   }).join('');
 }
 
-async function loadRates() {
-  try {
-    const response = await fetch(SCRIPT_URL + '?v=' + Date.now());
-    if (!response.ok) throw new Error('HTTP ' + response.status);
-    const result = await response.json();
-    if (!result.success) throw new Error(result.message || 'อ่านข้อมูลไม่สำเร็จ');
-
-    allRates = Array.isArray(result.rates) ? result.rates : [];
-    renderTable();
-    $('connectionStatus').textContent = '● เชื่อมต่อแล้ว';
-    hideMsg('tableMessage');
-  } catch (error) {
-    $('connectionStatus').textContent = '● เชื่อมต่อไม่สำเร็จ';
-    msg('tableMessage','โหลดข้อมูลไม่ได้: '+error.message,'error');
-  }
-}
-
-function changeLabel(change) {
-  if (change === null || change === undefined || change === '') {
-    return {text:'ยังไม่มีข้อมูลวันก่อนหน้า',cls:'same'};
-  }
-  const n = Number(change);
-  if (!Number.isFinite(n)) return {text:'ยังไม่มีข้อมูลเปรียบเทียบ',cls:'same'};
-  if (n > 0) return {text:'▲ +' + n.toFixed(2) + ' บาท',cls:'up'};
-  if (n < 0) return {text:'▼ ' + n.toFixed(2) + ' บาท',cls:'down'};
-  return {text:'— คงเดิม',cls:'same'};
-}
-
-async function loadFuel() {
-  try {
-    const response = await fetch(SCRIPT_URL + '?action=fuel&v=' + Date.now());
-    if (!response.ok) throw new Error('HTTP ' + response.status);
-    const result = await response.json();
-    if (!result.success) throw new Error(result.message || 'อ่านราคาไม่สำเร็จ');
-
-    $('oilPrices').innerHTML = result.prices.map(p => {
-      const ch = changeLabel(p.change);
-      return '<div class="oil-card"><div class="oil-name">'+esc(p.name)+'</div>' +
-        '<div class="oil-price">'+Number(p.price).toFixed(2)+'</div>' +
-        '<div class="oil-change '+ch.cls+'">'+esc(ch.text)+'</div>' +
-        '<div class="oil-date">บาท/ลิตร<br>วันที่หน้าแหล่งข้อมูล: '+esc(p.sourceDate)+'</div></div>';
+async function loadFuel(){
+  try{
+    const data=await jsonp({action:'fuel',v:Date.now()});
+    if(!data.success)throw new Error(data.message||'อ่านราคาไม่ได้');
+    $('oils').innerHTML=data.prices.map(p=>{
+      const n=p.change;
+      const cls=n===null?'same':n>0?'up':n<0?'down':'same';
+      const change=n===null?'ยังไม่มีข้อมูลวันก่อนหน้า':n>0?'▲ +'+Number(n).toFixed(2)+' บาท':n<0?'▼ '+Number(n).toFixed(2)+' บาท':'— คงเดิม';
+      return '<div class="oil-card"><div class="oil-name">'+esc(p.name)+'</div><div class="oil-price">'+Number(p.price).toFixed(2)+'</div><div class="oil-change '+cls+'">'+change+'</div><div class="small">บาท/ลิตร</div></div>';
     }).join('');
-
-    $('oilStatus').textContent =
-      'ตรวจสอบล่าสุด: ' + esc(result.checkedAt) +
-      '\nอัปเดตอัตโนมัติทุกวันประมาณ 05:00 น. หากแหล่งข้อมูลเปลี่ยนรูปแบบ ระบบจะแจ้งข้อผิดพลาด';
-  } catch (error) {
-    $('oilPrices').innerHTML = '<div class="oil-card">' +
-      '<div class="oil-name">ไม่สามารถตรวจสอบราคาจริงได้</div>' +
-      '<div class="oil-date">'+esc(error.message)+'</div></div>';
-    $('oilStatus').textContent = 'ตรวจสอบแหล่งข้อมูลโดยตรงได้จากลิงก์ด้านบน';
+    $('oilStatus').textContent='ตรวจข้อมูลล่าสุด '+data.checkedAt;
+  }catch(e){
+    $('oils').innerHTML='<div class="oil-card"><div class="oil-name">อ่านราคาจริงไม่สำเร็จ</div><div class="small">'+esc(e.message)+'</div></div>';
+    $('oilStatus').textContent='ไม่แสดงราคาที่ตรวจสอบไม่ได้';
   }
 }
 
-$('rateForm').addEventListener('submit', async event => {
-  event.preventDefault();
-  const button = $('saveButton');
-  button.disabled = true;
-  button.textContent = 'กำลังบันทึก...';
-  hideMsg('formMessage');
-
-  const payload = {
-    action:'add_rate',
-    client:$('client').value.trim(),
-    project:$('project').value.trim(),
-    location:$('location').value.trim(),
-    fuelRange:$('fuelRange').value.trim(),
-    price:$('price').value,
-    unit:$('unit').value,
-    recorder:$('recorder').value.trim(),
-    mapLink:$('mapLink').value.trim()
-  };
-
-  try {
-    if (payload.mapLink && !/^https?:\/\/\S+$/i.test(payload.mapLink)) {
-      throw new Error('ลิงก์แผนที่ต้องขึ้นต้นด้วย http:// หรือ https://');
-    }
-
-    const response = await fetch(SCRIPT_URL, {
-      method:'POST',
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body:JSON.stringify(payload)
-    });
-    if (!response.ok) throw new Error('HTTP ' + response.status);
-    const result = await response.json();
-    if (!result.success) throw new Error(result.message || 'บันทึกไม่สำเร็จ');
-
-    msg('formMessage','บันทึกสำเร็จ เวลา ' + result.timestamp,'success');
-    $('rateForm').reset();
-    await loadRates();
-    toggleForm(false);
-  } catch (error) {
-    msg('formMessage','บันทึกไม่สำเร็จ: '+error.message+
-      ' หากมีข้อความ CORS หรือ doGet ให้ตรวจสอบการ Deploy ของ Apps Script','error');
-  } finally {
-    button.disabled = false;
-    button.textContent = 'บันทึกข้อมูล';
+/* ส่งผ่าน HTML form ไป Apps Script แทน fetch POST เพื่อหลีกเลี่ยง CORS */
+$('rateForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  if(pendingSave)return;
+  const form=$('rateForm');
+  const values=Object.fromEntries(new FormData(form).entries());
+  if(values.mapLink&&!/^https?:\/\/\S+$/i.test(values.mapLink)){
+    message('formMsg','ลิงก์แผนที่ต้องขึ้นต้นด้วย http:// หรือ https://','error');return;
   }
-});
 
-$('searchInput').addEventListener('input',renderTable);
-$('refreshButton').addEventListener('click',loadRates);
+  pendingSave=true;
+  $('save').disabled=true;
+  $('save').textContent='กำลังบันทึก...';
+
+  const oldForm=document.getElementById('submitForm');
+  if(oldForm)oldForm.remove();
+  const post=document.createElement('form');
+  post.id='submitForm';post.method='POST';post.action=API;post.target='submitFrame';
+  const data={action:'add_rate',...values};
+  Object.entries(data).forEach(([key,value])=>{
+    const input=document.createElement('input');
+    input.type='hidden';input.name=key;input.value=value;
+    post.appendChild(input);
+  });
+  document.body.appendChild(post);
+  post.submit();
+  post.remove();
+
+  setTimeout(async()=>{
+    try{
+      await loadRates();
+      message('formMsg','ส่งคำขอบันทึกแล้ว กรุณาตรวจว่ารายการใหม่ปรากฏในตาราง','success');
+      form.reset();
+      // ไม่ปิดหน้าต่างอัตโนมัติ เพื่อให้เห็นสถานะการบันทึก
+    }finally{
+      pendingSave=false;
+      $('save').disabled=false;
+      $('save').textContent='บันทึกข้อมูล';
+    }
+  },2500);
+});
 
 loadRates();
 loadFuel();
