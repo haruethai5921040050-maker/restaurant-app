@@ -3,74 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบจัดการและตรวจสอบราคางาน</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Enterprise Pricing & Job Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f1f5f9;
-            --sidebar-bg: #1e293b;
-            --sidebar-hover: #334155;
+            --bg-body: #f8fafc;
+            --sidebar-bg: #0f172a;
+            --sidebar-hover: #1e293b;
+            --sidebar-text: #94a3b8;
+            --sidebar-text-active: #ffffff;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
             --card-bg: #ffffff;
-            --primary: #1e3a8a;
-            --accent: #2563eb;
-            --text-main: #1e293b;
+            --text-main: #0f172a;
             --text-muted: #64748b;
-            --border: #cbd5e1;
-            --success: #059669;
-            --success-hover: #047857;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --success-hover: #059669;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
         }
-        * { box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; }
+        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; }
 
-        /* Sidebar Layout */
-        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #f8fafc; display: flex; flex-direction: column; position: fixed; height: 100vh; box-shadow: 4px 0 10px rgba(0,0,0,0.05); }
-        .sidebar-header { padding: 25px 20px; border-bottom: 1px solid #334155; }
-        .sidebar-header h2 { margin: 0; font-size: 1.15rem; font-weight: 700; color: #60a5fa; }
-        .sidebar-header p { margin: 4px 0 0 0; font-size: 0.8rem; color: #94a3b8; }
+        /* Sidebar Styling */
+        .sidebar { width: 280px; background-color: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; position: fixed; height: 100vh; box-shadow: 4px 0 25px rgba(0,0,0,0.05); z-index: 10; }
+        .sidebar-brand { padding: 30px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .sidebar-brand h2 { margin: 0; font-size: 1.2rem; font-weight: 700; color: #ffffff; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+        .sidebar-brand h2 span { color: var(--primary); background: rgba(37,99,235,0.15); padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; }
+        .sidebar-brand p { margin: 6px 0 0 0; font-size: 0.8rem; color: var(--sidebar-text); }
 
-        .sidebar-menu { list-style: none; padding: 15px 0; margin: 0; flex-grow: 1; }
-        .sidebar-menu li { padding: 12px 20px; cursor: pointer; font-size: 0.95rem; font-weight: 500; color: #cbd5e1; display: flex; align-items: center; gap: 10px; transition: 0.2s; border-left: 4px solid transparent; }
-        .sidebar-menu li:hover { background-color: var(--sidebar-hover); color: #ffffff; }
-        .sidebar-menu li.active { background-color: var(--sidebar-hover); color: #ffffff; border-left-color: var(--accent); }
+        .sidebar-menu { list-style: none; padding: 20px 12px; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 6px; }
+        .sidebar-menu li { padding: 12px 16px; cursor: pointer; font-size: 0.92rem; font-weight: 500; color: var(--sidebar-text); display: flex; align-items: center; gap: 12px; border-radius: 8px; transition: all 0.2s ease; }
+        .sidebar-menu li:hover { background-color: var(--sidebar-hover); color: var(--sidebar-text-active); }
+        .sidebar-menu li.active { background-color: var(--primary); color: #ffffff; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
-        /* Main Content */
-        .main-content { margin-left: 260px; flex-grow: 1; padding: 30px; max-width: calc(100% - 260px); }
+        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: #475569; text-align: center; }
+
+        /* Main Content Layout */
+        .main-content { margin-left: 280px; flex-grow: 1; padding: 40px; max-width: calc(100% - 280px); }
         
-        .tab-content { display: none; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-        .panel { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
-        .panel-title { margin-top: 0; font-size: 1.2rem; font-weight: 600; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; color: var(--primary); }
+        .page-header { margin-bottom: 30px; }
+        .page-header h1 { margin: 0; font-size: 1.6rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+        .page-header p { margin: 6px 0 0 0; color: var(--text-muted); font-size: 0.95rem; }
 
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .form-group { margin-bottom: 15px; text-align: left; }
+        .panel { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); padding: 30px; margin-bottom: 25px; box-shadow: var(--shadow); }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
         .form-group.full { grid-column: span 2; }
-        .form-group label { display: block; font-size: 0.9rem; font-weight: 500; color: var(--text-main); margin-bottom: 6px; }
-        .form-control { width: 100%; padding: 10px 14px; background: #ffffff; border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 0.95rem; transition: all 0.2s; }
-        .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        
+        .form-group label { display: block; font-size: 0.88rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
+        .form-control { width: 100%; padding: 12px 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 0.95rem; transition: all 0.2s; }
+        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
 
-        .btn { padding: 11px 16px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: background 0.2s; }
-        .btn-primary { background-color: var(--primary); color: white; width: 100%; }
-        .btn-primary:hover { background-color: #1e40af; }
-        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 15px; }
-        .btn-success:hover { background-color: var(--success-hover); }
+        .btn { padding: 12px 20px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-primary { background-color: var(--primary); color: white; width: 100%; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+        .btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 20px; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
+        .btn-success:hover { background-color: var(--success-hover); transform: translateY(-1px); }
 
-        .result-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-top: 20px; text-align: center; display: none; }
-        .result-price { font-size: 2rem; color: var(--primary); font-weight: 700; margin: 8px 0; }
+        .result-card { background: linear-gradient(135deg, #eff6ff, #f8fafc); border: 1px solid #bfdbfe; border-radius: 14px; padding: 25px; margin-top: 25px; text-align: center; display: none; }
+        .result-title { font-size: 0.88rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .result-price { font-size: 2.5rem; color: var(--primary); font-weight: 700; margin: 10px 0; }
 
-        /* Table Styling */
-        .table-container { overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-        th, td { padding: 12px 15px; border-bottom: 1px solid #e2e8f0; }
-        th { background-color: #f8fafc; font-weight: 600; color: var(--primary); }
+        /* Tables */
+        .table-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; }
+        .search-box { width: 100%; max-width: 350px; }
+        
+        .table-container { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; }
+        th, td { padding: 15px 20px; border-bottom: 1px solid var(--border); }
+        th { background-color: #f8fafc; font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.5px; }
+        tr:last-child td { border-bottom: none; }
         tr:hover { background-color: #f8fafc; }
 
-        .loading-text { font-size: 0.95rem; color: var(--text-muted); text-align: center; padding: 30px; }
+        .badge { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+        .sync-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--success); font-weight: 500; }
+        .sync-dot { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
 
         @media (max-width: 768px) {
             body { flex-direction: column; }
             .sidebar { width: 100%; height: auto; position: relative; }
-            .main-content { margin-left: 0; max-width: 100%; padding: 15px; }
+            .main-content { margin-left: 0; max-width: 100%; padding: 20px; }
             .form-grid { grid-template-columns: 1fr; }
             .form-group.full { grid-column: span 1; }
         }
@@ -78,73 +97,85 @@
 </head>
 <body>
 
-    <!-- เมนูด้านซ้าย (Sidebar) -->
+    <!-- Sidebar เมนูด้านซ้าย -->
     <div class="sidebar">
-        <div class="sidebar-header">
-            <h2>ระบบจัดการราคางาน</h2>
-            <p>เชื่อมต่อ Google Sheets อัตโนมัติ</p>
+        <div class="sidebar-brand">
+            <h2>PRO PRICING <span>PRO</span></h2>
+            <p>ระบบจัดการเรทราคางานองค์กร</p>
         </div>
         <ul class="sidebar-menu">
-            <li id="menu-search" class="active" onclick="switchTab('search')">🔍 1. ค้นหาราคางาน</li>
-            <li id="menu-add" onclick="switchTab('add')">➕ 2. เพิ่มราคางาน</li>
-            <li id="menu-list" onclick="switchTab('list')">📋 3. แสดงเรทราคาทั้งหมด</li>
+            <li id="menu-search" class="active" onclick="switchTab('search')">🔍 ค้นหาราคางาน</li>
+            <li id="menu-add" onclick="switchTab('add')">➕ เพิ่มเรทราคาใหม่</li>
+            <li id="menu-list" onclick="switchTab('list')">📋 รายการเรทราคาทั้งหมด</li>
         </ul>
+        <div class="sidebar-footer">
+            <div class="sync-status"><div class="sync-dot"></div> Auto-Sync with Sheets</div>
+        </div>
     </div>
 
-    <!-- ส่วนเนื้อหาหลัก (Main Content) -->
+    <!-- Main Content Panel -->
     <div class="main-content">
         
-        <div id="loadingIndicator" class="loading-text">กำลังเชื่อมต่อฐานข้อมูล กรุณารอสักครู่...</div>
-
         <!-- แท็บที่ 1: ค้นหาราคางาน -->
-        <div id="tab-search" class="tab-content">
+        <div id="tab-search" class="tab-content active">
+            <div class="page-header">
+                <h1>ระบบคำนวณและตรวจสอบราคางาน</h1>
+                <p>เลือกเงื่อนไขเพื่อดึงเรทราคามาตรฐานตามราคาน้ำมันปัจจุบัน</p>
+            </div>
+            
             <div class="panel">
-                <h2 class="panel-title">🔍 ค้นหาและคำนวณราคางาน</h2>
-                <div class="form-group">
-                    <label>ชื่อผู้ว่าจ้าง</label>
-                    <select id="selectClient" class="form-control" onchange="updateProjects()">
-                        <option value="">-- เลือกผู้ว่าจ้าง --</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>ชื่อโครงการ</label>
-                    <select id="selectProject" class="form-control" onchange="updateLocations()">
-                        <option value="">-- เลือกโครงการ --</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>จุดลง</label>
-                    <select id="selectLocation" class="form-control">
-                        <option value="">-- เลือกจุดลง --</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>ช่วงราคาน้ำมัน</label>
-                    <select id="selectFuel" class="form-control">
-                        <option value="30-35 บาท">น้ำมัน 30-35 บาท</option>
-                        <option value="35-40 บาท">น้ำมัน 35-40 บาท</option>
-                        <option value="40-45 บาท">น้ำมัน 40-45 บาท</option>
-                        <option value="45-50 บาท">น้ำมัน 45-50 บาท</option>
-                    </select>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>ชื่อผู้ว่าจ้าง</label>
+                        <select id="selectClient" class="form-control" onchange="updateProjects()">
+                            <option value="">-- เลือกผู้ว่าจ้าง --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ชื่อโครงการ</label>
+                        <select id="selectProject" class="form-control" onchange="updateLocations()">
+                            <option value="">-- เลือกโครงการ --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>จุดลง</label>
+                        <select id="selectLocation" class="form-control">
+                            <option value="">-- เลือกจุดลงงาน --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ช่วงราคาน้ำมัน</label>
+                        <select id="selectFuel" class="form-control">
+                            <option value="30-35 บาท">น้ำมัน 30-35 บาท</option>
+                            <option value="35-40 บาท">น้ำมัน 35-40 บาท</option>
+                            <option value="40-45 บาท">น้ำมัน 40-45 บาท</option>
+                            <option value="45-50 บาท">น้ำมัน 45-50 บาท</option>
+                        </select>
+                    </div>
                 </div>
                 <button class="btn btn-primary" onclick="calculatePrice()">ตรวจสอบราคางาน</button>
 
-                <div id="resultBox" class="result-box">
-                    <div style="font-size:0.9rem; color:var(--text-muted);">ราคางานสุทธิ</div>
+                <div id="resultBox" class="result-card">
+                    <div class="result-title">ราคางานสุทธิที่คำนวณได้</div>
                     <div id="displayPrice" class="result-price">0 บาท</div>
-                    <button class="btn btn-success" onclick="saveRecord()">บันทึกรายการนี้ลงชีต (Jobs)</button>
+                    <button class="btn btn-success" onclick="saveRecord()" style="max-width: 250px; margin: 10px auto 0 auto;">บันทึกรายการนี้ลงชีต (Jobs)</button>
                 </div>
             </div>
         </div>
 
-        <!-- แท็บที่ 2: เพิ่มราคางาน -->
+        <!-- แท็บที่ 2: เพิ่มเรทราคาใหม่ -->
         <div id="tab-add" class="tab-content">
+            <div class="page-header">
+                <h1>เพิ่มเรทราคางานใหม่</h1>
+                <p>บันทึกเรทราคาใหม่เข้าสู่ระบบฐานข้อมูลกลางอัตโนมัติ</p>
+            </div>
+
             <div class="panel">
-                <h2 class="panel-title">➕ เพิ่มเรทราคางานใหม่</h2>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>ชื่อผู้ว่าจ้าง</label>
-                        <input type="text" id="newClient" class="form-control" placeholder="เช่น หมอเทพ">
+                        <label>ชื่อผู้ว่าจ้าง (เลือกจากรายชื่อเดิม หรือพิมพ์ชื่อใหม่)</label>
+                        <input type="text" id="newClient" class="form-control" list="clientListOptions" placeholder="ระบุหรือเลือกผู้ว่าจ้าง...">
+                        <datalist id="clientListOptions"></datalist>
                     </div>
                     <div class="form-group">
                         <label>ชื่อโครงการ</label>
@@ -152,7 +183,7 @@
                     </div>
                     <div class="form-group full">
                         <label>จุดลง</label>
-                        <input type="text" id="newLocation" class="form-control" placeholder="เช่น โซนเหนือ">
+                        <input type="text" id="newLocation" class="form-control" placeholder="เช่น โซนเหนือ, โกดังหลัก">
                     </div>
                     <div class="form-group">
                         <label>ช่วงราคาน้ำมัน</label>
@@ -168,16 +199,23 @@
                         <input type="number" id="newPriceVal" class="form-control" placeholder="เช่น 1500">
                     </div>
                 </div>
-                <button class="btn btn-success" onclick="addNewRate()">บันทึกเรทราคาใหม่เข้าสู่ระบบ</button>
+                <button class="btn btn-success" onclick="addNewRate()" style="max-width: 250px;">บันทึกเรทราคาใหม่</button>
             </div>
         </div>
 
-        <!-- แท็บที่ 3: แสดงเรทราคาทั้งหมดและค้นหา/ฟิวเตอร์ -->
+        <!-- แท็บที่ 3: รายการเรทราคาทั้งหมด -->
         <div id="tab-list" class="tab-content">
-            <div class="panel">
-                <h2 class="panel-title">📋 รายการเรทราคางานทั้งหมดในระบบ</h2>
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <input type="text" id="searchInput" class="form-control" placeholder="🔍 ค้นหาด้วยชื่อผู้ว่าจ้าง, โครงการ หรือจุดลง..." onkeyup="filterTable()">
+            <div class="page-header">
+                <h1>รายการเรทราคางานทั้งหมด</h1>
+                <p>ค้นหา กรอง และตรวจสอบข้อมูลเรทราคาทั้งหมดในระบบ</p>
+            </div>
+
+            <div class="panel" style="padding: 20px;">
+                <div class="table-toolbar">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" class="form-control" placeholder="🔍 ค้นหาผู้ว่าจ้าง, โครงการ, จุดลง..." onkeyup="filterTable()">
+                    </div>
+                    <div id="recordCount" style="font-size: 0.9rem; color: var(--text-muted);">กำลังโหลด...</div>
                 </div>
                 <div class="table-container">
                     <table>
@@ -188,11 +226,11 @@
                                 <th>โครงการ</th>
                                 <th>จุดลง</th>
                                 <th>ช่วงราคาน้ำมัน</th>
-                                <th>ราคางาน (บาท)</th>
+                                <th>ราคางาน</th>
                             </tr>
                         </thead>
                         <tbody id="rateTableBody">
-                            <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">กำลังโหลดข้อมูล...</td></tr>
+                            <tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">กำลังซิงก์ข้อมูลจาก Google Sheets...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -219,36 +257,51 @@
         }
     }
 
-    async function loadData() {
+    // 1. ระบบดึงข้อมูลอัตโนมัติ (Auto-Sync ทุก 10 วินาที เพื่อให้ข้อมูลอัปเดตสดเสมอ)
+    async function loadData(isBackground = false) {
         try {
             let res = await fetch(scriptURL);
             let data = await res.json();
             allRates = data.rates || [];
-            populateClients();
-            document.getElementById("loadingIndicator").style.display = "none";
-            switchTab('search'); // เริ่มต้นที่หน้าค้นหา
+            populateDropdowns();
+            if(!isBackground && document.getElementById('tab-list').classList.contains('active')) {
+                renderTable(allRates);
+            }
         } catch(e) {
-            console.error("Load error:", e);
-            document.getElementById("loadingIndicator").innerText = "ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณารีเฟรชหน้าเว็บ";
+            console.error("Auto-sync error:", e);
         }
     }
 
-    function populateClients() {
-        let clients = [...new Set(allRates.map(r => r.client))];
-        let select = document.getElementById("selectClient");
-        select.innerHTML = '<option value="">-- เลือกผู้ว่าจ้าง --</option>';
+    // ตั้งเวลาดึงข้อมูลอัตโนมัติเบื้องหลังทุก 10 วินาที
+    setInterval(() => { loadData(true); }, 10000);
+
+    function populateDropdowns() {
+        let clients = [...new Set(allRates.map(r => r.client))].filter(Boolean);
+        
+        // Select ค้นหา
+        let selectClient = document.getElementById("selectClient");
+        let currentClientVal = selectClient.value;
+        selectClient.innerHTML = '<option value="">-- เลือกผู้ว่าจ้าง --</option>';
         clients.forEach(c => {
-            if(c) select.innerHTML += `<option value="${c}">${c}</option>`;
+            selectClient.innerHTML += `<option value="${c}">${c}</option>`;
+        });
+        if(clients.includes(currentClientVal)) selectClient.value = currentClientVal;
+
+        // Datalist สำหรับช่องพิมพ์ชื่อผู้ว่าจ้างใหม่ (ให้แนะนำรายชื่อเก่าอัตโนมัติ)
+        let datalist = document.getElementById("clientListOptions");
+        datalist.innerHTML = "";
+        clients.forEach(c => {
+            datalist.innerHTML += `<option value="${c}">`;
         });
     }
 
     function updateProjects() {
         let client = document.getElementById("selectClient").value;
-        let projects = [...new Set(allRates.filter(r => r.client === client).map(r => r.project))];
+        let projects = [...new Set(allRates.filter(r => r.client === client).map(r => r.project))].filter(Boolean);
         let select = document.getElementById("selectProject");
         select.innerHTML = '<option value="">-- เลือกโครงการ --</option>';
         projects.forEach(p => {
-            if(p) select.innerHTML += `<option value="${p}">${p}</option>`;
+            select.innerHTML += `<option value="${p}">${p}</option>`;
         });
         document.getElementById("selectLocation").innerHTML = '<option value="">-- เลือกจุดลง --</option>';
         document.getElementById("resultBox").style.display = "none";
@@ -257,11 +310,11 @@
     function updateLocations() {
         let client = document.getElementById("selectClient").value;
         let project = document.getElementById("selectProject").value;
-        let locations = [...new Set(allRates.filter(r => r.client === client && r.project === project).map(r => r.location))];
+        let locations = [...new Set(allRates.filter(r => r.client === client && r.project === project).map(r => r.location))].filter(Boolean);
         let select = document.getElementById("selectLocation");
         select.innerHTML = '<option value="">-- เลือกจุดลง --</option>';
         locations.forEach(l => {
-            if(l) select.innerHTML += `<option value="${l}">${l}</option>`;
+            select.innerHTML += `<option value="${l}">${l}</option>`;
         });
         document.getElementById("resultBox").style.display = "none";
     }
@@ -286,7 +339,7 @@
             resultBox.style.display = "block";
         } else {
             currentMatchedRate = null;
-            alert("ไม่พบราคางานตามเงื่อนไขช่วงราคาน้ำมันนี้ กรุณาเพิ่มเรทราคาใหม่");
+            alert("ไม่พบเรทราคางานตามเงื่อนไขนี้ กรุณาเพิ่มเรทราคาใหม่ในระบบ");
             resultBox.style.display = "none";
         }
     }
@@ -310,12 +363,13 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: "add_rate", client, project, location, fuelRange, price })
             });
-            alert("เพิ่มเรทราคางานสำเร็จ! ระบบกำลังซิงก์ข้อมูล...");
+            alert("บันทึกเรทราคาใหม่สำเร็จ! ข้อมูลถูกซิงก์เข้า Google Sheets แล้ว");
             document.getElementById("newClient").value = "";
             document.getElementById("newProject").value = "";
             document.getElementById("newLocation").value = "";
             document.getElementById("newPriceVal").value = "";
-            setTimeout(loadData, 1500);
+            loadData();
+            switchTab('search');
         } catch(e) {
             alert("เกิดข้อผิดพลาดในการบันทึก");
         }
@@ -337,28 +391,29 @@
                     price: currentMatchedRate.price 
                 })
             });
-            alert("บันทึกรายการงานลงในชีต 'jobs' สำเร็จเรียบร้อยครับ!");
+            alert("บันทึกประวัติการทำงานลงชีต 'jobs' สำเร็จเรียบร้อยครับ!");
         } catch(e) {
-            alert("บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
+            alert("บันทึกไม่สำเร็จ");
         }
     }
 
     function renderTable(data) {
         let tbody = document.getElementById("rateTableBody");
+        document.getElementById("recordCount").innerText = `ทั้งหมด ${data.length} รายการ`;
         tbody.innerHTML = "";
         if(data.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">ไม่พบข้อมูลเรทราคางานในระบบ</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">ไม่พบข้อมูลเรทราคางานในระบบ</td></tr>`;
             return;
         }
         data.forEach(item => {
             tbody.innerHTML += `
                 <tr>
-                    <td><code>${item.id}</code></td>
+                    <td><span class="badge">${item.id}</span></td>
                     <td><b>${item.client}</b></td>
                     <td>${item.project}</td>
                     <td>${item.location}</td>
                     <td>${item.fuelRange}</td>
-                    <td style="color: var(--primary); font-weight: 600;">${Number(item.price).toLocaleString()} บาท</td>
+                    <td style="color: var(--primary); font-weight: 700;">${Number(item.price).toLocaleString()} บาท</td>
                 </tr>
             `;
         });
@@ -375,6 +430,7 @@
         renderTable(filtered);
     }
 
+    // โหลดข้อมูลครั้งแรกเมื่อเปิดเว็บ
     loadData();
 </script>
 
