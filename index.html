@@ -303,4 +303,212 @@
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
         
-        document.getElementById('tab-' + tabName
+        document.getElementById('tab-' + tabName).classList.add('active');
+        document.getElementById('menu-' + tabName).classList.add('active');
+
+        if(tabName === 'list') {
+            renderTable(allRates);
+        }
+    }
+
+    async function loadData(isBackground = false) {
+        try {
+            let res = await fetch(scriptURL);
+            let data = await res.json();
+            allRates = data.rates || [];
+            populateDropdowns();
+            if(!isBackground && document.getElementById('tab-list').classList.contains('active')) {
+                renderTable(allRates);
+            }
+        } catch(e) {
+            console.error("Auto-sync error:", e);
+        }
+    }
+
+    setInterval(() => { loadData(true); }, 10000);
+
+    function populateDropdowns() {
+        let clients = [...new Set(allRates.map(r => r.client))].filter(Boolean);
+        
+        let selectClient = document.getElementById("selectClient");
+        let currentClientVal = selectClient.value;
+        selectClient.innerHTML = '<option value="">-- เลือกผู้ว่าจ้าง --</option>';
+        clients.forEach(c => {
+            selectClient.innerHTML += `<option value="${c}">${c}</option>`;
+        });
+        if(clients.includes(currentClientVal)) selectClient.value = currentClientVal;
+
+        let datalist = document.getElementById("clientListOptions");
+        datalist.innerHTML = "";
+        clients.forEach(c => {
+            datalist.innerHTML += `<option value="${c}">`;
+        });
+    }
+
+    function updateProjects() {
+        let client = document.getElementById("selectClient").value;
+        let projects = [...new Set(allRates.filter(r => r.client === client).map(r => r.project))].filter(Boolean);
+        let select = document.getElementById("selectProject");
+        select.innerHTML = '<option value="">-- เลือกวัสดุ --</option>';
+        projects.forEach(p => {
+            select.innerHTML += `<option value="${p}">${p}</option>`;
+        });
+        document.getElementById("selectLocation").innerHTML = '<option value="">-- เลือกจุดลง --</option>';
+        document.getElementById("resultBox").style.display = "none";
+    }
+
+    function updateLocations() {
+        let client = document.getElementById("selectClient").value;
+        let project = document.getElementById("selectProject").value;
+        let locations = [...new Set(allRates.filter(r => r.client === client && r.project === project).map(r => r.location))].filter(Boolean);
+        let select = document.getElementById("selectLocation");
+        select.innerHTML = '<option value="">-- เลือกจุดลง --</option>';
+        locations.forEach(l => {
+            select.innerHTML += `<option value="${l}">${l}</option>`;
+        });
+        document.getElementById("resultBox").style.display = "none";
+    }
+
+    function calculatePrice() {
+        let client = document.getElementById("selectClient").value;
+        let project = document.getElementById("selectProject").value;
+        let location = document.getElementById("selectLocation").value;
+        let fuel = document.getElementById("selectFuel").value;
+
+        if(!client || !project || !location) {
+            alert("กรุณาเลือกผู้ว่าจ้าง วัสดุ และจุดลงให้ครบถ้วนครับ");
+            return;
+        }
+
+        let found = allRates.find(r => r.client === client && r.project === project && r.location === location && r.fuelRange === fuel);
+        
+        let resultBox = document.getElementById("resultBox");
+        if(found) {
+            currentMatchedRate = found;
+            document.getElementById("displayPrice").innerText = Number(found.price).toLocaleString() + " บาท";
+            document.getElementById("unitDisplay").innerText = `หน่วยขาย: ${found.unit || '-'}`;
+            
+            let mapContainer = document.getElementById("mapButtonContainer");
+            if(found.mapLink && found.mapLink.trim() !== "" && found.mapLink !== "undefined" && found.mapLink !== "null") {
+                mapContainer.innerHTML = `<a href="${found.mapLink}" target="_blank" class="btn btn-map">📍 เปิดดูตำแหน่งจุดลงบน Google Maps</a>`;
+            } else {
+                mapContainer.innerHTML = `<div style="font-size:0.82rem; color:var(--text-muted); margin-top:8px;">(ไม่มีลิงก์แผนที่สำหรับจุดลงนี้)</div>`;
+            }
+
+            resultBox.style.display = "block";
+        } else {
+            currentMatchedRate = null;
+            alert("ไม่พบเรทราคางานตามเงื่อนไขนี้ กรุณาเพิ่มเรทราคาใหม่ในระบบ");
+            resultBox.style.display = "none";
+        }
+    }
+
+    async function addNewRate() {
+        let client = document.getElementById("newClient").value.trim();
+        let project = document.getElementById("newProject").value.trim();
+        let unit = document.getElementById("newUnit").value;
+        let location = document.getElementById("newLocation").value.trim();
+        let mapLink = document.getElementById("newMapLink").value.trim();
+        let fuelRange = document.getElementById("newFuel").value;
+        let price = Number(document.getElementById("newPriceVal").value);
+
+        if(!client || !project || !location || !price) {
+            alert("กรุณากรอกข้อมูลสำคัญให้ครบถ้วนครับ");
+            return;
+        }
+
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: "add_rate", client, project, unit, location, fuelRange, price, mapLink })
+            });
+            alert("บันทึกเรทราคาใหม่สำเร็จ!");
+            document.getElementById("newClient").value = "";
+            document.getElementById("newProject").value = "";
+            document.getElementById("newLocation").value = "";
+            document.getElementById("newMapLink").value = "";
+            document.getElementById("newPriceVal").value = "";
+            loadData();
+            switchTab('search');
+        } catch(e) {
+            alert("เกิดข้อผิดพลาดในการบันทึก");
+        }
+    }
+
+    async function saveRecord() {
+        if(!currentMatchedRate) return;
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    action: "save_record", 
+                    client: currentMatchedRate.client, 
+                    project: currentMatchedRate.project, 
+                    location: currentMatchedRate.location, 
+                    fuelRange: currentMatchedRate.fuelRange, 
+                    price: currentMatchedRate.price,
+                    unit: currentMatchedRate.unit 
+                })
+            });
+            alert("บันทึกประวัติการทำงานลงชีต 'jobs' สำเร็จเรียบร้อยครับ!");
+        } catch(e) {
+            alert("บันทึกไม่สำเร็จ");
+        }
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return "-";
+        let d = new Date(dateString);
+        if (isNaN(d.getTime())) return dateString;
+        let day = String(d.getDate()).padStart(2, '0');
+        let month = String(d.getMonth() + 1).padStart(2, '0');
+        let year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    function renderTable(data) {
+        let tbody = document.getElementById("rateTableBody");
+        document.getElementById("recordCount").innerText = `ทั้งหมด ${data.length} รายการ`;
+        tbody.innerHTML = "";
+        if(data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 30px;">ไม่พบข้อมูลเรทราคางานในระบบ</td></tr>`;
+            return;
+        }
+        data.forEach(item => {
+            let hasMap = item.mapLink && item.mapLink.trim() !== "" && item.mapLink !== "undefined" && item.mapLink !== "null";
+            let mapBtn = hasMap ? `<a href="${item.mapLink}" target="_blank" class="map-link-btn">📍 ดูแผนที่</a>` : `<span style="color:var(--text-muted);">-</span>`;
+            tbody.innerHTML += `
+                <tr>
+                    <td><b>${item.client}</b></td>
+                    <td>${item.project || '-'}</td>
+                    <td>${item.location}</td>
+                    <td>${item.fuelRange}</td>
+                    <td style="color: var(--primary); font-weight: 700;">${Number(item.price).toLocaleString()} บาท</td>
+                    <td><span style="background: #e2e8f0; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; color: #334155;">${item.unit || '-'}</span></td>
+                    <td>${mapBtn}</td>
+                    <td style="color: var(--text-muted); font-size: 0.85rem;">${formatDate(item.date || new Date())}</td>
+                </tr>
+            `;
+        });
+    }
+
+    function filterTable() {
+        let keyword = document.getElementById("searchInput").value.toLowerCase();
+        let filtered = allRates.filter(r => 
+            String(r.client).toLowerCase().includes(keyword) ||
+            String(r.project).toLowerCase().includes(keyword) ||
+            String(r.location).toLowerCase().includes(keyword) ||
+            String(r.unit).toLowerCase().includes(keyword)
+        );
+        renderTable(filtered);
+    }
+
+    loadData();
+</script>
+
+</body>
+</html>
