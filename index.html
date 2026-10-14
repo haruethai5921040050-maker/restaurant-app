@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f8fafc;
+            --bg-body: #f1f5f9;
             --sidebar-bg: #0f172a;
             --sidebar-hover: #1e293b;
             --sidebar-text: #94a3b8;
@@ -18,9 +18,10 @@
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --success: #10b981;
-            --success-hover: #059669;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --success: #059669;
+            --success-hover: #047857;
+            --map-color: #0284c7;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
         }
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: var(--bg-body); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; }
@@ -60,11 +61,13 @@
         .form-control { width: 100%; padding: 12px 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 0.95rem; transition: all 0.2s; }
         .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
 
-        .btn { padding: 12px 20px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn { padding: 12px 20px; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
         .btn-primary { background-color: var(--primary); color: white; width: 100%; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
         .btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
-        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 20px; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
+        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 15px; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
         .btn-success:hover { background-color: var(--success-hover); transform: translateY(-1px); }
+        .btn-map { background-color: var(--map-color); color: white; width: 100%; margin-top: 10px; box-shadow: 0 4px 12px rgba(2,132,199,0.25); }
+        .btn-map:hover { background-color: #0369a1; transform: translateY(-1px); }
 
         .result-card { background: linear-gradient(135deg, #eff6ff, #f8fafc); border: 1px solid #bfdbfe; border-radius: 14px; padding: 25px; margin-top: 25px; text-align: center; display: none; }
         .result-title { font-size: 0.88rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -81,7 +84,9 @@
         tr:last-child td { border-bottom: none; }
         tr:hover { background-color: #f8fafc; }
 
-        .badge { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+        .map-link-btn { color: #0284c7; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; }
+        .map-link-btn:hover { background: #bae6fd; }
+
         .sync-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--success); font-weight: 500; }
         .sync-dot { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.8; } }
@@ -109,7 +114,7 @@
             <li id="menu-list" onclick="switchTab('list')">📋 รายการเรทราคาทั้งหมด</li>
         </ul>
         <div class="sidebar-footer">
-            <div class="sync-status"><div class="sync-dot"></div> Auto-Sync with Sheets</div>
+            <div class="sync-status"><div class="sync-dot"></div> Auto-Sync Active</div>
         </div>
     </div>
 
@@ -120,7 +125,7 @@
         <div id="tab-search" class="tab-content active">
             <div class="page-header">
                 <h1>ระบบคำนวณและตรวจสอบราคางาน</h1>
-                <p>เลือกเงื่อนไขเพื่อดึงเรทราคามาตรฐานตามราคาน้ำมันปัจจุบัน</p>
+                <p>เลือกเงื่อนไขเพื่อดึงเรทราคามาตรฐานตามราคาน้ำมันปัจจุบันพร้อมพิกัดแผนที่</p>
             </div>
             
             <div class="panel">
@@ -158,7 +163,8 @@
                 <div id="resultBox" class="result-card">
                     <div class="result-title">ราคางานสุทธิที่คำนวณได้</div>
                     <div id="displayPrice" class="result-price">0 บาท</div>
-                    <button class="btn btn-success" onclick="saveRecord()" style="max-width: 250px; margin: 10px auto 0 auto;">บันทึกรายการนี้ลงชีต (Jobs)</button>
+                    <div id="mapButtonContainer"></div>
+                    <button class="btn btn-success" onclick="saveRecord()">บันทึกรายการนี้ลงชีต (Jobs)</button>
                 </div>
             </div>
         </div>
@@ -167,7 +173,7 @@
         <div id="tab-add" class="tab-content">
             <div class="page-header">
                 <h1>เพิ่มเรทราคางานใหม่</h1>
-                <p>บันทึกเรทราคาใหม่เข้าสู่ระบบฐานข้อมูลกลางอัตโนมัติ</p>
+                <p>บันทึกเรทราคาใหม่พร้อมลิงก์ Google Maps เข้าสู่ระบบฐานข้อมูลกลาง</p>
             </div>
 
             <div class="panel">
@@ -184,6 +190,10 @@
                     <div class="form-group full">
                         <label>จุดลง</label>
                         <input type="text" id="newLocation" class="form-control" placeholder="เช่น โซนเหนือ, โกดังหลัก">
+                    </div>
+                    <div class="form-group full">
+                        <label>ลิงก์ Google Maps (แชร์ลิงก์แผนที่จุดลงงาน)</label>
+                        <input type="url" id="newMapLink" class="form-control" placeholder="เช่น https://maps.app.goo.gl/...">
                     </div>
                     <div class="form-group">
                         <label>ช่วงราคาน้ำมัน</label>
@@ -207,7 +217,7 @@
         <div id="tab-list" class="tab-content">
             <div class="page-header">
                 <h1>รายการเรทราคางานทั้งหมด</h1>
-                <p>ค้นหา กรอง และตรวจสอบข้อมูลเรทราคาทั้งหมดในระบบ</p>
+                <p>ค้นหา กรอง และตรวจสอบข้อมูลเรทราคากับพิกัดแผนที่ในระบบ</p>
             </div>
 
             <div class="panel" style="padding: 20px;">
@@ -221,16 +231,17 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>รหัส ID</th>
                                 <th>ผู้ว่าจ้าง</th>
                                 <th>โครงการ</th>
                                 <th>จุดลง</th>
                                 <th>ช่วงราคาน้ำมัน</th>
                                 <th>ราคางาน</th>
+                                <th>แผนที่</th>
+                                <th>วันที่บันทึก</th>
                             </tr>
                         </thead>
                         <tbody id="rateTableBody">
-                            <tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">กำลังซิงก์ข้อมูลจาก Google Sheets...</td></tr>
+                            <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">กำลังซิงก์ข้อมูลจาก Google Sheets...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -257,7 +268,6 @@
         }
     }
 
-    // 1. ระบบดึงข้อมูลอัตโนมัติ (Auto-Sync ทุก 10 วินาที เพื่อให้ข้อมูลอัปเดตสดเสมอ)
     async function loadData(isBackground = false) {
         try {
             let res = await fetch(scriptURL);
@@ -272,13 +282,11 @@
         }
     }
 
-    // ตั้งเวลาดึงข้อมูลอัตโนมัติเบื้องหลังทุก 10 วินาที
     setInterval(() => { loadData(true); }, 10000);
 
     function populateDropdowns() {
         let clients = [...new Set(allRates.map(r => r.client))].filter(Boolean);
         
-        // Select ค้นหา
         let selectClient = document.getElementById("selectClient");
         let currentClientVal = selectClient.value;
         selectClient.innerHTML = '<option value="">-- เลือกผู้ว่าจ้าง --</option>';
@@ -287,7 +295,6 @@
         });
         if(clients.includes(currentClientVal)) selectClient.value = currentClientVal;
 
-        // Datalist สำหรับช่องพิมพ์ชื่อผู้ว่าจ้างใหม่ (ให้แนะนำรายชื่อเก่าอัตโนมัติ)
         let datalist = document.getElementById("clientListOptions");
         datalist.innerHTML = "";
         clients.forEach(c => {
@@ -336,6 +343,15 @@
         if(found) {
             currentMatchedRate = found;
             document.getElementById("displayPrice").innerText = Number(found.price).toLocaleString() + " บาท";
+            
+            // แสดงปุ่ม Google Maps ถ้ามีลิงก์
+            let mapContainer = document.getElementById("mapButtonContainer");
+            if(found.mapLink && found.mapLink.trim() !== "") {
+                mapContainer.innerHTML = `<a href="${found.mapLink}" target="_blank" class="btn btn-map">📍 เปิดดูตำแหน่งจุดลงบน Google Maps</a>`;
+            } else {
+                mapContainer.innerHTML = `<div style="font-size:0.85rem; color:var(--text-muted); margin-top:5px;">(ไม่มีลิงก์แผนที่สำหรับจุดลงนี้)</div>`;
+            }
+
             resultBox.style.display = "block";
         } else {
             currentMatchedRate = null;
@@ -348,11 +364,12 @@
         let client = document.getElementById("newClient").value.trim();
         let project = document.getElementById("newProject").value.trim();
         let location = document.getElementById("newLocation").value.trim();
+        let mapLink = document.getElementById("newMapLink").value.trim();
         let fuelRange = document.getElementById("newFuel").value;
         let price = Number(document.getElementById("newPriceVal").value);
 
         if(!client || !project || !location || !price) {
-            alert("กรุณากรอกข้อมูลให้ครบถ้วนครับ");
+            alert("กรุณากรอกข้อมูลสำคัญให้ครบถ้วนครับ");
             return;
         }
 
@@ -361,12 +378,13 @@
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: "add_rate", client, project, location, fuelRange, price })
+                body: JSON.stringify({ action: "add_rate", client, project, location, fuelRange, price, mapLink })
             });
-            alert("บันทึกเรทราคาใหม่สำเร็จ! ข้อมูลถูกซิงก์เข้า Google Sheets แล้ว");
+            alert("บันทึกเรทราคาใหม่พร้อมลิงก์แผนที่สำเร็จ!");
             document.getElementById("newClient").value = "";
             document.getElementById("newProject").value = "";
             document.getElementById("newLocation").value = "";
+            document.getElementById("newMapLink").value = "";
             document.getElementById("newPriceVal").value = "";
             loadData();
             switchTab('search');
@@ -397,23 +415,35 @@
         }
     }
 
+    function formatDate(dateString) {
+        if (!dateString) return "-";
+        let d = new Date(dateString);
+        if (isNaN(d.getTime())) return dateString;
+        let day = String(d.getDate()).padStart(2, '0');
+        let month = String(d.getMonth() + 1).padStart(2, '0');
+        let year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
     function renderTable(data) {
         let tbody = document.getElementById("rateTableBody");
         document.getElementById("recordCount").innerText = `ทั้งหมด ${data.length} รายการ`;
         tbody.innerHTML = "";
         if(data.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">ไม่พบข้อมูลเรทราคางานในระบบ</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">ไม่พบข้อมูลเรทราคางานในระบบ</td></tr>`;
             return;
         }
         data.forEach(item => {
+            let mapBtn = item.mapLink ? `<a href="${item.mapLink}" target="_blank" class="map-link-btn">📍 ดูแผนที่</a>` : `<span style="color:var(--text-muted)">-</span>`;
             tbody.innerHTML += `
                 <tr>
-                    <td><span class="badge">${item.id}</span></td>
                     <td><b>${item.client}</b></td>
                     <td>${item.project}</td>
                     <td>${item.location}</td>
                     <td>${item.fuelRange}</td>
                     <td style="color: var(--primary); font-weight: 700;">${Number(item.price).toLocaleString()} บาท</td>
+                    <td>${mapBtn}</td>
+                    <td style="color: var(--text-muted); font-size: 0.88rem;">${formatDate(item.date || new Date())}</td>
                 </tr>
             `;
         });
@@ -424,13 +454,11 @@
         let filtered = allRates.filter(r => 
             String(r.client).toLowerCase().includes(keyword) ||
             String(r.project).toLowerCase().includes(keyword) ||
-            String(r.location).toLowerCase().includes(keyword) ||
-            String(r.id).toLowerCase().includes(keyword)
+            String(r.location).toLowerCase().includes(keyword)
         );
         renderTable(filtered);
     }
 
-    // โหลดข้อมูลครั้งแรกเมื่อเปิดเว็บ
     loadData();
 </script>
 
