@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unisource Landfill - ข้อมูลราคางานเงินสด</title>
-    <meta property="og:title" content="Unisource Landfill - ข้อมูลราคางานเงินสด">
-    <meta property="og:description" content="ระบบจัดการเรทราคางานและตรวจสอบราคาน้ำมัน Unisource Landfill">
+    <title>UNISOURCE LANDFILL - ข้อมูลราคางานเงินสด</title>
+    <meta property="og:title" content="UNISOURCE LANDFILL - ข้อมูลราคางานเงินสด">
+    <meta property="og:description" content="ระบบจัดการเรทราคางานและตรวจสอบราคาน้ำมัน UNISOURCE LANDFILL">
     <meta property="og:type" content="website">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-body: #f4f6f9;
-            --sidebar-bg: #0f172a;
             --sidebar-gradient: linear-gradient(180deg, #1e3a8a 0%, #0f172a 100%);
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
@@ -26,10 +25,10 @@
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: var(--bg-body); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; }
 
-        /* Modern Executive Blue Sidebar */
+        /* Sidebar */
         .sidebar { width: 280px; background: var(--sidebar-gradient); color: #94a3b8; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 10; box-shadow: 4px 0 25px rgba(0,0,0,0.08); }
         .sidebar-brand { padding: 28px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center; }
-        .sidebar-logo { width: 100%; max-width: 130px; height: auto; margin-bottom: 14px; background: #ffffff; padding: 8px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .sidebar-logo { width: 100%; max-width: 130px; height: auto; margin-bottom: 12px; background: #ffffff; padding: 8px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: inline-block; }
         .sidebar-brand h2 { margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; line-height: 1.3; }
         .sidebar-brand h2 span { color: #38bdf8; display: block; font-size: 0.78rem; font-weight: 600; margin-top: 4px; letter-spacing: 0.5px; }
 
@@ -40,7 +39,7 @@
 
         .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: #64748b; text-align: center; }
 
-        /* Main Content Workspace */
+        /* Main Content */
         .main-content { margin-left: 280px; flex-grow: 1; padding: 40px 48px; max-width: calc(100% - 280px); }
         
         .tab-content { display: none; }
@@ -104,6 +103,7 @@
         tr:hover { background-color: #f1f5f9; }
 
         .unit-badge { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; display: inline-block; }
+        .recorder-badge { background: #f1f5f9; color: #334155; padding: 4px 10px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; border: 1px solid var(--border); display: inline-block; }
         .map-link-btn { color: #0284c7; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; transition: 0.2s; }
         .map-link-btn:hover { background: #bae6fd; }
 
@@ -122,11 +122,11 @@
 </head>
 <body>
 
-    <!-- Sidebar with Logo -->
+    <!-- Sidebar with Logo & Uppercase Name -->
     <div class="sidebar">
         <div class="sidebar-brand">
-            <img src="logo.png" alt="Unisource Landfill Logo" class="sidebar-logo" onerror="this.style.display='none'">
-            <h2>Unisource Landfill <span>ข้อมูลราคาน้ำมันและเงินสด</span></h2>
+            <img src="logo.png" alt="UNISOURCE LANDFILL Logo" class="sidebar-logo" onerror="this.style.display='none'">
+            <h2>UNISOURCE LANDFILL <span>ข้อมูลราคาน้ำมันและเงินสด</span></h2>
         </div>
         <ul class="sidebar-menu">
             <li id="menu-search" class="active" onclick="switchTab('search')">🔍 ค้นหาราคางาน</li>
@@ -194,7 +194,7 @@
         <div id="tab-add" class="tab-content">
             <div class="page-header">
                 <h1>เพิ่มเรทราคางานใหม่</h1>
-                <p>บันทึกเรทราคาใหม่พร้อมหน่วยขายและลิงก์ Google Maps เข้าสู่ระบบฐานข้อมูลกลาง</p>
+                <p>บันทึกเรทราคาใหม่พร้อมหน่วย ผู้บันทึก และลิงก์ Google Maps เข้าสู่ระบบฐานข้อมูลกลาง</p>
             </div>
 
             <div class="panel">
@@ -209,12 +209,20 @@
                         <input type="text" id="newProject" class="form-control" placeholder="เช่น หิน, ทราย, คอนกรีต">
                     </div>
                     <div class="form-group">
-                        <label>หน่วย(ขาย)</label>
+                        <label>หน่วย</label>
                         <select id="newUnit" class="form-control">
                             <option value="พ่วง">พ่วง</option>
                             <option value="ตัน">ตัน</option>
                             <option value="เดี่ยว">เดี่ยว</option>
                             <option value="ลบ.ม.">ลบ.ม.</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ผู้บันทึก</label>
+                        <select id="newRecorder" class="form-control">
+                            <option value="ปลา">ปลา</option>
+                            <option value="เจ">เจ</option>
+                            <option value="แป้ง">แป้ง</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -268,7 +276,7 @@
             <div class="panel" style="padding: 24px;">
                 <div class="table-toolbar">
                     <div class="search-box">
-                        <input type="text" id="searchInput" class="form-control" placeholder="🔍 ค้นหาผู้ว่าจ้าง, วัสดุ, จุดลง..." onkeyup="filterTable()">
+                        <input type="text" id="searchInput" class="form-control" placeholder="🔍 ค้นหาผู้ว่าจ้าง, วัสดุ, จุดลง, ผู้บันทึก..." onkeyup="filterTable()">
                     </div>
                     <div id="recordCount" style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">กำลังโหลด...</div>
                 </div>
@@ -281,13 +289,14 @@
                                 <th>จุดลง</th>
                                 <th>ช่วงราคาน้ำมัน</th>
                                 <th>ราคางาน</th>
-                                <th>หน่วย(ขาย)</th>
+                                <th>หน่วย</th>
+                                <th>ผู้บันทึก</th>
                                 <th>แผนที่</th>
                                 <th>วันที่บันทึก</th>
                             </tr>
                         </thead>
                         <tbody id="rateTableBody">
-                            <tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 30px;">กำลังซิงก์ข้อมูลจาก Google Sheets...</td></tr>
+                            <tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 30px;">กำลังซิงก์ข้อมูลจาก Google Sheets...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -392,7 +401,7 @@
         if(found) {
             currentMatchedRate = found;
             document.getElementById("displayPrice").innerText = Number(found.price).toLocaleString() + " บาท";
-            document.getElementById("unitDisplay").innerText = `หน่วยขาย: ${found.unit || '-'}`;
+            document.getElementById("unitDisplay").innerText = `หน่วย: ${found.unit || '-'}`;
             
             let mapContainer = document.getElementById("mapButtonContainer");
             if(found.mapLink && found.mapLink.trim() !== "" && found.mapLink !== "undefined" && found.mapLink !== "null") {
@@ -413,6 +422,7 @@
         let client = document.getElementById("newClient").value.trim();
         let project = document.getElementById("newProject").value.trim();
         let unit = document.getElementById("newUnit").value;
+        let recorder = document.getElementById("newRecorder").value;
         let location = document.getElementById("newLocation").value.trim();
         let mapLink = document.getElementById("newMapLink").value.trim();
         let fuelRange = document.getElementById("newFuel").value;
@@ -433,6 +443,7 @@
                     client: client, 
                     project: project, 
                     unit: unit, 
+                    recorder: recorder,
                     location: location, 
                     fuelRange: fuelRange, 
                     price: price, 
@@ -466,7 +477,8 @@
                     location: currentMatchedRate.location, 
                     fuelRange: currentMatchedRate.fuelRange, 
                     price: currentMatchedRate.price,
-                    unit: currentMatchedRate.unit 
+                    unit: currentMatchedRate.unit,
+                    recorder: currentMatchedRate.recorder 
                 })
             });
             alert("บันทึกประวัติการทำงานลงชีต 'jobs' สำเร็จเรียบร้อยครับ!");
@@ -490,7 +502,7 @@
         document.getElementById("recordCount").innerText = `ทั้งหมด ${data.length} รายการ`;
         tbody.innerHTML = "";
         if(data.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 30px;">ไม่พบข้อมูลเรทราคางานในระบบ</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 30px;">ไม่พบข้อมูลเรทราคางานในระบบ</td></tr>`;
             return;
         }
         data.forEach(item => {
@@ -504,6 +516,7 @@
                     <td>${item.fuelRange}</td>
                     <td style="color: var(--primary); font-weight: 700;">${Number(item.price).toLocaleString()} บาท</td>
                     <td><span class="unit-badge">${item.unit || '-'}</span></td>
+                    <td><span class="recorder-badge">👤 ${item.recorder || '-'}</span></td>
                     <td>${mapBtn}</td>
                     <td style="color: var(--text-muted); font-size: 0.85rem;">${formatDate(item.date || new Date())}</td>
                 </tr>
@@ -517,7 +530,8 @@
             String(r.client).toLowerCase().includes(keyword) ||
             String(r.project).toLowerCase().includes(keyword) ||
             String(r.location).toLowerCase().includes(keyword) ||
-            String(r.unit).toLowerCase().includes(keyword)
+            String(r.unit).toLowerCase().includes(keyword) ||
+            String(r.recorder).toLowerCase().includes(keyword)
         );
         renderTable(filtered);
     }
