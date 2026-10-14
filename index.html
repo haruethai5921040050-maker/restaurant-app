@@ -10,7 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f3efe6; /* สีครีมอ่อนนุ่มนวลแบบ Luxury Alabaster */
+            /* สีครีมอ่อนนุ่มนวลแบบ Minimalist Luxury ไม่โดดและไม่มืดเข้ม */
+            --bg-body: #f8f6f0;
             --sidebar-bg: #001233;
             --sidebar-gradient: linear-gradient(180deg, #001233 0%, #011942 100%);
             --primary: #001233;
@@ -19,9 +20,9 @@
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #525f75;
-            --border: #dcd6c5;
+            --border: #e2ded4;
             --success: #0d9488;
-            --shadow: 0 4px 24px -2px rgba(0, 18, 51, 0.06);
+            --shadow: 0 4px 24px -2px rgba(0, 18, 51, 0.05);
         }
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: var(--bg-body); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; }
@@ -31,12 +32,12 @@
         .sidebar-brand { padding: 30px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center; }
         .sidebar-logo { width: 100%; max-width: 120px; height: auto; margin-bottom: 14px; background: #ffffff; padding: 8px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: inline-block; }
         .sidebar-brand h2 { margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; line-height: 1.3; }
-        .sidebar-brand h2 span { color: #f3efe6; display: block; font-size: 0.78rem; font-weight: 600; margin-top: 4px; letter-spacing: 0.5px; opacity: 0.85; }
+        .sidebar-brand h2 span { color: #f8f6f0; display: block; font-size: 0.78rem; font-weight: 600; margin-top: 4px; letter-spacing: 0.5px; opacity: 0.85; }
 
         .sidebar-menu { list-style: none; padding: 24px 16px; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 8px; }
         .sidebar-menu li { padding: 13px 18px; cursor: pointer; font-size: 0.92rem; font-weight: 600; color: #cbd5e1; display: flex; align-items: center; gap: 12px; border-radius: 10px; transition: all 0.2s ease; user-select: none; }
         .sidebar-menu li:hover { background-color: rgba(255, 255, 255, 0.08); color: #ffffff; }
-        .sidebar-menu li.active { background-color: #33415c; color: #ffffff; box-shadow: 0 4px 14px rgba(51,65,92,0.3); font-weight: 700; border-left: 4px solid #f3efe6; }
+        .sidebar-menu li.active { background-color: #33415c; color: #ffffff; box-shadow: 0 4px 14px rgba(51,65,92,0.3); font-weight: 700; border-left: 4px solid #f8f6f0; }
 
         .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: #94a3b8; text-align: center; }
 
@@ -73,7 +74,7 @@
         .btn-map { background-color: #33415c; color: white; width: 100%; margin-top: 10px; }
         .btn-map:hover { background-color: #1e293b; }
 
-        .result-card { background: #faf7f0; border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-top: 28px; text-align: center; display: none; }
+        .result-card { background: #f8f6f0; border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-top: 28px; text-align: center; display: none; }
         .result-title { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         .result-price { font-size: 2.6rem; color: var(--primary); font-weight: 800; margin: 10px 0; }
 
@@ -81,10 +82,10 @@
         .oil-ticker { background: #ffffff; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 28px; box-shadow: var(--shadow); }
         .oil-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid var(--border); padding-bottom: 12px; flex-wrap: wrap; gap: 10px; }
         .oil-title { font-weight: 800; font-size: 1.05rem; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-        .oil-date { font-size: 0.82rem; color: #33415c; font-weight: 700; background: #f3efe6; padding: 4px 12px; border-radius: 8px; }
+        .oil-date { font-size: 0.82rem; color: #33415c; font-weight: 700; background: #f8f6f0; padding: 4px 12px; border-radius: 8px; }
         
         .oil-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
-        .oil-card { background: #faf7f0; border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+        .oil-card { background: #f8f6f0; border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
         .oil-name { font-size: 0.82rem; color: var(--text-muted); font-weight: 700; }
         .oil-price-row { display: flex; align-items: baseline; justify-content: space-between; }
         .oil-val { font-size: 1.3rem; font-weight: 800; color: var(--text-main); }
@@ -98,11 +99,11 @@
         .table-container { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; background: #ffffff; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
         th, td { padding: 16px 18px; border-bottom: 1px solid var(--border); white-space: nowrap; }
-        th { background-color: #faf7f0; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.6px; }
+        th { background-color: #f8f6f0; font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.6px; }
         tr:last-child td { border-bottom: none; }
-        tr:hover { background-color: #faf7f0; }
+        tr:hover { background-color: #f8f6f0; }
 
-        .unit-badge { background: #f3efe6; color: #33415c; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; display: inline-block; border: 1px solid #dcd6c5; }
+        .unit-badge { background: #eeeae0; color: #33415c; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; display: inline-block; border: 1px solid #e2ded4; }
         .recorder-badge { background: #f8fafc; color: #1e293b; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); display: inline-block; }
         .map-link-btn { color: #ffffff; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; background: #33415c; padding: 6px 12px; border-radius: 8px; font-size: 0.82rem; transition: 0.2s; }
         .map-link-btn:hover { background: #1e293b; }
@@ -151,7 +152,7 @@
             <div class="panel">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>ชื่อผู้ว่าจ้าง</label>
+                        <label>ผู้ว่าจ้าง</label>
                         <select id="selectClient" class="form-control" onchange="updateProjects()">
                             <option value="">-- เลือกผู้ว่าจ้าง --</option>
                         </select>
@@ -190,43 +191,30 @@
             </div>
         </div>
 
-        <!-- Tab 2: เพิ่มเรทราคาใหม่ (เรียงลำดับ 1-9 ตรงกับ Google Sheets เป๊ะๆ) -->
+        <!-- Tab 2: เพิ่มเรทราคาใหม่ (เอาตัวเลขนำหน้าออกทั้งหมด) -->
         <div id="tab-add" class="tab-content">
             <div class="page-header">
                 <h1>เพิ่มเรทราคางานใหม่</h1>
-                <p>บันทึกเรทราคาใหม่ตามลำดับโครงสร้าง Google Sheets อย่างเป็นทางการ</p>
+                <p>บันทึกเรทราคาใหม่เข้าสู่ระบบฐานข้อมูลกลาง</p>
             </div>
 
             <div class="panel">
                 <div class="form-grid">
-                    <!-- 1. ID (ระบบสร้างให้อัตโนมัติ ซ่อนไว้หรือแสดงเป็นสถานะ) -->
-                    <div class="form-group" style="display:none;">
-                        <label>1. ID</label>
-                        <input type="text" id="newId" class="form-control" value="Auto-Generated" disabled>
-                    </div>
-
-                    <!-- 2. ผู้ว่าจ้าง -->
                     <div class="form-group">
-                        <label>2. ผู้ว่าจ้าง</label>
+                        <label>ผู้ว่าจ้าง</label>
                         <input type="text" id="newClient" class="form-control" list="clientListOptions" placeholder="ระบุหรือเลือกผู้ว่าจ้าง...">
                         <datalist id="clientListOptions"></datalist>
                     </div>
-
-                    <!-- 3. วัสดุ -->
                     <div class="form-group">
-                        <label>3. วัสดุ</label>
+                        <label>วัสดุ</label>
                         <input type="text" id="newProject" class="form-control" placeholder="เช่น หิน, ทราย, คอนกรีต">
                     </div>
-
-                    <!-- 4. จุดลง -->
                     <div class="form-group full">
-                        <label>4. จุดลง</label>
+                        <label>จุดลง</label>
                         <input type="text" id="newLocation" class="form-control" placeholder="เช่น โซนเหนือ, โกดังหลัก">
                     </div>
-
-                    <!-- 5. ช่วงราคาน้ำมัน -->
                     <div class="form-group">
-                        <label>5. ช่วงราคาน้ำมัน</label>
+                        <label>ช่วงราคาน้ำมัน</label>
                         <select id="newFuel" class="form-control">
                             <option value="30-35 บาท">น้ำมัน 30-35 บาท</option>
                             <option value="35-40 บาท">น้ำมัน 35-40 บาท</option>
@@ -234,16 +222,12 @@
                             <option value="45-50 บาท">น้ำมัน 45-50 บาท</option>
                         </select>
                     </div>
-
-                    <!-- 6. ราคางาน -->
                     <div class="form-group">
-                        <label>6. ราคางาน (บาท)</label>
+                        <label>ราคางาน (บาท)</label>
                         <input type="number" id="newPriceVal" class="form-control" placeholder="เช่น 1500">
                     </div>
-
-                    <!-- 7. หน่วย -->
                     <div class="form-group">
-                        <label>7. หน่วย</label>
+                        <label>หน่วย</label>
                         <select id="newUnit" class="form-control">
                             <option value="พ่วง">พ่วง</option>
                             <option value="ตัน">ตัน</option>
@@ -251,20 +235,16 @@
                             <option value="ลบ.ม.">ลบ.ม.</option>
                         </select>
                     </div>
-
-                    <!-- 8. ผู้บันทึก -->
                     <div class="form-group">
-                        <label>8. ผู้บันทึก</label>
+                        <label>ผู้บันทึก</label>
                         <select id="newRecorder" class="form-control">
                             <option value="ปลา">ปลา</option>
                             <option value="เจ">เจ</option>
                             <option value="แป้ง">แป้ง</option>
                         </select>
                     </div>
-
-                    <!-- 9. mapLink -->
                     <div class="form-group full">
-                        <label>9. mapLink (ลิงก์ Google Maps)</label>
+                        <label>ลิงก์ Google Maps (ถ้ามี)</label>
                         <input type="url" id="newMapLink" class="form-control" placeholder="เช่น https://maps.app.goo.gl/...">
                     </div>
                 </div>
@@ -439,6 +419,7 @@
         }
     }
 
+    // แก้ไขลำดับการส่ง JSON ในฟังก์ชันนี้ให้ตรงกับคอลัมน์ 1-9 เป๊ะๆ
     async function addNewRate() {
         let client = document.getElementById("newClient").value.trim();
         let project = document.getElementById("newProject").value.trim();
@@ -461,14 +442,14 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     action: "add_rate", 
-                    client: client, 
-                    project: project, 
-                    location: location, 
-                    fuelRange: fuelRange, 
-                    price: price, 
-                    unit: unit, 
-                    recorder: recorder,
-                    mapLink: mapLink 
+                    client: client,       // Col B
+                    project: project,     // Col C
+                    location: location,   // Col D
+                    fuelRange: fuelRange, // Col E
+                    price: price,         // Col F
+                    unit: unit,           // Col G (หน่วย)
+                    recorder: recorder,   // Col H (ผู้บันทึก)
+                    mapLink: mapLink      // Col I (mapLink)
                 })
             });
             alert("บันทึกเรทราคาใหม่สำเร็จ!");
