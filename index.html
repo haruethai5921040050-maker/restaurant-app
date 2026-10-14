@@ -3,230 +3,449 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UNISOURCE LANDFILL</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UNISOURCE LANDFILL | เรทราคางาน</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f3f6fa;color:#203247;font-family:Tahoma,Arial,sans-serif}
-aside{position:fixed;left:0;top:0;bottom:0;width:255px;overflow:auto;background:#102b46;color:white;padding:20px 14px}
-.brand{font-weight:bold;font-size:19px;margin-bottom:24px}
-.brand small{display:block;color:#e8b95d;font-size:10px;letter-spacing:2px}
-.oil-title{font-weight:bold;margin-bottom:8px}
-.oil-card{border:1px solid #ffffff22;background:#ffffff0d;border-radius:9px;padding:11px;margin:8px 0}
-.oil-name{font-size:12px;color:#dbe5ee}
-.oil-price{font-size:22px;font-weight:bold;margin:5px 0}
-.oil-change{font-size:12px;font-weight:bold}
-.up{color:#ff9c9c}.down{color:#83e0b2}.same{color:#e8c979}
-.small{font-size:10px;color:#b8c8d7;line-height:1.6}
-main{margin-left:255px;padding:24px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
-h1{font-size:24px;margin:0;color:#102b46}
-h2{font-size:17px;margin:0;color:#102b46}
-.subtitle,.hint{font-size:12px;color:#708096;margin-top:7px}
-button{border:0;border-radius:8px;padding:11px 15px;cursor:pointer;font:inherit;font-size:13px}
-.primary{background:#102b46;color:white;font-weight:bold}
-.secondary{background:#edf2f7;color:#102b46}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
-.stat,.panel{background:white;border:1px solid #e2e9f1;border-radius:13px;padding:18px;box-shadow:0 4px 16px #142d4608}
-.stat-label{font-size:13px;color:#708096}.stat-num{font-size:28px;font-weight:bold;color:#102b46;margin-top:8px}
-.panel{margin-bottom:20px}
-.tools{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}
-input,select{width:100%;padding:11px;border:1px solid #d6e0eb;border-radius:8px;font:inherit;font-size:14px}
-.tools input{flex:1;min-width:170px}
-.table-wrap{overflow:auto;border:1px solid #e2e9f1;border-radius:8px}
-table{border-collapse:collapse;width:100%;min-width:1000px;font-size:13px}
-th,td{text-align:left;padding:12px;border-bottom:1px solid #e2e9f1}
-th{background:#f5f8fb;color:#53677c;white-space:nowrap}
-.map{background:#edf5fc;color:#245b82;text-decoration:none;padding:7px 9px;border-radius:6px;white-space:nowrap}
-.msg{display:none;padding:12px;margin:10px 0;border-radius:8px;font-size:13px;overflow-wrap:anywhere}
-.msg.show{display:block}.error{background:#fff0f0;color:#a32c2c}.success{background:#eaf8f1;color:#116944}
-#modal{position:fixed;inset:0;background:#0b1d31a6;display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
-#modal.open{display:flex}
-.dialog{width:min(680px,100%);max-height:90vh;overflow:auto;background:white;border-radius:15px;padding:22px;box-shadow:0 20px 70px #0004}
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
-label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
-.actions{display:flex;gap:9px;margin-top:18px}
-@media(max-width:850px){aside{width:220px}main{margin-left:220px;padding:15px}.stats{grid-template-columns:1fr}}
-@media(max-width:650px){aside{position:static;width:100%;max-height:none}.oil-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}main{margin:0;padding:12px}.stats{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}}
+:root {
+  --navy:#001233; --navy2:#10294e; --bg:#f4f7fb;
+  --text:#17243a; --muted:#6b7890; --border:#e2e8f0;
+  --green:#07866d; --red:#d53c4a; --gold:#e7a23b;
+}
+* { box-sizing:border-box; }
+body { margin:0; font-family:Arial,"Noto Sans Thai",sans-serif; color:var(--text); background:var(--bg); }
+.layout { display:flex; min-height:100vh; }
+.sidebar {
+  width:260px; flex-shrink:0; padding:28px 20px;
+  color:white; background:linear-gradient(180deg,var(--navy),var(--navy2));
+}
+.brand { font-size:22px; font-weight:800; letter-spacing:1px; }
+.brand small { display:block; margin-top:6px; color:#b9c9df; font-size:12px; letter-spacing:2px; }
+.oil-card { margin-top:30px; padding:20px; border:1px solid #304668; border-radius:16px; background:#0b2042; }
+.oil-label { color:#c4d1e4; font-size:14px; }
+.oil-price { font-size:35px; font-weight:800; margin:16px 0 10px; }
+.oil-unit { color:#c4d1e4; font-size:13px; }
+.oil-change { display:inline-block; margin-top:15px; padding:8px 11px; border-radius:9px; font-size:13px; font-weight:700; }
+.up { color:#ffe0e0; background:#7d2836; }
+.down { color:#d5ffef; background:#145e4e; }
+.same { color:#e4edf8; background:#344b6b; }
+.oil-meta { color:#bac9dd; font-size:12px; line-height:1.7; margin-top:15px; overflow-wrap:anywhere; }
+.sidebar-note { margin-top:20px; color:#bac9dd; font-size:12px; line-height:1.7; }
+.main { flex:1; min-width:0; padding:32px; }
+.header { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:24px; }
+h1 { font-size:26px; margin:0 0 7px; }
+.subtitle { color:var(--muted); font-size:14px; }
+button { border:0; cursor:pointer; font:inherit; }
+.btn { border-radius:10px; padding:12px 17px; font-weight:700; }
+.btn-primary { color:white; background:var(--navy); }
+.btn-primary:hover { background:#203a60; }
+.panel { background:white; border:1px solid var(--border); border-radius:16px; padding:20px; box-shadow:0 5px 20px #10294e08; }
+.toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+.search { max-width:360px; width:100%; padding:11px 13px; border:1px solid var(--border); border-radius:9px; font:inherit; }
+.count { color:var(--muted); font-size:13px; }
+.table-wrap { width:100%; overflow:auto; }
+table { width:100%; min-width:900px; border-collapse:collapse; }
+th,td { padding:14px 13px; border-bottom:1px solid var(--border); text-align:left; font-size:13px; white-space:nowrap; }
+th { color:#64748b; background:#f8fafc; font-size:12px; }
+tr:last-child td { border-bottom:0; }
+.price { font-weight:800; }
+.tag { display:inline-block; padding:5px 9px; border-radius:7px; background:#edf2f8; color:#304663; font-weight:700; }
+.map-link { color:#1858a8; font-weight:700; text-decoration:none; }
+.empty { padding:35px; text-align:center; color:var(--muted); }
+.status { margin-top:12px; font-size:12px; color:var(--muted); }
+.status.error { color:var(--red); }
+.modal-backdrop { position:fixed; inset:0; background:#07162dcc; display:none; align-items:center; justify-content:center; padding:18px; z-index:20; }
+.modal-backdrop.show { display:flex; }
+.modal { background:white; border-radius:17px; width:min(700px,100%); max-height:92vh; overflow:auto; box-shadow:0 20px 70px #0003; }
+.modal-head { display:flex; justify-content:space-between; align-items:center; padding:21px 24px; border-bottom:1px solid var(--border); }
+.modal-head h2 { margin:0; font-size:20px; }
+.close { background:#edf1f6; border-radius:8px; padding:7px 11px; font-size:20px; }
+.form { padding:22px 24px 24px; }
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.field { display:flex; flex-direction:column; gap:7px; }
+.field.full { grid-column:1 / -1; }
+label { font-size:13px; font-weight:700; }
+input,select { width:100%; padding:11px 12px; border:1px solid #d7dfeb; border-radius:9px; font:inherit; background:white; }
+input:focus,select:focus { outline:2px solid #b9cbe6; border-color:#5877a2; }
+.form-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:22px; }
+.btn-light { background:#edf1f6; color:#334155; }
+@media(max-width:850px) {
+  .layout { display:block; }
+  .sidebar { width:100%; padding:20px; }
+  .oil-card { margin-top:18px; }
+  .main { padding:20px 14px; }
+  .header { align-items:flex-start; }
+}
+@media(max-width:520px) {
+  .form-grid { grid-template-columns:1fr; }
+  .field.full { grid-column:auto; }
+  h1 { font-size:22px; }
+  .form { padding:18px; }
+}
 </style>
 </head>
 <body>
-<aside>
-  <div class="brand">UNISOURCE<small>LANDFILL MANAGEMENT</small></div>
-  <div class="oil-title">ราคาน้ำมันขายปลีก ปตท. กรุงเทพฯ</div>
-  <div class="small">ราคาอ้างอิงจากเว็บไซต์ราคาน้ำมัน · บาท/ลิตร</div>
-  <div id="oils" class="oil-grid"><div class="oil-card">กำลังโหลดราคาจากอินเทอร์เน็ต...</div></div>
-  <div id="oilStatus" class="small">กำลังตรวจสอบข้อมูล</div>
-  <p><a class="small" style="color:#e8b95d" href="https://xn--42cah7d0cxcvbbb9x.com/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B8%A7%E0%B8%B1%E0%B8%99%E0%B8%99%E0%B8%B5%E0%B9%89/" target="_blank" rel="noopener">เปิดแหล่งราคาจริง ↗</a></p>
-</aside>
-
-<main>
-<header>
-  <div><h1>ระบบจัดการราคางาน</h1><div class="subtitle">UNISOURCE LANDFILL MANAGEMENT</div></div>
-  <div>
-    <span id="status" class="small" style="color:#16845b">กำลังเชื่อมต่อ</span>
-    <button class="primary" onclick="openModal()">＋ เพิ่มข้อมูลใหม่</button>
-  </div>
-</header>
-
-<section class="stats">
-  <div class="stat"><div class="stat-label">รายการราคาทั้งหมด</div><div class="stat-num" id="total">0</div></div>
-  <div class="stat"><div class="stat-label">จำนวนลูกค้า</div><div class="stat-num" id="clients">0</div></div>
-  <div class="stat"><div class="stat-label">จำนวนโครงการ</div><div class="stat-num" id="projects">0</div></div>
-</section>
-
-<section class="panel">
-  <h2>รายการราคางาน</h2>
-  <div class="hint">ซ่อนรหัส ID และแสดงเวลาที่บันทึกจริง</div>
-  <div class="tools"><input id="search" placeholder="ค้นหาลูกค้า โครงการ หรือสถานที่..." oninput="render()"><button class="secondary" onclick="loadRates()">↻ โหลดข้อมูล</button></div>
-  <div id="tableMsg" class="msg"></div>
-  <div class="table-wrap"><table>
-    <thead><tr><th>ลำดับ</th><th>ลูกค้า</th><th>โครงการ</th><th>สถานที่</th><th>ช่วงน้ำมัน</th><th>ราคา</th><th>หน่วย</th><th>ผู้บันทึก</th><th>แผนที่</th><th>วันที่และเวลาบันทึก</th></tr></thead>
-    <tbody id="rows"><tr><td colspan="10">กำลังโหลดข้อมูล...</td></tr></tbody>
-  </table></div>
-</section>
-</main>
-
-<div id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="dialog">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-      <h2>เพิ่มข้อมูลราคาใหม่</h2><button class="secondary" onclick="closeModal()">ปิด ✕</button>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">UNISOURCE<small>LANDFILL</small></div>
+    <div class="oil-card">
+      <div class="oil-label">ราคาน้ำมัน ปตท. กรุงเทพฯ</div>
+      <div style="margin-top:20px;font-weight:700">ดีเซล B7</div>
+      <div class="oil-price" id="oilPrice">กำลังโหลด...</div>
+      <div class="oil-unit">บาท / ลิตร</div>
+      <div id="oilChange" class="oil-change same">กำลังตรวจสอบราคา</div>
+      <div class="oil-meta" id="oilDate">กำลังดึงข้อมูลล่าสุดจากแหล่งข้อมูล</div>
+      <div class="oil-meta" id="oilPrevious"></div>
     </div>
-    <div id="formMsg" class="msg"></div>
-    <form id="rateForm">
-      <div class="formgrid">
-        <div><label>ลูกค้า *</label><input name="client" required></div>
-        <div><label>โครงการ *</label><input name="project" required></div>
-        <div><label>สถานที่ *</label><input name="location" required></div>
-        <div><label>ช่วงน้ำมัน</label><input name="fuelRange"></div>
-        <div><label>ราคา *</label><input name="price" type="number" min="0" step="any" required></div>
-        <div><label>หน่วย *</label><select name="unit" required><option value="">เลือกหน่วย</option><option>บาท/ตัน</option><option>บาท/คิว</option><option>บาท/เที่ยว</option><option>บาท/คัน</option><option>บาท/ตัน/กม.</option><option>บาท/คิว/กม.</option><option>อื่น ๆ</option></select></div>
-        <div><label>ผู้บันทึก</label><input name="recorder"></div>
-        <div><label>ลิงก์แผนที่</label><input name="mapLink" type="url" placeholder="https://..."></div>
+    <div class="sidebar-note">
+      ราคาจะตรวจสอบซ้ำอัตโนมัติทุก 5 นาที<br>
+      ระบบเก็บประวัติรายวันเพื่อเทียบกับวันก่อนหน้า
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div>
+        <h1>รายการเรทราคางาน</h1>
+        <div class="subtitle">ค้นหาและจัดการข้อมูลเรทราคางาน</div>
       </div>
-      <div class="actions"><button id="save" class="primary" type="submit">บันทึกข้อมูล</button><button type="reset" class="secondary">ล้างข้อมูล</button></div>
-    </form>
-  </div>
+      <button class="btn btn-primary" onclick="openModal()">＋ เพิ่มรายการ</button>
+    </div>
+
+    <section class="panel">
+      <div class="toolbar">
+        <input class="search" id="searchInput" placeholder="ค้นหาผู้ว่าจ้าง วัสดุ จุดลง..." oninput="renderTable()">
+        <div class="count" id="recordCount">กำลังโหลดข้อมูล...</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ผู้ว่าจ้าง</th>
+              <th>วัสดุ</th>
+              <th>จุดลง</th>
+              <th>ช่วงราคาน้ำมัน</th>
+              <th>ราคางาน</th>
+              <th>หน่วย</th>
+              <th>ผู้บันทึก</th>
+              <th>แผนที่</th>
+              <th>วันที่และเวลาบันทึก</th>
+            </tr>
+          </thead>
+          <tbody id="rateTableBody">
+            <tr><td colspan="9" class="empty">กำลังโหลดข้อมูล...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="status" id="connectionStatus">กำลังเชื่อมต่อ...</div>
+    </section>
+  </main>
 </div>
 
-<iframe name="submitFrame" id="submitFrame" style="display:none"></iframe>
+<div class="modal-backdrop" id="modalBackdrop" onclick="backdropClose(event)">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <h2 id="modalTitle">เพิ่มเรทราคางาน</h2>
+      <button class="close" onclick="closeModal()" aria-label="ปิด">×</button>
+    </div>
+    <form class="form" id="rateForm">
+      <div class="form-grid">
+        <div class="field">
+          <label for="newClient">ผู้ว่าจ้าง</label>
+          <input id="newClient" required placeholder="ระบุผู้ว่าจ้าง">
+        </div>
+        <div class="field">
+          <label for="newProject">วัสดุ</label>
+          <input id="newProject" required placeholder="เช่น หิน ทราย คอนกรีต">
+        </div>
+        <div class="field full">
+          <label for="newLocation">จุดลง</label>
+          <input id="newLocation" required placeholder="ระบุจุดลง">
+        </div>
+        <div class="field">
+          <label for="newFuel">ช่วงราคาน้ำมัน</label>
+          <select id="newFuel" required>
+            <option value="น้ำมัน 30-35">น้ำมัน 30-35 บาท</option>
+            <option value="น้ำมัน 35-40">น้ำมัน 35-40 บาท</option>
+            <option value="น้ำมัน 40-45" selected>น้ำมัน 40-45 บาท</option>
+            <option value="น้ำมัน 45-50">น้ำมัน 45-50 บาท</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="newPrice">ราคางาน (บาท)</label>
+          <input id="newPrice" type="number" min="0" step="any" required placeholder="เช่น 1500">
+        </div>
+        <div class="field">
+          <label for="newUnit">หน่วย</label>
+          <select id="newUnit" required>
+            <option value="พ่วง">พ่วง</option>
+            <option value="ตัน">ตัน</option>
+            <option value="เดี่ยว">เดี่ยว</option>
+            <option value="ลบ.ม.">ลบ.ม.</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="newRecorder">ผู้บันทึก</label>
+          <select id="newRecorder" required>
+            <option value="ปลา">ปลา</option>
+            <option value="เจ">เจ</option>
+            <option value="แป้ง">แป้ง</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="newMapLink">ลิงก์ Google Maps (ถ้ามี)</label>
+          <input id="newMapLink" type="url" placeholder="https://maps.app.goo.gl/...">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-light" type="button" onclick="closeModal()">ยกเลิก</button>
+        <button class="btn btn-primary" id="saveButton" type="submit">บันทึกรายการ</button>
+      </div>
+      <div class="status" id="saveStatus"></div>
+    </form>
+  </section>
+</div>
 
 <script>
-const API='https://script.google.com/macros/s/AKfycbwQgENx3fqOKFpYt6_-S-2RGbVAYCLHqWMJB_mT8uyYVMFOsbboK261dw79xol9U_yow/exec';
-let allRates=[];
-let pendingSave=false;
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQgENx3fqOKFpYBt6_-S-2RGbVAYCLHqWMJB_mT8uyYVMFOsbboK261dw79xol9U_yow/exec';
 
-function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function openModal(){$('modal').classList.add('open');}
-function closeModal(){$('modal').classList.remove('open');}
-function $(id){return document.getElementById(id);}
-function message(id,text,type){$(id).textContent=text;$(id).className='msg show '+type;}
+let allRates = [];
+let loadingRates = false;
+let savingRate = false;
 
-function jsonp(params){
-  return new Promise((resolve,reject)=>{
-    const callback='cb'+Date.now()+Math.floor(Math.random()*10000);
-    const script=document.createElement('script');
-    const timer=setTimeout(()=>{cleanup();reject(new Error('หมดเวลารอ Apps Script'));},20000);
-    function cleanup(){clearTimeout(timer);delete window[callback];script.remove();}
-    window[callback]=data=>{cleanup();resolve(data);};
-    script.onerror=()=>{cleanup();reject(new Error('อ่านข้อมูลจาก Apps Script ไม่สำเร็จ ตรวจ URL และ Deployment'));};
-    script.src=API+'?'+new URLSearchParams({...params,callback}).toString();
-    document.body.appendChild(script);
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  })[c]);
+}
+
+function jsonp(url) {
+  return new Promise((resolve, reject) => {
+    const callbackName = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+    const script = document.createElement('script');
+    const timer = setTimeout(() => finish(new Error('หมดเวลารอข้อมูลจาก Apps Script')), 20000);
+
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[callbackName];
+      script.remove();
+    }
+    function finish(error, result) {
+      cleanup();
+      if (error) reject(error);
+      else resolve(result);
+    }
+
+    window[callbackName] = data => finish(null, data);
+    script.onerror = () => finish(new Error('เรียก Apps Script ไม่สำเร็จ กรุณาตรวจ URL และสิทธิ์ Deploy'));
+    script.src = url + (url.includes('?') ? '&' : '?') +
+      'callback=' + encodeURIComponent(callbackName) + '&_=' + Date.now();
+    document.head.appendChild(script);
   });
 }
 
-async function loadRates(){
-  try{
-    const data=await jsonp({v:Date.now()});
-    if(!data.success)throw new Error(data.message||'อ่านข้อมูลไม่ได้');
-    allRates=data.rates||[];
-    render();
-    $('status').textContent='● เชื่อมต่อแล้ว';
-    $('tableMsg').className='msg';
-  }catch(e){
-    $('status').textContent='● เชื่อมต่อไม่สำเร็จ';
-    message('tableMsg','โหลดข้อมูลไม่ได้: '+e.message,'error');
-    $('rows').innerHTML='<tr><td colspan="10">ตรวจสอบ URL และการ Deploy Apps Script</td></tr>';
+async function loadRates() {
+  if (loadingRates) return;
+  loadingRates = true;
+
+  try {
+    const data = await jsonp(SCRIPT_URL);
+    if (!data || data.success !== true || !Array.isArray(data.rates)) {
+      throw new Error(data && data.message ? data.message : 'รูปแบบข้อมูลที่ได้รับไม่ถูกต้อง');
+    }
+    allRates = data.rates;
+    renderTable();
+    setConnection(true, 'เชื่อมต่อสำเร็จ · อัปเดต ' + new Date().toLocaleTimeString('th-TH'));
+  } catch (error) {
+    console.error(error);
+    setConnection(false, 'โหลดข้อมูลไม่สำเร็จ: ' + error.message);
+    if (!allRates.length) {
+      document.getElementById('rateTableBody').innerHTML =
+        '<tr><td colspan="9" class="empty">โหลดข้อมูลไม่สำเร็จ กรุณาตรวจสอบ Apps Script และสิทธิ์ Deploy</td></tr>';
+      document.getElementById('recordCount').textContent = 'ไม่สามารถโหลดข้อมูลได้';
+    }
+  } finally {
+    loadingRates = false;
   }
 }
 
-function render(){
-  const q=$('search').value.toLowerCase().trim();
-  const list=allRates.filter(r=>[r.client,r.project,r.location,r.fuelRange,r.price,r.unit,r.recorder,r.date].some(v=>String(v||'').toLowerCase().includes(q)));
-  $('total').textContent=allRates.length;
-  $('clients').textContent=new Set(allRates.map(r=>r.client).filter(Boolean)).size;
-  $('projects').textContent=new Set(allRates.map(r=>r.project).filter(Boolean)).size;
-  if(!list.length){$('rows').innerHTML='<tr><td colspan="10">ไม่พบข้อมูล</td></tr>';return;}
-  $('rows').innerHTML=list.map((r,i)=>{
-    let map='—';
-    try{const u=new URL(r.mapLink);if(['https:','http:'].includes(u.protocol))map='<a class="map" target="_blank" rel="noopener" href="'+esc(r.mapLink)+'">เปิดแผนที่ ↗</a>';}catch(e){}
-    return '<tr><td>'+(i+1)+'</td><td>'+esc(r.client)+'</td><td>'+esc(r.project)+'</td><td>'+esc(r.location)+'</td><td>'+esc(r.fuelRange)+'</td><td>'+esc(r.price)+'</td><td>'+esc(r.unit)+'</td><td>'+esc(r.recorder)+'</td><td>'+map+'</td><td>'+esc(r.date)+'</td></tr>';
+function setConnection(ok, message) {
+  const el = document.getElementById('connectionStatus');
+  el.textContent = message;
+  el.className = 'status' + (ok ? '' : ' error');
+}
+
+function renderTable() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  const rows = allRates.filter(item =>
+    [item.client, item.project, item.location, item.fuelRange,
+     item.price, item.unit, item.recorder, item.timestamp, item.mapLink]
+      .some(v => String(v ?? '').toLowerCase().includes(query))
+  );
+
+  document.getElementById('recordCount').textContent = 'ทั้งหมด ' + rows.length + ' รายการ';
+
+  if (!rows.length) {
+    document.getElementById('rateTableBody').innerHTML =
+      '<tr><td colspan="9" class="empty">' +
+      (allRates.length ? 'ไม่พบข้อมูลที่ค้นหา' : 'ยังไม่มีรายการเรทราคางาน') +
+      '</td></tr>';
+    return;
+  }
+
+  document.getElementById('rateTableBody').innerHTML = rows.map(item => {
+    const price = Number(item.price);
+    const priceText = Number.isFinite(price) ?
+      price.toLocaleString('th-TH', {maximumFractionDigits:2}) : escapeHTML(item.price || '-');
+    const map = String(item.mapLink || '').trim();
+    const safeMap = /^https:\/\/(maps\.app\.goo\.gl|www\.google\.com\/maps|maps\.google\.com)\//i.test(map);
+    return `<tr>
+      <td>${escapeHTML(item.client || '-')}</td>
+      <td>${escapeHTML(item.project || '-')}</td>
+      <td>${escapeHTML(item.location || '-')}</td>
+      <td><span class="tag">${escapeHTML(item.fuelRange || '-')}</span></td>
+      <td class="price">${priceText}</td>
+      <td>${escapeHTML(item.unit || '-')}</td>
+      <td>${escapeHTML(item.recorder || '-')}</td>
+      <td>${safeMap ? `<a class="map-link" href="${escapeHTML(map)}" target="_blank" rel="noopener">เปิดแผนที่</a>` : '-'}</td>
+      <td>${escapeHTML(item.timestamp || '-')}</td>
+    </tr>`;
   }).join('');
 }
 
-async function loadFuel(){
-  try{
-    const data=await jsonp({action:'fuel',v:Date.now()});
-    if(!data.success)throw new Error(data.message||'อ่านราคาไม่ได้');
-    $('oils').innerHTML=data.prices.map(p=>{
-      const n=p.change;
-      const cls=n===null?'same':n>0?'up':n<0?'down':'same';
-      const change=n===null?'ยังไม่มีข้อมูลวันก่อนหน้า':n>0?'▲ +'+Number(n).toFixed(2)+' บาท':n<0?'▼ '+Number(n).toFixed(2)+' บาท':'— คงเดิม';
-      return '<div class="oil-card"><div class="oil-name">'+esc(p.name)+'</div><div class="oil-price">'+Number(p.price).toFixed(2)+'</div><div class="oil-change '+cls+'">'+change+'</div><div class="small">บาท/ลิตร</div></div>';
-    }).join('');
-    $('oilStatus').textContent='ตรวจข้อมูลล่าสุด '+data.checkedAt;
-  }catch(e){
-    $('oils').innerHTML='<div class="oil-card"><div class="oil-name">อ่านราคาจริงไม่สำเร็จ</div><div class="small">'+esc(e.message)+'</div></div>';
-    $('oilStatus').textContent='ไม่แสดงราคาที่ตรวจสอบไม่ได้';
+async function loadDiesel() {
+  const priceEl = document.getElementById('oilPrice');
+  const changeEl = document.getElementById('oilChange');
+  const dateEl = document.getElementById('oilDate');
+  const previousEl = document.getElementById('oilPrevious');
+
+  try {
+    const data = await jsonp(SCRIPT_URL + '?action=fuel');
+    if (!data || !data.success || !Number.isFinite(Number(data.price))) {
+      throw new Error(data && data.message ? data.message : 'ข้อมูลราคาน้ำมันไม่ถูกต้อง');
+    }
+
+    priceEl.textContent = Number(data.price).toFixed(2) + ' ฿';
+    dateEl.textContent = 'วันที่ข้อมูล: ' + (data.date || '-');
+    previousEl.textContent = 'ตรวจสอบล่าสุด: ' + (data.checkedAt || '-');
+
+    if (data.direction === 'up') {
+      changeEl.className = 'oil-change up';
+      changeEl.textContent = '▲ เพิ่มขึ้น ' + Number(data.change).toFixed(2) + ' บาท';
+    } else if (data.direction === 'down') {
+      changeEl.className = 'oil-change down';
+      changeEl.textContent = '▼ ลดลง ' + Math.abs(Number(data.change)).toFixed(2) + ' บาท';
+    } else if (data.direction === 'same') {
+      changeEl.className = 'oil-change same';
+      changeEl.textContent = '＝ คงที่จากวันก่อน';
+    } else {
+      changeEl.className = 'oil-change same';
+      changeEl.textContent = 'ยังไม่มีข้อมูลวันก่อนเพื่อเปรียบเทียบ';
+    }
+  } catch (error) {
+    console.error(error);
+    if (priceEl.textContent === 'กำลังโหลด...') priceEl.textContent = '—';
+    changeEl.className = 'oil-change same';
+    changeEl.textContent = 'โหลดราคาไม่สำเร็จ';
+    dateEl.textContent = error.message;
   }
 }
 
-/* ส่งผ่าน HTML form ไป Apps Script แทน fetch POST เพื่อหลีกเลี่ยง CORS */
-$('rateForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  if(pendingSave)return;
-  const form=$('rateForm');
-  const values=Object.fromEntries(new FormData(form).entries());
-  if(values.mapLink&&!/^https?:\/\/\S+$/i.test(values.mapLink)){
-    message('formMsg','ลิงก์แผนที่ต้องขึ้นต้นด้วย http:// หรือ https://','error');return;
-  }
+function openModal() {
+  document.getElementById('modalBackdrop').classList.add('show');
+  document.getElementById('saveStatus').textContent = '';
+  setTimeout(() => document.getElementById('newClient').focus(), 50);
+}
 
-  pendingSave=true;
-  $('save').disabled=true;
-  $('save').textContent='กำลังบันทึก...';
+function closeModal() {
+  if (savingRate) return;
+  document.getElementById('modalBackdrop').classList.remove('show');
+}
 
-  const oldForm=document.getElementById('submitForm');
-  if(oldForm)oldForm.remove();
-  const post=document.createElement('form');
-  post.id='submitForm';post.method='POST';post.action=API;post.target='submitFrame';
-  const data={action:'add_rate',...values};
-  Object.entries(data).forEach(([key,value])=>{
-    const input=document.createElement('input');
-    input.type='hidden';input.name=key;input.value=value;
-    post.appendChild(input);
-  });
-  document.body.appendChild(post);
-  post.submit();
-  post.remove();
+function backdropClose(event) {
+  if (event.target.id === 'modalBackdrop') closeModal();
+}
 
-  setTimeout(async()=>{
-    try{
-      await loadRates();
-      message('formMsg','ส่งคำขอบันทึกแล้ว กรุณาตรวจว่ารายการใหม่ปรากฏในตาราง','success');
-      form.reset();
-      // ไม่ปิดหน้าต่างอัตโนมัติ เพื่อให้เห็นสถานะการบันทึก
-    }finally{
-      pendingSave=false;
-      $('save').disabled=false;
-      $('save').textContent='บันทึกข้อมูล';
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeModal();
+});
+
+document.getElementById('rateForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (savingRate) return;
+
+  const payload = {
+    action: 'add_rate',
+    client: document.getElementById('newClient').value.trim(),
+    project: document.getElementById('newProject').value.trim(),
+    location: document.getElementById('newLocation').value.trim(),
+    fuelRange: document.getElementById('newFuel').value,
+    price: document.getElementById('newPrice').value,
+    unit: document.getElementById('newUnit').value,
+    recorder: document.getElementById('newRecorder').value,
+    mapLink: document.getElementById('newMapLink').value.trim()
+  };
+
+  savingRate = true;
+  const button = document.getElementById('saveButton');
+  const status = document.getElementById('saveStatus');
+  button.disabled = true;
+  button.textContent = 'กำลังบันทึก...';
+  status.textContent = 'กำลังส่งข้อมูลไปยัง Google Sheets';
+
+  try {
+    // POST แบบ no-cors อ่านผลตอบกลับไม่ได้ จึงโหลดรายการกลับมาตรวจสอบ
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+
+    await new Promise(resolve => setTimeout(resolve, 1800));
+    const data = await jsonp(SCRIPT_URL);
+
+    if (!data || data.success !== true || !Array.isArray(data.rates)) {
+      throw new Error(data && data.message ? data.message : 'ตรวจสอบข้อมูลหลังบันทึกไม่ได้');
     }
-  },2500);
+
+    const found = data.rates.some(item =>
+      String(item.client || '') === payload.client &&
+      String(item.project || '') === payload.project &&
+      String(item.location || '') === payload.location &&
+      Number(item.price) === Number(payload.price) &&
+      String(item.unit || '') === payload.unit &&
+      String(item.recorder || '') === payload.recorder &&
+      String(item.fuelRange || '') === payload.fuelRange
+    );
+
+    if (!found) {
+      throw new Error('ยังไม่พบรายการใหม่ในตาราง กรุณาตรวจสอบชีต rates และ Apps Script');
+    }
+
+    allRates = data.rates;
+    renderTable();
+    document.getElementById('searchInput').value = '';
+    document.getElementById('rateForm').reset();
+    status.textContent = 'บันทึกและตรวจพบข้อมูลในตารางแล้ว';
+    closeModal();
+    setConnection(true, 'บันทึกสำเร็จ · ' + new Date().toLocaleTimeString('th-TH'));
+  } catch (error) {
+    console.error(error);
+    status.textContent = 'ยืนยันการบันทึกไม่ได้: ' + error.message;
+    status.className = 'status error';
+    alert('ยังยืนยันการบันทึกไม่ได้ครับ\n' + error.message +
+      '\n\nกรุณาตรวจสอบ Google Sheets ชีต rates ก่อนกดบันทึกซ้ำ');
+  } finally {
+    savingRate = false;
+    button.disabled = false;
+    button.textContent = 'บันทึกรายการ';
+  }
 });
 
 loadRates();
-loadFuel();
-setInterval(loadRates,30000);
-setInterval(loadFuel,15*60*1000);
+loadDiesel();
+setInterval(loadRates, 30000);
+setInterval(loadDiesel, 5 * 60 * 1000);
 </script>
 </body>
 </html>
